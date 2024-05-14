@@ -28,7 +28,7 @@
 
     {{-- Content --}}
     <div>
-        <h4 class="fw-semibold mt-3 text-primary-kai">Indikator Kompetensi</h4>
+        <h4 class="fw-semibold mt-3 mb-4 text-primary-kai">{{ $title }}</h4>
         <div class="mb-3 col-md-1">
             Tahun
             <select id="dropdown_year_indikator_kompetensi" class="select2 form-control">
@@ -52,7 +52,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div>
+                    <div class="table-responsive">
                         <table class="table table-sm table-striped table-borderless">
                             <tr>
                                 <td style="width:20%;">Kode</td>

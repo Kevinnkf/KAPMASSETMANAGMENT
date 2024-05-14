@@ -10,7 +10,7 @@
     {{-- End Top Bar --}}
 
     {{-- Pengumuman 1 --}}
-    <div class="alert alert-primary bg-light alert-dismissible mt-1" role="alert">
+    <div class="alert alert-primary bg-light alert-dismissible mt-3" role="alert">
         <div class="row align-items-center">
             <div class="col-auto">
                 <i class="ti ti-help"></i>
@@ -44,7 +44,7 @@
     {{-- Content --}}
     <div class="row align-items-center">
         <div class="col">
-            <h4 class="fw-semibold mt-3 text-primary-kai">Asesmen Multirater 360</h4>
+            <h4 class="fw-semibold mt-3 text-primary-kai">{{ $title }}</h4>
         </div>
         <div class="col text-end">
             <button type="button" class="btn btn-outline-dark">

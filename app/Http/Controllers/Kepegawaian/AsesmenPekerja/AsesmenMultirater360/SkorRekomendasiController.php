@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Kepegawaian\AsesmenPekerja\AsesmenMultirater360;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+class SkorRekomendasiController extends Controller
 {
     private $parent = "Kepegawaian";
     private $modul = "Asesmen Pekerja";
-    private $title = "Asesmen Multirater 360";
+    private $submodul = "General Settings";
+    private $title = "Variable Skor Rekomendasi";
 
     /**
      * Display a listing of the resource.
@@ -21,12 +22,13 @@ class DashboardController extends Controller
                 "group-1" => $this->parent,
                 "group-2" => $this->modul,
                 "asesmen-multirater-360-dashboard.index" => "Asesmen Multirater 360",
+                "asesmen-multirater-360-skor-rekomendasi.index" =>  $this->submodul . " - " . $this->title,
             ],
-            "title" => "Asesmen Multirater 360",
+            "title" => $this->title,
             "data" => null
         ];
 
-        return view('kepegawaian.asesmen-pekerja.asesmen-multirater-360.dashboard.index', $data);
+        return view('kepegawaian.asesmen-pekerja.asesmen-multirater-360.general-settings.skor-rekomendasi.index', $data);
     }
 
     /**

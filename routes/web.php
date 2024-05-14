@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\{
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Kepegawaian\AsesmenPekerja\AsesmenMultirater360\DashboardController as AsesmenMultirater360DashboardController;
 use App\Http\Controllers\Kepegawaian\AsesmenPekerja\AsesmenMultirater360\IndikatorKompetensiController;
+use App\Http\Controllers\Kepegawaian\AsesmenPekerja\AsesmenMultirater360\SkorRekomendasiController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -42,6 +43,7 @@ Route::middleware(['user-auth'])->group(function () {
             Route::prefix("asesmen-multirater-360")->group(function () {
                 Route::resource("/", AsesmenMultirater360DashboardController::class)->names(['index' => 'asesmen-multirater-360-dashboard.index']);
                 Route::resource("/indikator-kompetensi", IndikatorKompetensiController::class)->names(['index' => 'asesmen-multirater-360-indikator-kompetensi.index']);
+                Route::resource("/variabel-skor-rekomendasi", SkorRekomendasiController::class)->names(['index' => 'asesmen-multirater-360-skor-rekomendasi.index']);
             });
         });
     });

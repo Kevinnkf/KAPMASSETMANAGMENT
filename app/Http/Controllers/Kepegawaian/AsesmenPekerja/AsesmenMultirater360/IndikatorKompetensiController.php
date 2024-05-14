@@ -10,6 +10,7 @@ class IndikatorKompetensiController extends Controller
     private $parent = "Kepegawaian";
     private $modul = "Asesmen Pekerja";
     private $submodul = "General Settings";
+    private $title = "Indikator Kompetensi";
 
     /**
      * Display a listing of the resource.
@@ -21,8 +22,9 @@ class IndikatorKompetensiController extends Controller
                 "group-1" => $this->parent,
                 "group-2" => $this->modul,
                 "asesmen-multirater-360-dashboard.index" => "Asesmen Multirater 360",
-                "asesmen-multirater-360-indikator-kompetensi.index" =>  $this->submodul . " - " . "Indikator Kompetensi",
+                "asesmen-multirater-360-indikator-kompetensi.index" =>  $this->submodul . " - " . $this->title
             ],
+            "title" => $this->title,
             "data" => null
         ];
 

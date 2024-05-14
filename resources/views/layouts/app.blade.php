@@ -38,7 +38,7 @@
             <!--  Header Start -->
             @include('layouts.section.navbar')
             <!--  Header End -->
-            <div class="container-fluid mw-100">
+            <div class="container-fluid mw-100 min-vh-100">
                 <!-- Content -->
                 @yield('content')
                 <!-- End Content -->
