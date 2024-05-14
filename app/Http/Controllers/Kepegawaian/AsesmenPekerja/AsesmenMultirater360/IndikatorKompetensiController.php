@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Kepegawaian\AssesmenPekerja;
+namespace App\Http\Controllers\Kepegawaian\AsesmenPekerja\AsesmenMultirater360;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class AssesmenMultirater360Controller extends Controller
+class IndikatorKompetensiController extends Controller
 {
     private $parent = "Kepegawaian";
-    private $modul = "Assesmen Pekerja";
+    private $modul = "Asesmen Pekerja";
+    private $submodul = "General Settings";
 
     /**
      * Display a listing of the resource.
@@ -19,12 +20,13 @@ class AssesmenMultirater360Controller extends Controller
             "breadcrumb" => [
                 "group-1" => $this->parent,
                 "group-2" => $this->modul,
-                "assesmen-multirater-360.index" => "Assesmen Multirater 360",
+                "asesmen-multirater-360-dashboard.index" => "Asesmen Multirater 360",
+                "asesmen-multirater-360-indikator-kompetensi.index" =>  $this->submodul . " - " . "Indikator Kompetensi",
             ],
             "data" => null
         ];
 
-        return view('kepegawaian.assesmen-pekerja.assesmen-multirater-360.dashboard.index', $data);
+        return view('kepegawaian.asesmen-pekerja.asesmen-multirater-360.general-settings.indikator-kompetensi.index', $data);
     }
 
     /**

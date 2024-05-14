@@ -6,7 +6,8 @@ use App\Http\Controllers\Auth\{
     LogoutController,
 };
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Kepegawaian\AssesmenPekerja\AssesmenMultirater360Controller;
+use App\Http\Controllers\Kepegawaian\AsesmenPekerja\AsesmenMultirater360\DashboardController as AsesmenMultirater360DashboardController;
+use App\Http\Controllers\Kepegawaian\AsesmenPekerja\AsesmenMultirater360\IndikatorKompetensiController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,8 +38,11 @@ Route::middleware(['user-auth'])->group(function () {
         Route::prefix("time-management")->group(function () {
         });
 
-        Route::prefix("assesmen-pekerja")->group(function () {
-            Route::resource("assesmen-multirater-360", AssesmenMultirater360Controller::class);
+        Route::prefix("asesmen-pekerja")->group(function () {
+            Route::prefix("asesmen-multirater-360")->group(function () {
+                Route::resource("/", AsesmenMultirater360DashboardController::class)->names(['index' => 'asesmen-multirater-360-dashboard.index']);
+                Route::resource("/indikator-kompetensi", IndikatorKompetensiController::class)->names(['index' => 'asesmen-multirater-360-indikator-kompetensi.index']);
+            });
         });
     });
 

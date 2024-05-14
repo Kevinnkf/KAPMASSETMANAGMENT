@@ -39,11 +39,15 @@
             @include('layouts.section.navbar')
             <!--  Header End -->
             <div class="container-fluid mw-100">
+                <!-- Content -->
                 @yield('content')
+                <!-- End Content -->
             </div>
+
+            <!-- Footer -->
+            @include('layouts.section.footer')
+            <!-- End Footer -->
         </div>
-        <div class="dark-transparent sidebartoggler"></div>
-        <div class="dark-transparent sidebartoggler"></div>
     </div>
     <!--  Shopping Cart -->
     <div class="offcanvas offcanvas-end shopping-cart" tabindex="-1" id="offcanvasRight"

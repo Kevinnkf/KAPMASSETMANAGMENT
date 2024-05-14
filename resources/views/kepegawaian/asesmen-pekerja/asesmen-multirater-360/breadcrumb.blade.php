@@ -12,7 +12,7 @@
                     <a class="text-muted"> {{ $item }}</a>
                     <i class="ti ti-chevron-right mx-1"></i>
                 @else
-                    <a href="{{ route($key) }}">{{ $item }}</a>
+                    <a href="{{ route($key) }}" class="text-primary-kai">{{ $item }}</a>
                     <i class="ti ti-chevron-right mx-1"></i>
                 @endif
             @endif
