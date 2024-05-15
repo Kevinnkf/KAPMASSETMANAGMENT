@@ -27,7 +27,7 @@
                 <div class="dropdown-content-topbar">
                     <a href="{{ route('asesmen-multirater-360-indikator-kompetensi.index') }}">Indikator Kompetensi</a>
                     <a href="{{ route('asesmen-multirater-360-skor-rekomendasi.index') }}">Skor Rekomendasi</a>
-                    <a href="#">Periode Asesmen</a>
+                    <a href="{{ route('asesmen-multirater-360-periode-asesmen.index') }}">Periode Asesmen</a>
                     <a href="#">Posisi & Job Tidak Perlu Dinilai</a>
                     <a href="#">Redaksional Notifikasi</a>
                     <a href="#">Mapping Penilai</a>
