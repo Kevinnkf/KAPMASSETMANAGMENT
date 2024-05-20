@@ -11,3 +11,5 @@ COPY site.conf.template /etc/nginx/templates/site.conf.template
 COPY security.conf.template /etc/nginx/templates/security.conf.template
 
 RUN chown -R www-data:www-data /var/www/html
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
