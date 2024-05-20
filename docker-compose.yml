@@ -1,0 +1,42 @@
+version: "3.7"
+services:
+
+    # Run the web server container for static content, and proxying to our FPM container
+    laravelweb:
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+            target: app
+            args:
+              DNS: "${DNS}"
+              ROOT: "/var/www/html/public"
+              FPM_HOST: "127.0.0.1:9000"             
+        image: 172.16.24.83/baseimage/web-esa-app:1.0
+        # Expose our application port (80) through a port on our local machine (8080)
+        ports:
+             - "8970:80"  
+        environment:
+            # We need to pass in the new FPM hst as the name of the fpm container on port 9000
+          DNS: "${DNS}"
+          ROOT: "/var/www/html/public"
+          FPM_HOST: "127.0.0.1:9000"
+        # Mount the public directory into the container so we can serve any static files directly when they change
+        volumes:
+            # Here we mount in our codebase so any changes are immediately reflected into the container
+            - '/etc/localtime:/etc/localtime:ro'
+            - 'sessions:/var/www/html/storage/framework/sessions'
+  #      networks:
+  #          - laravel-in-kubernetes 
+        command: [
+          "/bin/bash", 
+          "-c", 
+          "
+            php artisan optimize &&
+            php artisan config:clear
+          "
+        ]
+
+
+#Docker Volumes
+volumes:
+ sessions:
