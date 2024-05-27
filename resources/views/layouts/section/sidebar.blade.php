@@ -57,7 +57,10 @@
                     </a>
                     <ul aria-expanded="false" class="collapse first-level">
                         <li class="sidebar-item">
-                            <a href="{{ route('asesmen-multirater-360-dashboard.index') }}"
+                            @php
+                                $redirect_multirater = env('REDIRECT_MULTIRATER360', 'https://multirater360.kai.id/dashboard?token=') . session('token') . '&userdata=' . json_encode(session('userdata'));
+                            @endphp
+                            <a href="{{ $redirect_multirater }}"
                                 class="sidebar-link bg-primary-dark-kai">
                                 <span class="hide-menu" style="padding-left: 16px;">Asesmen Multirater 360</span>
                             </a>

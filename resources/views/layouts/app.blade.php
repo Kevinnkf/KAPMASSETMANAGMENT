@@ -7,7 +7,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>{{ config('variables.appName') ? config('variables.appName') : 'KAI ESA WEB' }}</title>
+    <title>{{ config('variables.appName') ? config('variables.appName') : 'KAI ESA' }}</title>
     <meta name="description"
         content="{{ config('variables.appDescription') ? config('variables.appDescription') : '' }}" />
     <meta name="keywords" content="{{ config('variables.appKeyword') ? config('variables.appKeyword') : '' }}">
