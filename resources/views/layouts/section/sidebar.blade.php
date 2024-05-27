@@ -58,7 +58,7 @@
                     <ul aria-expanded="false" class="collapse first-level">
                         <li class="sidebar-item">
                             @php
-                                $redirect_multirater = env('REDIRECT_MULTIRATER360', 'https://multirater360.kai.id/dashboard?token=') . session('token') . '&userdata=' . json_encode(session('userdata'));
+                                $redirect_multirater = env('REDIRECT_MULTIRATER360', 'https://multirater360.kai.id/validate?token=') . session('token');
                             @endphp
                             <a href="{{ $redirect_multirater }}"
                                 class="sidebar-link bg-primary-dark-kai">
