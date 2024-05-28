@@ -21,7 +21,6 @@
         /*this will make the container disappear, making the child the one who sets the width of the element*/
     }
 
-
     .nav-item-topbar {
         background-color: #f7f7f7;
         margin-right: 8px;

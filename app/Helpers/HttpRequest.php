@@ -15,7 +15,7 @@ class HttpRequest
     {
         $this->host = env('API_KAI_SUPERAPPS', 'https://api-beta.kai.id');
         $this->resetPasswordKey = env('RESET_PASSWORD_KEY', '');
-        $this->loginUrl = $this->host . '/kaisuperapps/cms/auth/login';
+        $this->loginUrl = $this->host . '/kaisuperapps/auth/login';
     }
 
     public static function originPath()

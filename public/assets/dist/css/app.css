@@ -1,3 +1,7 @@
+a {
+    color: #0b56a7;
+}
+
 .text-primary-kai {
     color: #0b56a7;
 }
@@ -30,8 +34,16 @@
     border-color: #ffffff;
 }
 
+.sidebar-nav .has-arrow::after {
+    border-color: #ffffff;
+}
+
 .sidebar-nav ul .sidebar-item .sidebar-link {
     white-space: initial;
+}
+
+.sidebar-nav ul .sidebar-item .first-level .sidebar-link {
+    margin-left: 8px;
 }
 
 .hide-menu {
