@@ -3,8 +3,11 @@
         <div class="d-none d-sm-inline-block fs-2">
             Copyright ©
             <script>
-                // document.write('2023-' + new Date().getFullYear())
-                document.write('2004')
+                let year_start = 2024;
+                let year_now = new Date().getFullYear();
+
+                let year_desc = (year_start == year_now) ? year_now : year_start + " - " + $year_end;
+                document.write(year_desc)
             </script> ESA by <b class="text-primary-kai">KAI</b>
         </div>
     </div>
