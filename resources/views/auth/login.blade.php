@@ -29,20 +29,18 @@
                                     width="120" alt="">
                                 <div class="row mt-2">
                                     <h4 style="font-size: 24px;">Login HRIS</h4>
-                                    <p style="font-size: 14px; color: #818181;">Silahkan masukkan NIPP dan password yang
-                                        Anda dapatkan dari
-                                        administrator</p>
+                                    <p style="font-size: 14px; color: #818181;">Silahkan masukkan NIPP dan password yang Anda dapatkan dari administrator</p>
                                 </div>
 
                                 {{-- form  --}}
                                 <form method="POST" action="{{ route('login-form') }}">
                                     @csrf
                                     <div class="form-group mb-3">
-                                        <label for="username" class="form-label">Username</label>
+                                        <label for="username" >NIPP</label>
                                         <input id="username" type="text"
                                             class="form-control @error('username') is-invalid @enderror" name="username"
                                             value="{{ old('username') }}" autocomplete="off" autofocus
-                                            placeholder="Username">
+                                            placeholder="NIPP">
                                         @error('username')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -50,7 +48,7 @@
                                         @enderror
                                     </div>
                                     <div class="form-group mb-3 form-password-toggle">
-                                        <label class="text-bold-600" for="password">Password</label>
+                                        <label for="password">Password</label>
                                         <input id="password" type="password"
                                             class="form-control @error('password') is-invalid @enderror" name="password"
                                             autocomplete="off" placeholder="Password">

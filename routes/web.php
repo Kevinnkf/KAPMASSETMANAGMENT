@@ -38,6 +38,10 @@ Auth::routes(['verify' => true]);
 Route::middleware(['user-auth'])->group(function () {
     Route::resource("/", DashboardController::class)->names(['index' => 'dashboard.index']);
 
+    Route::prefix("dashboard")->group(function () {
+        Route::get("", [DashboardController::class, 'index'])->name('dashboard.index');
+    });
+
     Route::prefix("kepegawaian")->group(function () {
         Route::prefix("time-management")->group(function () {
         });
