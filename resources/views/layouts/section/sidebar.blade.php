@@ -80,7 +80,7 @@
                             <span class="hide-menu">Asesmen Multirater 360</span>
                         </a>
                     </li>
-                    <li class="sidebar-item">
+                    {{-- <li class="sidebar-item">
                         <a href="#" class="sidebar-link bg-primary-dark-kai">
                             <div class="round-16 d-flex align-items-center justify-content-center">
                                 <i class="ti ti-circle"></i>
@@ -104,7 +104,7 @@
                             </div>
                             <span class="hide-menu">Admin Asesmen Pekerja</span>
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
             </li>
             <!-- End Asesmen Pekerja -->
