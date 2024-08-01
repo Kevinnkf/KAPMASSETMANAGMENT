@@ -26,7 +26,7 @@
             </li>
 
             <!-- Time Management -->
-            <li class="sidebar-item pb-2">
+            {{-- <li class="sidebar-item pb-2">
                 <a class="sidebar-link bg-primary-dark-kai px-3 has-arrow" href="#" aria-expanded="false">
                     <i class="ti ti-settings"></i>
                     <span class="hide-menu">Time Management</span>
@@ -57,7 +57,7 @@
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li> --}}
             <!-- End Time Management -->
 
             <!-- Time Asesmen Pekerja -->
