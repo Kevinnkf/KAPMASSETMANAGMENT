@@ -16,7 +16,7 @@
         {{-- menu navbar --}}
         <ul class="navbar-nav quick-links d-none d-lg-flex">
             <li class="nav-item dropdown-hover d-none d-lg-block">
-                <a class="nav-link text-muted" href="#">Dashboard</a>
+                <a class="nav-link text-muted" href="{{ route('dashboard.index') }}">Dashboard</a>
             </li>
             <li class="nav-item dropdown-hover d-none d-lg-block">
                 <a class="nav-link text-muted" href="#">Pelayanan Kesehatan</a>

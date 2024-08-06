@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\{
     LogoutController,
 };
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Kepegawaian\AsesmenPekerja\AsesmenMultirater360\{
     DashboardController as AsesmenMultirater360DashboardController,
     IndikatorKompetensiController,
@@ -35,9 +36,9 @@ Route::post('/change-password', [ForgetPasswordController::class, 'postChangePas
 
 Auth::routes(['verify' => true]);
 
-Route::middleware(['user-auth'])->group(function () {
-    Route::resource("/", DashboardController::class)->names(['index' => 'dashboard.index']);
+Route::resource("/", HomeController::class)->names(['index' => 'landing-page.index']);
 
+Route::middleware(['user-auth'])->group(function () {
     Route::prefix("dashboard")->group(function () {
         Route::get("", [DashboardController::class, 'index'])->name('dashboard.index');
     });

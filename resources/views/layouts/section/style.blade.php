@@ -1,5 +1,3 @@
-<!-- Owl Carousel  -->
-<link rel="stylesheet" href="{{ asset('assets/dist/libs/owl.carousel/dist/assets/owl.carousel.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/dist/libs/select2/dist/css/select2.min.css') }}" />
 <!-- Core Css -->
 <link id="themeColors" rel="stylesheet" href="{{ asset('assets/dist/css/style.min.css') }}" />

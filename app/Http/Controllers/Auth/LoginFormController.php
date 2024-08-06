@@ -47,7 +47,7 @@ class LoginFormController extends Controller
                 $session['token'] = $response['data']['token'];
                 session($session);
                 //success login
-                return redirect('/');
+                return redirect('/dashboard');
             }
             // $this->incrementLoginAttempts($request);
             return $this->sendFailedLoginResponse($request, $response['message']);
