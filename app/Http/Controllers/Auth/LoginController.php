@@ -10,7 +10,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
-  /*
+    /*
     |--------------------------------------------------------------------------
     | Login Controller
     |--------------------------------------------------------------------------
@@ -21,32 +21,37 @@ class LoginController extends Controller
     |
     */
 
-  use AuthenticatesUsers;
+    use AuthenticatesUsers;
 
-  /**
-   * Where to redirect users after login.
-   *
-   * @var string
-   */
-  protected $redirectTo = RouteServiceProvider::HOME;
+    /**
+     * Where to redirect users after login.
+     *
+     * @var string
+     */
+    protected $redirectTo = RouteServiceProvider::HOME;
 
-  /**
-   * Create a new controller instance.
-   *
-   * @return void
-   */
-  public function __construct()
-  {
-    $this->middleware('guest')->except('logout');
-  }
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('guest')->except('logout');
+    }
 
-  // Login
-  public function showLoginForm()
-  {
-    $urlSlideLogin = HttpRequest::originPath() . Config::get('constants.SLIDE_LOGIN_GET_DATA');
+    // Login
+    public function showLoginForm()
+    {
+        // check if token is exist to force redirect to dashboard
+        if(!empty(session('userdata')['token'])) {
+            return redirect('/dashboard');
+        }
 
-    return view('auth.login', [
-      'urlSlideLogin' => $urlSlideLogin,
-    ]);
-  }
+        $urlSlideLogin = HttpRequest::originPath() . Config::get('constants.SLIDE_LOGIN_GET_DATA');
+
+        return view('auth.login', [
+            'urlSlideLogin' => $urlSlideLogin,
+        ]);
+    }
 }

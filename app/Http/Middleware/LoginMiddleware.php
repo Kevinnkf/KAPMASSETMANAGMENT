@@ -16,7 +16,7 @@ class LoginMiddleware
     public function handle($request, Closure $next)
     {
         if(empty(session('userdata')['token'])) {
-            return redirect('login');
+            return redirect('/');
         }
         return $next($request);
     }

@@ -69,13 +69,9 @@
 
             @include('home.section.section-portal-menu')
 
-            @include('home.section.section-majalah-kontak')
-
             @include('home.section.section-berita-terbaru')
             
             @include('home.section.section-info-kesehatan')
-            
-            @include('home.section.section-dokumen')
         </div>
 
         @include('layouts.section.footer')
