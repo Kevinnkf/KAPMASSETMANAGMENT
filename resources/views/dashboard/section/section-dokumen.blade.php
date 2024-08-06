@@ -9,7 +9,7 @@
     </div>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
         <div class="col">
-            <div class="card">
+            <div class="card mb-0">
                 <div class="card-body p-3">
                     <div style="background-color: #F7F7F7;" class="d-inline-flex rounded-3 p-2 mb-3">
                         <img src="{{ asset('assets/dist/images/svgs/icon-document.svg') }}" />
@@ -34,7 +34,7 @@
             </div>
         </div>
         <div class="col">
-            <div class="card">
+            <div class="card mb-0">
                 <div class="card-body p-3">
                     <div style="background-color: #F7F7F7;" class="d-inline-flex rounded-3 p-2 mb-3">
                         <img src="{{ asset('assets/dist/images/svgs/icon-document.svg') }}" />
@@ -59,7 +59,7 @@
             </div>
         </div>
         <div class="col">
-            <div class="card">
+            <div class="card mb-0">
                 <div class="card-body p-3">
                     <div style="background-color: #F7F7F7;" class="d-inline-flex rounded-3 p-2 mb-3">
                         <img src="{{ asset('assets/dist/images/svgs/icon-document.svg') }}" />
@@ -84,7 +84,7 @@
             </div>
         </div>
         <div class="col">
-            <div class="card">
+            <div class="card mb-0">
                 <div class="card-body p-3">
                     <div style="background-color: #F7F7F7;" class="d-inline-flex rounded-3 p-2 mb-3">
                         <img src="{{ asset('assets/dist/images/svgs/icon-document.svg') }}" />
@@ -109,7 +109,7 @@
             </div>
         </div>
         <div class="col">
-            <div class="card">
+            <div class="card mb-0">
                 <div class="card-body p-3">
                     <div style="background-color: #F7F7F7;" class="d-inline-flex rounded-3 p-2 mb-3">
                         <img src="{{ asset('assets/dist/images/svgs/icon-document.svg') }}" />
@@ -134,7 +134,7 @@
             </div>
         </div>
         <div class="col">
-            <div class="card">
+            <div class="card mb-0">
                 <div class="card-body p-3">
                     <div style="background-color: #F7F7F7;" class="d-inline-flex rounded-3 p-2 mb-3">
                         <img src="{{ asset('assets/dist/images/svgs/icon-document.svg') }}" />

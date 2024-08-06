@@ -10,7 +10,7 @@
     <div class="row row-cols-1 row-cols-lg-2 row-cols-xxl-3 g-3">
         {{-- card 1 --}}
         <div class="col">
-            <div class="card" style="cursor: pointer" onclick="#">
+            <div class="card mb-0" style="cursor: pointer" onclick="#">
                 <div class="card-body p-3">
                     <div class="row row-cols-2 g-5">
                         <div class="col-sm-4 d-none d-sm-block">
@@ -39,7 +39,7 @@
 
         {{-- card 2 --}}
         <div class="col">
-            <div class="card" style="cursor: pointer" onclick="#">
+            <div class="card mb-0" style="cursor: pointer" onclick="#">
                 <div class="card-body p-3">
                     <div class="row row-cols-2 g-5">
                         <div class="col-sm-4 d-none d-sm-block">
@@ -69,7 +69,7 @@
 
         {{-- card 3 --}}
         <div class="col">
-            <div class="card" style="cursor: pointer" onclick="#">
+            <div class="card mb-0" style="cursor: pointer" onclick="#">
                 <div class="card-body p-3">
                     <div class="row row-cols-2 g-5">
                         <div class="col-sm-4 d-none d-sm-block">
@@ -100,7 +100,7 @@
 
         {{-- card 4 --}}
         <div class="col">
-            <div class="card" style="cursor: pointer" onclick="#">
+            <div class="card mb-0" style="cursor: pointer" onclick="#">
                 <div class="card-body p-3">
                     <div class="row row-cols-2 g-5">
                         <div class="col-sm-4 d-none d-sm-block">
@@ -130,7 +130,7 @@
 
         {{-- card 5 --}}
         <div class="col">
-            <div class="card" style="cursor: pointer" onclick="#">
+            <div class="card mb-0" style="cursor: pointer" onclick="#">
                 <div class="card-body p-3">
                     <div class="row row-cols-2 g-5">
                         <div class="col-sm-4 d-none d-sm-block">
@@ -160,7 +160,7 @@
 
         {{-- card 6 --}}
         <div class="col">
-            <div class="card" style="cursor: pointer" onclick="#">
+            <div class="card mb-0" style="cursor: pointer" onclick="#">
                 <div class="card-body p-3">
                     <div class="row row-cols-2 g-5">
                         <div class="col-sm-4 d-none d-sm-block">

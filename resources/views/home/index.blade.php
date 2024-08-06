@@ -25,7 +25,7 @@
 
     <style>
         .img-carousel {
-            height: 52vh;
+            height: 60vh;
         }
 
         @media (max-width: 1024px) {
