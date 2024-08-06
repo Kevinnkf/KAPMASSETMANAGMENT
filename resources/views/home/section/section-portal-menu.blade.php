@@ -4,47 +4,47 @@
         <div class="row row-cols-2 row-cols-sm-3 row-cols-lg-6 g-3 text-center">
             <div class="col">
                 <img src="{{ asset('assets/dist/images/portal-menu/img-rims.svg') }}" alt="image-rims" onclick="#"
-                    style="cursor: pointer;">
+                    class="portal-menu">
             </div>
             <div class="col">
                 <img src="{{ asset('assets/dist/images/portal-menu/img-kci.svg') }}" alt="image-kci" onclick="#"
-                    style="cursor: pointer;">
+                    class="portal-menu">
             </div>
             <div class="col">
                 <img src="{{ asset('assets/dist/images/portal-menu/img-spt-pajak.svg') }}" alt="image-spt-pajak"
-                    onclick="#" style="cursor: pointer;">
+                    onclick="#" class="portal-menu">
             </div>
             <div class="col">
                 <img src="{{ asset('assets/dist/images/portal-menu/img-upz.svg') }}" alt="image-upz" onclick="#"
-                    style="cursor: pointer;">
+                    class="portal-menu">
             </div>
             <div class="col">
                 <img src="{{ asset('assets/dist/images/portal-menu/img-sri.svg') }}" alt="image-sri" onclick="#"
-                    style="cursor: pointer;">
+                    class="portal-menu">
             </div>
             <div class="col">
                 <img src="{{ asset('assets/dist/images/portal-menu/img-srm.svg') }}" alt="image-srm" onclick="#"
-                    style="cursor: pointer;">
+                    class="portal-menu">
             </div>
             <div class="col">
                 <img src="{{ asset('assets/dist/images/portal-menu/img-einnovation.svg') }}" alt="image-einnovation"
-                    onclick="#" style="cursor: pointer;">
+                    onclick="#" class="portal-menu">
             </div>
             <div class="col">
                 <img src="{{ asset('assets/dist/images/portal-menu/img-lsp.svg') }}" alt="image-lsp" onclick="#"
-                    style="cursor: pointer;">
+                    class="portal-menu">
             </div>
             <div class="col">
                 <img src="{{ asset('assets/dist/images/portal-menu/img-corporate-culture.svg') }}"
-                    alt="image-corporate-culture" onclick="#" style="cursor: pointer;">
+                    alt="image-corporate-culture" onclick="#" class="portal-menu">
             </div>
             <div class="col">
                 <img src="{{ asset('assets/dist/images/portal-menu/img-edukai.svg') }}" alt="image-edukai"
-                    onclick="#" style="cursor: pointer;">
+                    onclick="#" class="portal-menu">
             </div>
             <div class="col">
                 <img src="{{ asset('assets/dist/images/portal-menu/img-self-assesment.svg') }}"
-                    alt="image-self-assesment" style="cursor: pointer;">
+                    alt="image-self-assesment" class="portal-menu">
             </div>
             <div class="col">
                 <img src="{{ asset('assets/dist/images/portal-menu/img-lihat-semua.svg') }}"

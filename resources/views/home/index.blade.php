@@ -58,6 +58,12 @@
         .card-wo-border {
             cursor: pointer;
         }
+        .portal-menu {
+            cursor: pointer;
+        }
+        .portal-menu:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 
