@@ -28,8 +28,8 @@
                                 <img src="{{ asset('assets/dist/images/logos/kai-esa-logo.svg') }}" class="mb-4"
                                     width="120" alt="">
                                 <div class="row mt-2">
-                                    <h4 style="font-size: 24px;">Login HRIS</h4>
-                                    <p style="font-size: 14px; color: #818181;">Silahkan masukkan NIPP dan password yang Anda dapatkan dari administrator</p>
+                                    <h4 class="fw-bolder" style="font-size: 24px;">Login</h4>
+                                    <p style="font-size: 16px; color: #818181;">Silahkan masukkan NIPP dan Password Anda</p>
                                 </div>
 
                                 {{-- form  --}}
@@ -96,7 +96,7 @@
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-end mb-4">
-                                        <a href="{{ route('forget-password') }}" class="btn btn-link"
+                                        <a href="#" class="btn btn-link"
                                             style="font-size: 13px; text-decoration:none;">
                                             Lupa Password?
                                         </a>
