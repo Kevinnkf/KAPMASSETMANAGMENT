@@ -58,7 +58,7 @@
         .card-wo-border {
             cursor: pointer;
         }
-        
+
         .card-wo-border:hover {
             cursor: pointer;
             transform: scale(1.01);
@@ -84,6 +84,8 @@
             @include('home.section.section-berita-terbaru')
             
             @include('home.section.section-info-kesehatan')
+
+            @include('home.section.modal-portal-menu')
         </div>
 
         @include('layouts.section.footer')

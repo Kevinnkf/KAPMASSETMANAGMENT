@@ -47,8 +47,8 @@
                     alt="image-self-assesment" class="portal-menu">
             </div>
             <div class="col">
-                <img src="{{ asset('assets/dist/images/portal-menu/img-lihat-semua.svg') }}"
-                    alt="image-lihat-semua"onclick="#" style="cursor: pointer;">
+                <img src="{{ asset('assets/dist/images/portal-menu/img-lihat-semua.svg') }}" alt="image-lihat-semua"
+                    data-bs-target="#showModalPortalSistem" data-bs-toggle="modal" style="cursor: pointer">
             </div>
         </div>
     </div>

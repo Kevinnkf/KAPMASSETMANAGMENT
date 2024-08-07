@@ -82,6 +82,8 @@
     @include('dashboard.section.section-info-kesehatan')
 
     @include('dashboard.section.section-dokumen')
+
+    @include('dashboard.section.modal-portal-menu')
 @endsection
 
 @section('scripts')
