@@ -51,13 +51,19 @@
         }
 
         .card:hover {
-            transform: scale(1);
+            transform: scale(1.01);
             box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
         }
 
         .card-wo-border {
             cursor: pointer;
         }
+        
+        .card-wo-border:hover {
+            cursor: pointer;
+            transform: scale(1.01);
+        }
+
         .portal-menu {
             cursor: pointer;
         }

@@ -44,12 +44,18 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <div class="d-flex align-items-center justify-content-between">
-                <a href="javascript:void(0)" class="nav-link d-flex d-lg-none align-items-center justify-content-center"
-                    type="button" data-bs-toggle="offcanvas" data-bs-target="#mobilenavbar"
-                    aria-controls="offcanvasWithBothOptions">
-                    <i class="ti ti-align-justified fs-7"></i>
-                </a>
                 <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
+                    <?php
+                    
+                    # tanggal sekarang dalam bahasa indo
+                    $hariIni = \Carbon\Carbon::now()->locale('id');
+                    $hariIniDetail = $hariIni->dayName . ", " . $hariIni->day . " " . $hariIni->monthName . " " . $hariIni->year;
+
+                    ?>
+                    <li class="nav-item" style="margin-right: 8px;">
+                        {{ $hariIniDetail }}
+                    </li>
+
                     <li class="nav-item dropdown">
                         <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -93,8 +99,7 @@
                                         <span class="d-block">Check your earnings</span>
                                     </div>
                                 </a>
-                                <a href="javascript:void(0)"
-                                    class="py-6 px-7 d-flex align-items-center dropdown-item">
+                                <a href="javascript:void(0)" class="py-6 px-7 d-flex align-items-center dropdown-item">
                                     <span class="me-3">
                                         <img src="{{ asset('assets/dist/images/profile/user-4.jpg') }}" alt="user"
                                             class="rounded-circle" width="48" height="48" />
@@ -166,43 +171,6 @@
                                             <i class="ti ti-id-badge fs-4"></i> {{ $data['nipp'] }}
                                         </p>
                                     </div>
-                                </div>
-                                <div class="message-body">
-                                    <a href="./page-user-profile.html"
-                                        class="py-8 px-7 mt-8 d-flex align-items-center">
-                                        <span
-                                            class="d-flex align-items-center justify-content-center bg-light rounded-1 p-6">
-                                            <img src="{{ asset('assets/dist/images/svgs/icon-account.svg') }}"
-                                                alt="" width="24" height="24">
-                                        </span>
-                                        <div class="w-75 d-inline-block v-middle ps-3">
-                                            <h6 class="mb-1 bg-hover-primary fw-semibold"> My Profile
-                                            </h6>
-                                            <span class="d-block text-dark">Account Settings</span>
-                                        </div>
-                                    </a>
-                                    <a href="./app-email.html" class="py-8 px-7 d-flex align-items-center">
-                                        <span
-                                            class="d-flex align-items-center justify-content-center bg-light rounded-1 p-6">
-                                            <img src="{{ asset('assets/dist/images/svgs/icon-inbox.svg') }}"
-                                                alt="" width="24" height="24">
-                                        </span>
-                                        <div class="w-75 d-inline-block v-middle ps-3">
-                                            <h6 class="mb-1 bg-hover-primary fw-semibold">My Inbox</h6>
-                                            <span class="d-block text-dark">Messages & Emails</span>
-                                        </div>
-                                    </a>
-                                    <a href="./app-notes.html" class="py-8 px-7 d-flex align-items-center">
-                                        <span
-                                            class="d-flex align-items-center justify-content-center bg-light rounded-1 p-6">
-                                            <img src="{{ asset('assets/dist/images/svgs/icon-tasks.svg') }}"
-                                                alt="" width="24" height="24">
-                                        </span>
-                                        <div class="w-75 d-inline-block v-middle ps-3">
-                                            <h6 class="mb-1 bg-hover-primary fw-semibold">My Task</h6>
-                                            <span class="d-block text-dark">To-do and Daily Tasks</span>
-                                        </div>
-                                    </a>
                                 </div>
                                 <div class="d-grid py-4 px-7 pt-8">
                                     <a href="{{ url('logout') }}" class="btn btn-outline-primary">Log Out</a>

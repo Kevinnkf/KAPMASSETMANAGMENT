@@ -35,18 +35,30 @@
             padding: 0 32px;
         }
 
-        .card:hover {
-            transform: scale(1);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+        #card-info {
+            padding: 32px 40px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.08);
         }
 
         .card-wo-border {
             cursor: pointer;
         }
 
+        .card-wo-border:hover {
+            cursor: pointer;
+            transform: scale(1.01);
+        }
+
+        .card:hover {
+            transform: scale(1.01);
+        }
+
         .portal-menu {
             cursor: pointer;
         }
+
         .portal-menu:hover {
             transform: scale(1.05);
         }
@@ -54,11 +66,9 @@
 @endsection
 
 @section('content')
-    <div class="card">
-        <div class="card-body">
-            <h1 class="fw-bolder" style="font-size: 32px">Selamat Pagi, {{ $data['nama'] }}</h1>
-            <p class="m-0">Selamat bekerja, Semoga hari mu menyenangkan.</p>
-        </div>
+    <div id="card-info">
+        <h1 class="fw-bolder" style="font-size: 32px">Selamat Pagi, {{ $data['nama'] }}</h1>
+        <p class="m-0">Selamat bekerja, Semoga hari mu menyenangkan.</p>
     </div>
 
     @include('dashboard.section.section-carousel')
@@ -72,7 +82,6 @@
     @include('dashboard.section.section-info-kesehatan')
 
     @include('dashboard.section.section-dokumen')
-
 @endsection
 
 @section('scripts')
