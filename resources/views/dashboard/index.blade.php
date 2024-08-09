@@ -66,8 +66,13 @@
 @endsection
 
 @section('content')
+    <?php
+    // Sesuaikan timezone dengan lokasi
+    date_default_timezone_set('Asia/Jakarta');
+    ?>
+    
     <div id="card-info">
-        <h1 class="fw-bolder" style="font-size: 32px">Selamat Pagi, {{ $data['nama'] }}</h1>
+        <h1 class="fw-bolder" style="font-size: 32px">{{ getSalam() }}, {{ $data['nama'] }}</h1>
         <p class="m-0">Selamat bekerja, Semoga hari mu menyenangkan.</p>
     </div>
 

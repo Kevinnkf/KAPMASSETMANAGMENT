@@ -67,3 +67,18 @@ function isUserAsSuperadmin()
 {
     return in_array("Superadmin", session('userdata')['role']);
 }
+
+function getSalam()
+{
+    $jam = date('H');
+
+    if ($jam >= 0 && $jam < 11) {
+        return 'Selamat Pagi';
+    } elseif ($jam >= 11 && $jam < 15) {
+        return 'Selamat Siang';
+    } elseif ($jam >= 15 && $jam < 18) {
+        return 'Selamat Sore';
+    } else {
+        return 'Selamat Malam';
+    }
+}
