@@ -9,7 +9,9 @@ pipeline {
     // Environment
     environment {
         APP_NAME = "web-kai-superapps"
+        APP_NAME_CODE = "frontend-kai-super-apps"
         BRANCH = "dev"
+        BRANCH_CODE = "development"
         ENV = "DEV"
         VER = "alpha"
         CONFREPO = "172.16.27.180"
@@ -18,23 +20,44 @@ pipeline {
     // Stages
     stages {
         // Setup
-        stage('checkout git') {
+        stage('Clone Git Dev') {
+                steps {
+                    echo "Cloning Git Dev"
+                    withCredentials([usernamePassword(credentialsId: 'devops-gitlab', usernameVariable: 'USERNAME_GIT', passwordVariable: 'PASSWORD_GIT')]) {
+                        sh '''
+                            rm -rf $APP_NAME_CODE
+                            git clone https://$USERNAME_GIT:$PASSWORD_GIT@gitdev.kai.id/sdm/frontend-kai-super-apps.git
+                            cd $APP_NAME_CODE
+                            git fetch
+                            git checkout $BRANCH_CODE
+                        '''
+                        script {
+                            def tagDescription = sh(
+                                script: "git tag -l '${VER}*' | sort -V | tail -n 1",
+                                returnStdout: true
+                            ).trim()
+                            
+                            // Extract the desired tag part (e.g., "alpha.1.0.0")
+                            def extractedTag = tagDescription.split('/')[0]
+                            echo "TAG: ${extractedTag}"
+                            env.TAG = extractedTag
+                        }
+                    }
+                }
+            }
+        stage('Git Push to Gitlab KAI') {
             steps {
-                git branch: "development", //git branch, perlu diganti dengan ${env.BRANCH} setelah penamaan branch sudah benar
-                credentialsId: 'devops-gitlab',
-                url: 'http://git.kai.id/sdm/frontend-kai-super-apps.git'
-                script {
-                    def tagDescription = sh(
-                        script: "git tag -l '${VER}*' | sort -V | tail -n 1",
-                        returnStdout: true
-                    ).trim()
-
-                    // Extract the desired tag part (e.g., "alpha.1.0.0")
-                    def trimmedTag = tagDescription =~ /([^-]+)/
-                    def extractedTag = trimmedTag[0][0]
-                    echo "TAG: ${extractedTag}"
-                    // Set the 'TAG' environment variable with the extracted tag
-                    env.TAG = extractedTag
+                withCredentials([usernamePassword(credentialsId: 'devops-gitlab', usernameVariable: 'USERNAME_GIT_PROD', passwordVariable: 'PASSWORD_GIT_PROD')]) {
+                    sh '''
+                        cd $APP_NAME_CODE
+                        git remote set-url origin https://$USERNAME_GIT_PROD:$PASSWORD_GIT_PROD@git.kai.id/sdm/frontend-kai-super-apps.git
+                        git push --force -u origin $BRANCH_CODE
+                        TAG=$(git tag -l $VER'*' | sort -V | tail -n 1)
+                        git push --force origin tag $TAG
+                        cd ..
+                        rm -rf $APP_NAME_CODE
+                        rm -rf okd-deployment
+                    '''
                 }
             }
         }
