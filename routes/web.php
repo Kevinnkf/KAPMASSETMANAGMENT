@@ -13,6 +13,9 @@ use App\Http\Controllers\Kepegawaian\AsesmenPekerja\AsesmenMultirater360\{
     PeriodeAsesmenController,
     SkorRekomendasiController
 };
+use App\Http\Controllers\TimeManagement\izin\{
+    IzinController
+};
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -44,8 +47,7 @@ Route::middleware(['user-auth'])->group(function () {
     });
 
     Route::prefix("kepegawaian")->group(function () {
-        Route::prefix("time-management")->group(function () {
-        });
+        Route::prefix("time-management")->group(function () {});
 
         Route::prefix("asesmen-pekerja")->group(function () {
             Route::prefix("asesmen-multirater-360")->group(function () {
@@ -55,8 +57,24 @@ Route::middleware(['user-auth'])->group(function () {
                 Route::resource("/periode-asesmen", PeriodeAsesmenController::class)->names(['index' => 'asesmen-multirater-360-periode-asesmen.index']);
             });
         });
+
+        Route::prefix("time-management")->group(function () {
+            Route::resource("/izin", IzinController::class)->names([
+                'index' => 'time-management.izin.index',
+                'create' => 'time-management.izin.create',
+                'store' => 'time-management.izin.store',
+                'show' => 'time-management.izin.show',
+                'edit' => 'time-management.izin.edit',
+                'update' => 'time-management.izin.update',
+                'destroy' => 'time-management.izin.destroy',
+            ]);
+        });
+        Route::get('/izin/cetak', [IzinController::class, 'cetakIzin'])->name('time-management.izin.cetakIzin');
+
     });
 
 
     Route::get('logout', [LogoutController::class, 'logout']);
+
+    // Route::get('/cetak', [IzinController::class, 'cetakPresensi'])->name('time-management.izin.cetakPresensi');
 });

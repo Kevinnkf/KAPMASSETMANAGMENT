@@ -26,7 +26,7 @@
             </li>
 
             <!-- Time Management -->
-            {{-- <li class="sidebar-item pb-2">
+            <li class="sidebar-item pb-2">
                 <a class="sidebar-link bg-primary-dark-kai px-3 has-arrow" href="#" aria-expanded="false">
                     <i class="ti ti-settings"></i>
                     <span class="hide-menu">Time Management</span>
@@ -41,7 +41,7 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="#" class="sidebar-link bg-primary-dark-kai">
+                        <a href="{{ route('time-management.izin.index') }}" class="sidebar-link bg-primary-dark-kai">
                             <div class="round-16 d-flex align-items-center justify-content-center">
                                 <i class="ti ti-circle"></i>
                             </div>
@@ -57,7 +57,7 @@
                         </a>
                     </li>
                 </ul>
-            </li> --}}
+            </li>
             <!-- End Time Management -->
 
             <!-- Time Asesmen Pekerja -->
