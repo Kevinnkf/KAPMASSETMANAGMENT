@@ -13,6 +13,7 @@ use App\Http\Controllers\Kepegawaian\AsesmenPekerja\AsesmenMultirater360\{
     PeriodeAsesmenController,
     SkorRekomendasiController
 };
+use App\Http\Controllers\Kepegawaian\TimeManagement\CutiController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -45,6 +46,9 @@ Route::middleware(['user-auth'])->group(function () {
 
     Route::prefix("kepegawaian")->group(function () {
         Route::prefix("time-management")->group(function () {
+            Route::resource("/cuti", CutiController::class)->names(['index' => 'cuti.index']);
+            Route::resource("/create", CutiController::class)->names(['index' => 'cuti.create']);
+            Route::post('/submit-cuti', [CutiController::class, 'submitCuti'])->name('submit-cuti');
         });
 
         Route::prefix("asesmen-pekerja")->group(function () {
