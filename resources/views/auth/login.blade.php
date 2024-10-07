@@ -22,7 +22,7 @@
             {{-- End Background --}}
             <div class="position-absolute container-fluid d-flex align-items-center justify-content-center w-100 mt-3">
                 <div class="row justify-content-end w-100">
-                    <div class="col-lg-12 col-xl-4 col-xxl-4">
+                    <div class="col-md-6 col-lg-5 col-xl-4">
                         <div class="card mb-0 rounded-4">
                             <div class="card-body">
                                 <img src="{{ asset('assets/dist/images/logos/kai-esa-logo.svg') }}" class="mb-4"
