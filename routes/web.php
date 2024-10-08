@@ -16,6 +16,7 @@ use App\Http\Controllers\Kepegawaian\AsesmenPekerja\AsesmenMultirater360\{
 use App\Http\Controllers\Kepegawaian\TimeManagement\Dinas\{
     DashboardController as DinasController,
 };
+use App\Http\Controllers\Kepegawaian\TimeManagement\CutiController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -57,6 +58,9 @@ Route::middleware(['user-auth'])->group(function () {
                 // 'update' => 'dinas-dashboard.update',
                 // 'destroy' => 'dinas-dashboard.destroy',
             ]);
+            Route::resource("/cuti", CutiController::class)->names(['index' => 'cuti.index']);
+            Route::resource("/create", CutiController::class)->names(['index' => 'cuti.create']);
+            Route::post('/submit-cuti', [CutiController::class, 'submitCuti'])->name('submit-cuti');
         });
         Route::get("/dinas/{id}/cetak", [DinasController::class, 'cetak'])->name('dinas.cetak');
         Route::get("/dinas/{id}/cetakoperator", [DinasController::class, 'cetakoperator'])->name('dinas.cetakoperator');
