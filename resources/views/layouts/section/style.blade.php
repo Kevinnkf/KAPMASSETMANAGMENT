@@ -3,8 +3,12 @@
 <link rel="stylesheet" href="{{ asset('assets/dist/libs/sweetalert2/dist/sweetalert2.min.css') }}">
 <!-- Core Css -->
 <link id="themeColors" rel="stylesheet" href="{{ asset('assets/dist/css/style.min.css') }}" />
-
+<link id="themeColors" rel="stylesheet" href="{{ asset('assets/dist/css/custom-style.css') }}" />
 <link rel="stylesheet" href="{{ asset('assets/dist/css/app.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/dist/libs/sweetalert2/dist/sweetalert2.min.css') }}">
+
+
 
 <style>
     div.dataTables_scrollBody.dropdown-visible {

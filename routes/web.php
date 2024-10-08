@@ -7,16 +7,13 @@ use App\Http\Controllers\Auth\{
 };
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Kepegawaian\AsesmenPekerja\AsesmenMultirater360\{
-    DashboardController as AsesmenMultirater360DashboardController,
-    IndikatorKompetensiController,
-    PeriodeAsesmenController,
-    SkorRekomendasiController
-};
 use App\Http\Controllers\Kepegawaian\TimeManagement\Dinas\{
     DashboardController as DinasController,
 };
 use App\Http\Controllers\Kepegawaian\TimeManagement\CutiController;
+use App\Http\Controllers\TimeManagement\izin\{
+    IzinController
+};
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -64,18 +61,24 @@ Route::middleware(['user-auth'])->group(function () {
         });
         Route::get("/dinas/{id}/cetak", [DinasController::class, 'cetak'])->name('dinas.cetak');
         Route::get("/dinas/{id}/cetakoperator", [DinasController::class, 'cetakoperator'])->name('dinas.cetakoperator');
-        
+
         Route::get("/dinas/listoperator", [DinasController::class, 'listoperator'])->name('dinas.listoperator');
-        
-        Route::prefix("asesmen-pekerja")->group(function () {
-            Route::prefix("asesmen-multirater-360")->group(function () {
-                Route::resource("/", AsesmenMultirater360DashboardController::class)->names(['index' => 'asesmen-multirater-360-dashboard.index']);
-                Route::resource("/indikator-kompetensi", IndikatorKompetensiController::class)->names(['index' => 'asesmen-multirater-360-indikator-kompetensi.index']);
-                Route::resource("/variabel-skor-rekomendasi", SkorRekomendasiController::class)->names(['index' => 'asesmen-multirater-360-skor-rekomendasi.index']);
-                Route::resource("/periode-asesmen", PeriodeAsesmenController::class)->names(['index' => 'asesmen-multirater-360-periode-asesmen.index']);
-            });
+
+        Route::prefix("time-management")->group(function () {
+            Route::resource("/izin", IzinController::class)->names([
+                'index' => 'time-management.izin.index',
+                'create' => 'time-management.izin.create',
+                'store' => 'time-management.izin.store',
+                'show' => 'time-management.izin.show',
+                'edit' => 'time-management.izin.edit',
+                'update' => 'time-management.izin.update',
+                'destroy' => 'time-management.izin.destroy',
+            ]);
         });
+        Route::get('/izin/cetak', [IzinController::class, 'cetakIzin'])->name('time-management.izin.cetakIzin');
     });
 
     Route::get('logout', [LogoutController::class, 'logout']);
+
+    // Route::get('/cetak', [IzinController::class, 'cetakPresensi'])->name('time-management.izin.cetakPresensi');
 });

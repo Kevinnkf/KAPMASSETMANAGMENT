@@ -32,8 +32,8 @@
                     <span class="hide-menu">Time Management</span>
                 </a>
                 <ul aria-expanded="false" class="collapse first-level">
-                    {{-- <li class="sidebar-item">
-                        <a href="#" class="sidebar-link bg-primary-dark-kai">
+                    <li class="sidebar-item">
+                        <a href="{{ route('cuti.index') }}" class="sidebar-link bg-primary-dark-kai">
                             <div class="round-16 d-flex align-items-center justify-content-center">
                                 <i class="ti ti-circle"></i>
                             </div>
@@ -41,13 +41,13 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="#" class="sidebar-link bg-primary-dark-kai">
+                        <a href="{{ route('time-management.izin.index') }}" class="sidebar-link bg-primary-dark-kai">
                             <div class="round-16 d-flex align-items-center justify-content-center">
                                 <i class="ti ti-circle"></i>
                             </div>
                             <span class="hide-menu">Izin</span>
                         </a>
-                    </li> --}}
+                    </li>
                     <li class="sidebar-item">
                         <a href="{{ route('dinas.index') }}" class="sidebar-link bg-primary-dark-kai">
                             <div class="round-16 d-flex align-items-center justify-content-center">

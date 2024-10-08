@@ -27861,7 +27861,8 @@ fieldset:disabled .btn {
 .nav-pills .nav-link.active,
 .nav-pills .show>.nav-link {
     color: var(--bs-nav-pills-link-active-color);
-    background-color: #F2F8FF
+    background-color: #F2F8FF;
+    font-weight: bold;
 }
 
 .nav-underline {
