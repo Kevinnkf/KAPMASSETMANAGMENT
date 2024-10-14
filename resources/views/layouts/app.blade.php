@@ -13,6 +13,7 @@
     <meta name="keywords" content="{{ config('variables.appKeyword') ? config('variables.appKeyword') : '' }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('assets/dist/images/logos/kai-esa-logo.svg') }}" />
     <!-- Page CSS -->

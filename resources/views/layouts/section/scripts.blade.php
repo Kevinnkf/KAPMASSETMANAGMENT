@@ -7,8 +7,10 @@
 <script src="{{ asset('assets/dist/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/dist/js/datatable/datatable-basic.init.js')}}"></script>
 <script src="{{ asset('assets/dist/libs/sweetalert2/dist/sweetalert2.min.js') }}"></script>
-<script src="{{ asset('assets/dist/js/forms/sweet-alert.init.js')}}"></script>
-<script src="{{ asset('assets/dist/js/sweet-alert/sweet-alert.init.js')}}"></script>
+<script src="{{ asset('assets/dist/js/forms/sweet-alert.init.js') }}"></script>
+<script src="{{ asset('assets/dist/js/izin_custom.js') }}"></script>
+<script src="{{ asset('assets/dist/js/bootstrap-datepicker.js') }}"></script>
+<script src="{{ asset('assets/dist/js/bootstrap-datepicker.min.js') }}"></script>
 <!--  core files -->
 <script src="{{ asset('assets/dist/js/app.min.js') }}"></script>
 <script src="{{ asset('assets/dist/js/app.init.js') }}"></script>

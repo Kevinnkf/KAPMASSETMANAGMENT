@@ -45,37 +45,41 @@ Route::middleware(['user-auth'])->group(function () {
     });
 
     Route::prefix("kepegawaian")->group(function () {
-        Route::prefix("time-management")->group(function () {
-            Route::resource("/dinas", DinasController::class)->names([
-                'index' => 'dinas.index',
-                'create' => 'dinas.create',
-                'show' => 'dinas.show',
-                // 'store' => 'dinas-dashboard.store',
-                // 'edit' => 'dinas-dashboard.edit',
-                // 'update' => 'dinas-dashboard.update',
-                // 'destroy' => 'dinas-dashboard.destroy',
-            ]);
-            Route::resource("/cuti", CutiController::class)->names(['index' => 'cuti.index']);
-            Route::resource("/create", CutiController::class)->names(['index' => 'cuti.create']);
-            Route::post('/submit-cuti', [CutiController::class, 'submitCuti'])->name('submit-cuti');
-        });
-        Route::get("/dinas/{id}/cetak", [DinasController::class, 'cetak'])->name('dinas.cetak');
-        Route::get("/dinas/{id}/cetakoperator", [DinasController::class, 'cetakoperator'])->name('dinas.cetakoperator');
+        Route::prefix("time-management")->group(function () {});
 
-        Route::get("/dinas/listoperator", [DinasController::class, 'listoperator'])->name('dinas.listoperator');
-
-        Route::prefix("time-management")->group(function () {
-            Route::resource("/izin", IzinController::class)->names([
-                'index' => 'time-management.izin.index',
-                'create' => 'time-management.izin.create',
-                'store' => 'time-management.izin.store',
-                'show' => 'time-management.izin.show',
-                'edit' => 'time-management.izin.edit',
-                'update' => 'time-management.izin.update',
-                'destroy' => 'time-management.izin.destroy',
-            ]);
+        Route::prefix("asesmen-pekerja")->group(function () {
+            Route::prefix("asesmen-multirater-360")->group(function () {
+                Route::resource("/", AsesmenMultirater360DashboardController::class)->names(['index' => 'asesmen-multirater-360-dashboard.index']);
+                Route::resource("/indikator-kompetensi", IndikatorKompetensiController::class)->names(['index' => 'asesmen-multirater-360-indikator-kompetensi.index']);
+                Route::resource("/variabel-skor-rekomendasi", SkorRekomendasiController::class)->names(['index' => 'asesmen-multirater-360-skor-rekomendasi.index']);
+                Route::resource("/periode-asesmen", PeriodeAsesmenController::class)->names(['index' => 'asesmen-multirater-360-periode-asesmen.index']);
+            });
         });
-        Route::get('/izin/cetak', [IzinController::class, 'cetakIzin'])->name('time-management.izin.cetakIzin');
+    });
+
+    Route::prefix("time-management")->group(function () {
+        Route::prefix("/izin")->group(function () {
+            Route::get("/index", [IzinController::class, 'index'])->name('time-management.izin.index');
+            Route::get("/create", [IzinController::class, 'create'])->name('time-management.izin.create');
+            Route::get('/show', [IzinController::class, 'show'])->name('time-management.izin.show');
+            Route::post("/store", [IzinController::class, 'store'])->name('time-management.izin.store');
+            Route::get("/edit", [IzinController::class, 'edit'])->name('time-management.izin.edit');
+            Route::post("/batalPegawai", [IzinController::class, 'batalPegawai'])->name('time-management.izin.batalPegawai');
+            Route::delete("/destroy", [IzinController::class, 'destroy'])->name('time-management.izin.destroy');
+            Route::get('/getHistoryIzin', [IzinController::class, 'getHistoryIzin'])->name('time-management.izin.getHistoryIzin');
+            Route::get('/getHistoryIzinAtasan', [IzinController::class, 'getHistoryIzinAtasan'])->name('time-management.izin.getHistoryIzinAtasan');
+            Route::get('/cetakIzin', [IzinController::class, 'cetakIzin'])->name('time-management.izin.cetakIzin');
+            Route::get('/getStatusIzin', [IzinController::class, 'getStatusIzin'])->name('time-management.izin.getStatusIzin');
+            Route::get('/cetakIzin', [IzinController::class, 'cetakIzin'])->name('time-management.izin.cetakIzin');
+
+            Route::get('/getPengajuanIzin', [IzinController::class, 'getPengajuanIzin'])->name('time-management.izin.getPengajuanIzin');
+            Route::get('/show_tanggapi', [IzinController::class, 'show_tanggapi'])->name('time-management.izin.show_tanggapi');
+            Route::post('/submit_tanggapi', [IzinController::class, 'submit_tanggapi'])->name('time-management.izin.submit_tanggapi');
+            Route::get('/getApprovalIzin', [IzinController::class, 'getApprovalIzin'])->name('time-management.izin.getApprovalIzin');
+            Route::get('/show_approvaldetail', [IzinController::class, 'show_approvaldetail'])->name('time-management.izin.show_approvaldetail');
+            Route::post("/tolakPengajuanDinas", [IzinController::class, 'tolakPengajuanDinas'])->name('time-management.izin.tolakPengajuanDinas');
+
+        });
     });
 
     Route::get('logout', [LogoutController::class, 'logout']);
