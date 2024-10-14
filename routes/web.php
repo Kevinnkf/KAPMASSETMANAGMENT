@@ -45,15 +45,22 @@ Route::middleware(['user-auth'])->group(function () {
     });
 
     Route::prefix("kepegawaian")->group(function () {
-        Route::prefix("time-management")->group(function () {});
-
-        Route::prefix("asesmen-pekerja")->group(function () {
-            Route::prefix("asesmen-multirater-360")->group(function () {
-                Route::resource("/", AsesmenMultirater360DashboardController::class)->names(['index' => 'asesmen-multirater-360-dashboard.index']);
-                Route::resource("/indikator-kompetensi", IndikatorKompetensiController::class)->names(['index' => 'asesmen-multirater-360-indikator-kompetensi.index']);
-                Route::resource("/variabel-skor-rekomendasi", SkorRekomendasiController::class)->names(['index' => 'asesmen-multirater-360-skor-rekomendasi.index']);
-                Route::resource("/periode-asesmen", PeriodeAsesmenController::class)->names(['index' => 'asesmen-multirater-360-periode-asesmen.index']);
-            });
+        Route::prefix("time-management")->group(function () {
+            Route::resource("/dinas", DinasController::class)->names([
+                'index' => 'dinas.index',
+                'create' => 'dinas.create',
+                'show' => 'dinas.show',
+                // 'store' => 'dinas-dashboard.store',
+                // 'edit' => 'dinas-dashboard.edit',
+                // 'update' => 'dinas-dashboard.update',
+                // 'destroy' => 'dinas-dashboard.destroy',
+            ]);
+            Route::resource("/cuti", CutiController::class)->names(['index' => 'cuti.index']);
+            Route::resource("/create", CutiController::class)->names(['index' => 'cuti.create']);
+            Route::post('/submit-cuti', [CutiController::class, 'submitCuti'])->name('submit-cuti');
+            Route::get("/dinas/{id}/cetak", [DinasController::class, 'cetak'])->name('dinas.cetak');
+            Route::get("/dinas/{id}/cetakoperator", [DinasController::class, 'cetakoperator'])->name('dinas.cetakoperator');
+            Route::get("/dinas/listoperator", [DinasController::class, 'listoperator'])->name('dinas.listoperator');
         });
     });
 
@@ -78,7 +85,6 @@ Route::middleware(['user-auth'])->group(function () {
             Route::get('/getApprovalIzin', [IzinController::class, 'getApprovalIzin'])->name('time-management.izin.getApprovalIzin');
             Route::get('/show_approvaldetail', [IzinController::class, 'show_approvaldetail'])->name('time-management.izin.show_approvaldetail');
             Route::post("/tolakPengajuanDinas", [IzinController::class, 'tolakPengajuanDinas'])->name('time-management.izin.tolakPengajuanDinas');
-
         });
     });
 
