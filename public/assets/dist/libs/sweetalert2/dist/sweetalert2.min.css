@@ -425,7 +425,7 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-deny:focus {
 }
 
 div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
-    border: 0;
+    border: 1px solid #d9d9d9;
     border-radius: .25em;
     background: initial;
     /* background-color: #6e7881; */

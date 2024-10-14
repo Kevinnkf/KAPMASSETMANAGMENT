@@ -8,6 +8,11 @@
 
 <body>
     <style>
+        body {
+            font-size: 13px;
+            /* Sesuaikan dengan ukuran yang diinginkan */
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -81,6 +86,7 @@
         .qr-code img {
             width: 100px;
             height: 100px;
+            margin: 10px 0px 10px 0px;
         }
 
         .signature-table {
@@ -95,7 +101,7 @@
         .signature-table th,
         .signature-table td {
             border: 1px solid black;
-            padding: 10px;
+            padding: 5px;
             text-align: center;
         }
 
@@ -114,65 +120,61 @@
                 </tr>
                 <tr class="no-border-between">
                     <td>Nama</td>
-                    <td>DARUSSALAM</td>
+                    <td>{{ $data[0]['namaPegawai'] }}</td>
                 </tr>
                 <tr class="no-border-between">
                     <td>NIPP</td>
-                    <td>22222</td>
+                    <td>{{ $data[0]['nippPegawai'] }}</td>
                 </tr>
                 <tr class="no-border-between">
                     <td>Jabatan</td>
-                    <td>Staff</td>
+                    <td>{{ $data[0]['posisiPegawai'] }}</td>
                 </tr>
                 <tr class="no-border-between">
                     <td>Unit Kerja</td>
-                    <td>UPT Resor Jalan Rel 3.15 Ciledug</td>
+                    <td>{{ $data[0]['unitPegawai'] }}</td>
                 </tr>
                 <tr class="section-title">
                     <td colspan="2">DATA IZIN</td>
                 </tr>
                 <tr class="no-border-between">
                     <td>Jenis Izin</td>
-                    <td>Izin Pulang Cepat</td>
+                    <td>{{ $data[0]['tipeIzinDesc'] }}</td>
                 </tr>
                 <tr class="no-border-between">
                     <td>Tanggal</td>
-                    <td>17/09/2024</td>
+                    <td>{{ \Carbon\Carbon::parse($data[0]['tanggal'])->format('d/m/Y') }}</td>
                 </tr>
                 <tr class="no-border-between">
                     <td>Jam</td>
-                    <td>10:00:00 WIB</td>
+                    <td>{{ $data[0]['jam'] }}</td>
                 </tr>
                 <tr class="no-border-between">
                     <td>No Telepon</td>
-                    <td>082115500778</td>
+                    <td>{{ $data[0]['telepon'] }}</td>
                 </tr>
                 <tr class="no-border-between">
                     <td>Alasan</td>
-                    <td>Keperluan Keluarga</td>
+                    <td>{{ $data[0]['alasan'] }}</td>
                 </tr>
                 <tr class="section-title">
                     <td colspan="2">PERSETUJUAN CUTI</td>
                 </tr>
                 <tr class="no-border-between">
                     <td>NIPP Atasan</td>
-                    <td>11111</td>
+                    <td>{{ $data[0]['nippAtasan'] }}</td>
                 </tr>
                 <tr class="no-border-between">
                     <td>Nama Atasan</td>
-                    <td>DINDA FITRI SAFIRA</td>
-                </tr>
-                <tr class="no-border-between">
-                    <td>Jabatan</td>
-                    <td>Pjt. Specialist of Design</td>
+                    <td>{{ $data[0]['namaAtasan'] }}</td>
                 </tr>
                 <tr class="no-border-between">
                     <td>Tanggal Disetujui</td>
-                    <td>16/09/2024</td>
+                    <td>{{ \Carbon\Carbon::parse($data[0]['tglSetuju'])->format('d/m/Y') }}</td>
                 </tr>
                 <tr>
-                    <td style="padding: 30px 0;" colspan="2">
-                        <table class="signature-table">
+                    <td style="padding: 30px 0 10px 0;" colspan="2">
+                        <table class="signature-table" style="table-layout: fixed; padding-left: 0;">
                             <tr>
                                 <th>Pemohon</th>
                                 <th>Pjbt yang memberikan izin</th>
@@ -181,13 +183,15 @@
                             <!-- Baris 1 -->
                             <tr>
                                 <td style="text-align: left">
-                                    Tgl, 11/09/2024<br>
+                                    Tgl, {{ \Carbon\Carbon::parse($data[0]['createdAt'])->format('d/m/Y') }}
                                 </td>
                                 <td style="text-align: left">
-                                    Tgl, 16/09/2024
+                                    Tgl, {{ \Carbon\Carbon::parse($data[0]['tglSetuju'])->format('d/m/Y') }}
+                                    <!-- Menambahkan default jika null -->
                                 </td>
                                 <td style="text-align: left">
-                                    Tgl, 17/09/2024
+                                    Tgl, {{ \Carbon\Carbon::parse($data[0]['tglSetuju'])->format('d/m/Y') }}
+                                    <!-- Tanggal penandatangan izin -->
                                 </td>
                             </tr>
                             <!-- Baris 2 -->
@@ -205,27 +209,28 @@
                             <tr>
                                 <td>
                                     <div class="qr-code">
-                                        {!! QrCode::size(150)->generate('https://example.com?qrcode=1') !!}
+                                        <!-- QR Code untuk Bawahan -->
+                                        <img src="{{ $qrCodePribadiImage }}" alt="QR Code Bawahan">
                                     </div>
-
                                 </td>
                                 <td>
                                     <div class="qr-code">
-                                        {!! QrCode::size(150)->generate('https://example.com?qrcode=2') !!}
+                                        <!-- QR Code untuk Atasan -->
+                                        <img src="{{ $qrCodeAtasanImage }}" alt="QR Code Atasan">
                                     </div>
-
                                 </td>
                                 <td>
                                     <div class="qr-code">
-                                        {!! QrCode::size(150)->generate('https://example.com?qrcode=3') !!}
+                                        <!-- QR Code untuk Diri Sendiri -->
+                                        <img src="{{ $qrCodeAtasanImage }}" alt="QR Code Diri Sendiri">
                                     </div>
-
                                 </td>
                             </tr>
                         </table>
                     </td>
                 </tr>
             </table>
+
         </div>
     </div>
 </body>

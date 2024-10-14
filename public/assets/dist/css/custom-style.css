@@ -66,6 +66,7 @@
 .ke-hal-izin {
     width: 90% !important;
     pointer-events: auto;
+    border: none !important;
     /* Agar elemen tetap bisa diklik */
 }
 
@@ -104,4 +105,3 @@
     color: #F6AA00;
     /* Warna orange untuk ikon warning */
 }
-

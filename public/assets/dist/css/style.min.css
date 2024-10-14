@@ -47901,7 +47901,9 @@ a.jp-playlist-current:before {
 
 .table-responsive .dataTables_wrapper .dataTables_paginate .paginate_button {
     padding: 6px 12px;
-    border: 1px solid #dfe5ef
+    border-radius: 8px;
+    border: 1px solid #dfe5ef;
+    margin-right: 10px;
 }
 
 .table-responsive .dataTables_wrapper .dataTables_paginate .paginate_button .previous {
@@ -47910,8 +47912,9 @@ a.jp-playlist-current:before {
 }
 
 .table-responsive .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-    color: #fff;
-    background-color: #5d87ff;
+    color: #0B56A7;
+    /* background-color: #5d87ff; */
+    background-color: #F7F7F7;
     border-color: #5d87ff
 }
 
