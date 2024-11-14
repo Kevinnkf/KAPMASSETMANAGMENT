@@ -52,7 +52,9 @@
                             </a>
                             <!-- Right Aligned Buttons -->
                             <div class="flex space-x-4">
-                                <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                                <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+                                    {{-- onclick="assignAsset('{{ route('transaction.assign', ['assetcode' => $assetcode]) }}')"> --}}
+                                    onclick= "openNippModal()">
                                     Assign This Asset
                                 </button>
                             </div>
@@ -683,49 +685,72 @@
     <div id="imgModal" class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
         <div class="bg-white p-6 rounded-md w-96">
             <h2 class="text-xl font-bold mb-4">Update picture</h2>
-    
-            <form id="imgForm" method="POST" enctype="multipart/form-data" action="{{ route('detailAsset.image.update', ['idassetpic' => $img['idassetpic'], 'assetcode' => $img['assetcode']]) }}">
-                @method('PUT')
+            @if (!empty($img))
+                <form id="imgForm" method="POST" enctype="multipart/form-data" action="{{ route('detailAsset.image.update', ['idassetpic' => $img['idassetpic'], 'assetcode' => $img['assetcode']]) }}">
+                    @method('PUT')
+                    @csrf
+                    {{-- ID Picture --}}
+                    <div class="mb-4">
+                        <label for="idassetpic" class="block text-sm font-semibold">ID Picture</label>
+                        <input id="idassetpic" name="idassetpic" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" readonly value="{{ $img['idassetpic'] }}">
+                    </div>
+                    
+                    {{-- Asset Code --}}
+                    <div class="mb-4">
+                        <label for="imgAssetCode" class="block text-sm font-semibold">Asset Code</label>
+                        <input id="imgAssetCode" name="assetcode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" readonly value="{{ $assetcode }}">
+                    </div>
+                    
+                    {{-- Current Image --}}
+                    <div class="mb-4">
+                        <label class="block text-sm font-semibold">Current Asset Image</label>
+                        <img id="currentImage" src="{{ asset($img['assetpic']) }}" alt="Current Asset Image" class="w-full h-auto mb-2">
+                        <input type="hidden" name="assetpic" value="{{ $img['assetpic'] }}">
+                        <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50" aria-describedby="assetimage" id="assetpic" name="assetpic" type="file">
+                    </div>
+                    
+                    {{-- Active Status --}}
+                    <div class="mb-4">
+                        <label for="active" class="block text-sm font-semibold">Active</label>
+                        <select id="active" name="active" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <option value="Y" {{ $img['active'] == 'Y' ? 'selected' : '' }}>Y</option>
+                            <option value="N" {{ $img['active'] == 'N' ? 'selected' : '' }}>N</option>
+                        </select>
+                    </div>
+                    
+                    {{-- PIC --}}
+                    <div class="mb-4">
+                        <label for="picadded" class="block text-sm font-semibold">PIC</label>
+                        <select id="picadded" name="picadded" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            @foreach ($userData as $user)
+                                <option value="{{ $user['name'] }}" {{ $user['name'] == $img['picadded'] ? 'selected' : '' }}>{{ $user['name'] }}</option>
+                            @endforeach
+                        </select>
+                    </div>   
+                    
+                    <!-- Buttons -->
+                    <div class="flex justify-end">
+                        <button type="button" onclick="closeModal()" class="bg-gray-500 text-white px-4 py-2 rounded mr-2">Back</button>
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Save</button>
+                    </div>
+                </form>     
+            @endif
+        </div>
+    </div>
+    {{-- Modal for NIPP --}}
+    <div id="nippModal" class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+        <div class="bg-white p-6 rounded-md w-96">
+            <h2 class="text-xl font-bold mb-4">Assign Asset</h2>
+
+            <form id="updateNippForm" method="POST">
                 @csrf
-                {{-- ID Picture --}}
+                @method('PUT')  
+
+                <!-- Input field for NIPP -->
                 <div class="mb-4">
-                    <label for="idassetpic" class="block text-sm font-semibold">ID Picture</label>
-                    <input id="idassetpic" name="idassetpic" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" readonly value="{{ $img['idassetpic'] }}">
+                    <label for="nipp" class="block text-sm font-semibold">NIPP</label>
+                    <input id="nipp" name="nipp" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
                 </div>
-                
-                {{-- Asset Code --}}
-                <div class="mb-4">
-                    <label for="imgAssetCode" class="block text-sm font-semibold">Asset Code</label>
-                    <input id="imgAssetCode" name="assetcode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" readonly value="{{ $assetcode }}">
-                </div>
-                
-                {{-- Current Image --}}
-                <div class="mb-4">
-                    <label class="block text-sm font-semibold">Current Asset Image</label>
-                    <img id="currentImage" src="{{ asset($img['assetpic']) }}" alt="Current Asset Image" class="w-full h-auto mb-2">
-                    <input type="hidden" name="assetpic" value="{{ $img['assetpic'] }}">
-                    <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50" aria-describedby="assetimage" id="assetpic" name="assetpic" type="file">
-                </div>
-                
-                {{-- Active Status --}}
-                <div class="mb-4">
-                    <label for="active" class="block text-sm font-semibold">Active</label>
-                    <select id="active" name="active" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        <option value="Y" {{ $img['active'] == 'Y' ? 'selected' : '' }}>Y</option>
-                        <option value="N" {{ $img['active'] == 'N' ? 'selected' : '' }}>N</option>
-                    </select>
-                </div>
-                
-                {{-- PIC --}}
-                <div class="mb-4">
-                    <label for="picadded" class="block text-sm font-semibold">PIC</label>
-                    <select id="picadded" name="picadded" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        @foreach ($userData as $user)
-                            <option value="{{ $user['name'] }}" {{ $user['name'] == $img['picadded'] ? 'selected' : '' }}>{{ $user['name'] }}</option>
-                        @endforeach
-                    </select>
-                </div>   
-                
                 <!-- Buttons -->
                 <div class="flex justify-end">
                     <button type="button" onclick="closeModal()" class="bg-gray-500 text-white px-4 py-2 rounded mr-2">Back</button>
@@ -736,7 +761,52 @@
     </div>
 </div>
 
+<script>
+    function openNippModal(nipp) {
+        // Set the value of the NIPP input field
+        document.getElementById('nipp').value = nipp;
 
+        // Set the form action dynamically
+        const assetcode = "{{ $assetcode }}"; // Get the assetcode from Blade
+        document.getElementById('updateNippForm').action = `{{ route('transaction.assign', ':assetcode') }}`.replace(':assetcode', assetcode);
+
+        // Open the modal
+        document.getElementById('nippModal').classList.remove('hidden');
+
+        console.log(document.getElementById('updateNippForm').action);
+
+        // Add event listener for form submission
+        const nippForm = document.getElementById('updateNippForm');
+        nippForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const formData = new FormData(nippForm); // Get the form data
+            const jsonData = Object.fromEntries(formData.entries()); // Convert FormData to a plain object
+
+            fetch(nippForm.action, {
+                method: 'PUT',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(jsonData), // Convert the data to JSON
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('NIPP updated successfully!');
+                    closeModal(); // Ensure modal closes on success
+                    location.reload();
+                } else {
+                    return response.json().then(data => {
+                        console.error('Error:', data);
+                        alert('Failed to update NIPP.');
+                    });
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    }
+</script>
 <script>
 
 function confirmUnassignAsset(url) {
@@ -835,6 +905,7 @@ form.addEventListener('submit', function(event) {
       document.getElementById('softwareModal').classList.add('hidden');
       document.getElementById('mtcModal').classList.add('hidden');
       document.getElementById('imgModal').classList.add('hidden');
+      document.getElementById('nippModal').classList.add('hidden');
     //   document.getElementById('deleteModal').classList.add('hidden');
   }
 

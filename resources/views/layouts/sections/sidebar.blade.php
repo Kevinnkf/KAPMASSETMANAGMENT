@@ -40,28 +40,15 @@
                 </div>
             <!-- Sidebar starts -->
             <div id="sidebar" style="min-height: 100vh" class="w-72 fixed xl:relative bg-blue-700 shadow h-full flex-col justify-between hidden xl:flex overflow-y-auto z-10">
-              <div class="px-8">
-                  <div class="h-20 w-full flex items-center"> 
-                      {{-- Place KAI SVG here --}}
-                      <img class="h-16 items-center text-center" src="{{ asset('assets/logo/KAPM-logo.png') }}" alt="">
-                      <button id="toggleSidebarInside" class="m-2 xl:hidden text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button">
+                <div class="px-8">
+                    <div class="h-20 w-full flex items-center"> 
+                        {{-- Place KAI SVG here --}}
+                        <img class="h-16 items-center text-center" src="{{ asset('assets/logo/KAPM-logo.png') }}" alt="">
+                        <button id="toggleSidebarInside" class="m-2 xl:hidden text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button">
                         <i class="fas fa-bars"></i>
                     </button>
-                  </div>
-                  {{-- <ul class="mt-8">
-                      <li class="flex w-full justify-between text-gray-300 cursor-pointer items-center mb-6">
-                          <a href="javascript:;" class="flex items-center focus:outline-none focus:ring-2 focus:ring-white" onclick="toggleDropdown('dashboardsExamples')">
-                              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-grid" width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                  <path stroke="none" d="M0 0h24v24H0z"></path>
-                                  <rect x="4" y="4" width="6" height="6" rx="1"></rect>
-                                  <rect x="14" y="4" width="6" height="6" rx="1"></rect>
-                                  <rect x="4" y="14" width="6" height="6" rx="1"></rect>
-                                  <rect x="14" y="14" width="6" height="6" rx="1"></rect>
-                              </svg>
-                              <span class="text-base ml-2 text-white" style="opacity: 0.9;">Dashboard</span>
-                          </a>
-                      </li>
-                  </ul> --}}
+                </div>
+
                 <ul>
                     @foreach ($masterData as $masters)
                         @if($masters['condition'] == 'FIELD')
@@ -94,11 +81,11 @@
                                                 // Assign the description value
                                                 $href = url('master/show/' . $innerMasters['description']);
                                             @endphp
-                                            <li class="p-2 flex-wrap">
-                                                <div class="p-3 leading-normal text-base flex-wrap" style="background-color: rgba(0, 0, 0, 0.1);    word-wrap: normal">
-                                                    <text class="text-base ml-2 text-white flex-wrap " style="opacity: 0.9; word-wrap: break-word;">
+                                            <li class="p-0.5">
+                                                <div class="p-3 leading-normal text-base" style="background-color: rgba(0, 0, 0, 0.1);">
+                                                    <span class="text-base ml-2 text-white" style="opacity: 0.9;">
                                                         <a href="{{$href}}">{{ $innerMasters['description'] }}</a>
-                                                    </text> 
+                                                    </span>
                                                 </div>
                                             </li>
                                         @endif
@@ -117,40 +104,16 @@
                             </button>
                         </h5>
                         <ul class="dropdown-hidden inner-masters-list">
-                            <h5 class="mb-0">
-                                <button class="relative flex items-center w-full p-4 font-semibold text-left transition-all border-b border-solid cursor-pointer border-slate-100 ease-soft-in text-white rounded-t-1"
-                                        aria-expanded="false" onclick="toggleDropdown(this)">
-                                  <span class="text-base ml-2 text-white" style="opacity: 0.9;">REGISTER ASSET</span>
-                                  <i class="absolute right-0 pt-1 mr-4 leading-normal fa fa-plus text-xs"></i>
-                                  <i class="absolute right-0 hidden pt-1 mr-4 leading-normal fa fa-minus text-xs"></i>
-                                </button>
-                            </h5>
-                            <ul class="dropdown-hidden inner-masters-list">
-                                <li class="p-0.5">
-                                    <div class="p-3 leading-normal text-base" style="background-color: rgba(0, 0, 0, 0.1);">
-                                        <span class="text-base ml-2 text-white" style="opacity: 0.9;">
-                                            <a href="{{url('transaction/asset')}}">Laptop / PC</a>
-                                        </span>
-                                    </div>
-                                </li>
-                                <li class="p-0.5">
-                                    <div class="p-3 leading-normal text-base" style="background-color: rgba(0, 0, 0, 0.1);">
-                                        <span class="text-base ml-2 text-white" style="opacity: 0.9;">
-                                            <a href="{{url('transaction/register-asset')}}">Mobile / Tablet</a>
-                                        </span>
-                                    </div>
-                                </li>
-                                <li class="p-0.5">
-                                    <div class="p-3 leading-normal text-base" style="background-color: rgba(0, 0, 0, 0.1);">
-                                        <span class="text-base ml-2 text-white" style="opacity: 0.9;">
-                                            <a href="{{url('transaction/register-asset')}}">Other</a>
-                                        </span>
-                                    </div>
-                                </li>
-                            </ul>
                             <li class="p-0.5">
                                 <div class="p-3 leading-normal text-base" style="background-color: rgba(0, 0, 0, 0.1);">
-                                    <span class="text-white leading-normal text-base opacity-80>
+                                    <span class="text-white leading-normal text-base opacity-80">
+                                        <a href="{{url('transaction/asset')}}">Asset</a>
+                                    </span>
+                                </div>
+                            </li>
+                            <li class="p-0.5">
+                                <div class="p-3 leading-normal text-base" style="background-color: rgba(0, 0, 0, 0.1);">
+                                    <span class="text-white leading-normal text-base opacity-80">
                                         <a href="{{url('transaction/register-asset')}}">Log</a>
                                     </span>
                                 </div>

@@ -47,7 +47,11 @@ Route::prefix('transaction')->name('transaction.')->group(function(){
 
     // Transaction Asset
     Route::Post('/store', [TrnAssetController::class, 'store'])-> name('store');
+
+    //Transaction Assign
+    Route::put('/laptop/{assetcode}/assign', [TrnAssetController::class, 'assignAsset'])->name('assign');
     Route::Put('/unassign/{assetcode}', [TrnAssetController::class, 'unassignAsset'])->name('unassign');
+
     // Route::get('/asset/assign', [TrnAssetCo  ntroller::class, 'AssignView'])-> name('transaction.assign'); //Retrieve transaction.assing view along with all the data
     // Route::Post('/asset/assign   /store', [TrnAssetController::class, 'assign'])-> name('assign');   
 });
@@ -59,7 +63,7 @@ Route::prefix('Log')->name('Log.')->group(function(){
 
 //Detail Asset
 Route::prefix('detailAsset')->name('detailAsset.')->group(function(){
-    Route::get('/Laptop/{assetcode}', [TrnAssetController::class, 'show'])->name('laptop');
+    Route::get('/laptop/{assetcode}', [TrnAssetController::class, 'show'])->name('laptop');
     Route::get('/mobile/{assetcode}', [TrnAssetController::class, 'show'])->name('mobile');
     Route::get('/others/{assetcode}', [TrnAssetController::class, 'show'])->name('others');
     // Route::get('Laptop/{assetcode}', [MaintenanceController::class, 'sidebar'])->name('laptop'); //return view with all of the data.
