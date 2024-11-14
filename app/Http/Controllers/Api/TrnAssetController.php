@@ -232,43 +232,34 @@ class TRNAssetController extends Controller
     }
 
 
-    public function assignAsset(Request $request){
-        // Validate the incoming data
+    public function assignAsset(Request $request, $assetcode)
+    {
         $validatedData = $request->validate([
-            'NIPP' => 'required|integer',
-            'ASSETCODE' => 'required|string', // Assuming you are assigning an asset based on its code
+            'nipp' => 'required|integer',
         ]);
 
-        // Prepare data to send to the API
-        $data = [
-            'NIPP' => $validatedData['NIPP'],
-            'ASSETCODE' => $validatedData['ASSETCODE'], // Include asset code in the request
-        ];
+        $response = Http::put("http://localhost:5252/api/TrnAsset/update-nipp/{$assetcode}", (int) $validatedData['nipp']);
+        Log::info('Data sent for assignment:', ['assetcode' => $assetcode, 'nipp' => (int) $validatedData['nipp']]);
 
-        // 1. Send POST request to assign the asset to an employee
-        $response = Http::post('http://localhost:5252/api/AssignAsset', $data);
-
-        // Check if the asset assignment was successful before logging history
         if ($response->successful()) {
-            // 2. If successful, log the assignment in the asset history API
             $historyResponse = Http::post('http://localhost:5252/api/AssetHistory', [
-                'asset_code' => $validatedData['ASSETCODE'],
-                'user_id' => $validatedData['NIPP'],
+                'asset_code' => $assetcode,
+                'user_id' => $validatedData['nipp'],
                 'status' => 'assigned',
                 'timestamp' => now(),
             ]);
 
-            // Log success or error based on the history logging response
             if ($historyResponse->successful()) {
                 return redirect()->route('asset.index')->with('success', 'Asset assigned and logged successfully!');
             } else {
+                Log::error('Failed to log asset history.', ['response' => $historyResponse->body()]);
                 return back()->withErrors(['message' => 'Asset assigned, but failed to log in history.'])->withInput();
             }
         } else {
-            // Handle error response from the assignment API
+            Log::error('Failed to assign asset.', ['response' => $response->body()]);
             return back()->withErrors(['message' => 'Failed to assign asset. Please try again.'])->withInput();
         }
-    } 
+    }
 
     public function unassignAsset($assetcode){
         // Prepare data to send to the API for unassignment (setting NIPP to null)

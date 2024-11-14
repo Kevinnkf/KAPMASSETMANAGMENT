@@ -737,9 +737,76 @@
             @endif
         </div>
     </div>
+    {{-- Modal for NIPP --}}
+    <div id="nippModal" class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+        <div class="bg-white p-6 rounded-md w-96">
+            <h2 class="text-xl font-bold mb-4">Assign Asset</h2>
+
+            <form id="updateNippForm" method="POST">
+                @csrf
+                @method('PUT')  
+
+                <!-- Input field for NIPP -->
+                <div class="mb-4">
+                    <label for="nipp" class="block text-sm font-semibold">NIPP</label>
+                    <input id="nipp" name="nipp" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+                </div>
+                <!-- Buttons -->
+                <div class="flex justify-end">
+                    <button type="button" onclick="closeModal()" class="bg-gray-500 text-white px-4 py-2 rounded mr-2">Back</button>
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
+<script>
+    function openNippModal(nipp) {
+        // Set the value of the NIPP input field
+        document.getElementById('nipp').value = nipp;
 
+        // Set the form action dynamically
+        const assetcode = "{{ $assetcode }}"; // Get the assetcode from Blade
+        document.getElementById('updateNippForm').action = `{{ route('transaction.assign', ':assetcode') }}`.replace(':assetcode', assetcode);
+
+        // Open the modal
+        document.getElementById('nippModal').classList.remove('hidden');
+
+        console.log(document.getElementById('updateNippForm').action);
+
+        // Add event listener for form submission
+        const nippForm = document.getElementById('updateNippForm');
+        nippForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const formData = new FormData(nippForm); // Get the form data
+            const jsonData = Object.fromEntries(formData.entries()); // Convert FormData to a plain object
+
+            fetch(nippForm.action, {
+                method: 'PUT',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(jsonData), // Convert the data to JSON
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('NIPP updated successfully!');
+                    closeModal(); // Ensure modal closes on success
+                    location.reload();
+                } else {
+                    return response.json().then(data => {
+                        console.error('Error:', data);
+                        alert('Failed to update NIPP.');
+                    });
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    }
+</script>
 <script>
 
 function confirmUnassignAsset(url) {
@@ -838,6 +905,7 @@ form.addEventListener('submit', function(event) {
       document.getElementById('softwareModal').classList.add('hidden');
       document.getElementById('mtcModal').classList.add('hidden');
       document.getElementById('imgModal').classList.add('hidden');
+      document.getElementById('nippModal').classList.add('hidden');
     //   document.getElementById('deleteModal').classList.add('hidden');
   }
 
