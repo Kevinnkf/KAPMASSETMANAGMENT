@@ -243,16 +243,15 @@ class TRNAssetController extends Controller
 
         if ($response->successful()) {
             $historyResponse = Http::post('http://localhost:5252/api/AssetHistory', [
-                'asset_code' => $assetcode,
-                'user_id' => $validatedData['nipp'],
-                'status' => 'assigned',
-                'timestamp' => now(),
+                'assetcode' => $assetcode,
+                'nipp' => $validatedData['nipp'],
+                'picadded' => 'dava'
             ]);
 
             if ($historyResponse->successful()) {
                 return redirect()->route('asset.index')->with('success', 'Asset assigned and logged successfully!');
             } else {
-                Log::error('Failed to log asset history.', ['response' => $historyResponse->body()]);
+                Log::error('Failed to History asset history.', ['response' => $historyResponse->body()]);
                 return back()->withErrors(['message' => 'Asset assigned, but failed to log in history.'])->withInput();
             }
         } else {
@@ -264,22 +263,20 @@ class TRNAssetController extends Controller
     public function unassignAsset($assetcode){
         // Prepare data to send to the API for unassignment (setting NIPP to null)
         $data = [
-            'NIPP' => null, // Unassigning by setting NIPP to null
+            'nipp' => null, // Unassigning by setting NIPP to null
         ];
 
         // Send PUT request to unassign the asset (set NIPP to null)
         $response = Http::put("http://localhost:5252/api/TrnAsset/update-nipp/{$assetcode}", null);
-        Log::info('Data sent for unassignment:', ['data' => $data['NIPP']]);
+        Log::info('Data sent for unassignment:', ['data' => $data['nipp']]);
 
         // Check if the unassignment was successful before logging history
         if ($response->successful()) {
             // Log the unassignment in the asset history API if successful
             $historyData = [
-                'assetcode' => $assetcode, 
-                'name' => 'Asset name', 
-                'user_id' => 2107412040,
-                'picadded' => 'kevin',
-                'timestamp' => now(),
+                'assetcode' => $assetcode,
+                'nipp' => $data['nipp'],
+                'picadded' => 'dava'
             ];
 
             $historyResponse = Http::post('http://localhost:5252/api/AssetHistory', $historyData);
