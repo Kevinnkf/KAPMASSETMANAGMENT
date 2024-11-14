@@ -447,22 +447,25 @@
                                         <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['idassethistory'] }}</p> <!-- Display Condition -->
                                     </td>
                                     <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
+                                        <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['assetcode'] }}</p> <!-- Display Condition -->                                    
+                                    </td>
+                                    <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
                                         <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['nipp'] }}</p> <!-- Display Condition -->                                    
                                     </td>
                                     <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                        <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['employee']['name'] }}</p> <!-- Display Condition -->                                    
+                                        <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['name'] }}</p> <!-- Display Condition -->                                    
                                     </td>
                                     <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                        <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['employee']['position'] }}</p> <!-- Display Condition -->                                    
+                                        <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['position'] }}</p> <!-- Display Condition -->                                    
                                     </td>
                                     <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                        <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['employee']['unit'] }}</p> <!-- Display Condition -->                                    
+                                        <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['unit'] }}</p> <!-- Display Condition -->                                    
                                     </td>
                                     <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                        <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['employee']['department'] }}</p> <!-- Display Condition -->                                    
+                                        <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['department'] }}</p> <!-- Display Condition -->                                    
                                     </td>
                                     <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                        <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['employee']['directorate'] }}</p> <!-- Display Condition -->                                    
+                                        <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['directorate'] }}</p> <!-- Display Condition -->                                    
                                     </td>
                                     <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
                                         <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['picadded'] }}</p> <!-- Display Condition -->                                    
