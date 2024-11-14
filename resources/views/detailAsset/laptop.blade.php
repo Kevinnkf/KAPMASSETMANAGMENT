@@ -422,7 +422,7 @@
                         </a>
                     </div>
                     <!-- Dynamic Table-like Section with Headers as Rows -->
-                    <div class="relative overflow-x-auto">
+                    {{-- <div class="relative overflow-x-auto">
                         <table class="p-4 items-center w-full mb-8 align-top border-gray-200 text-slate-500">
                             <thead class="align-bottom">
                                 <tr>
@@ -452,30 +452,31 @@
                                     <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
                                         <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['nipp'] }}</p> <!-- Display Condition -->                                    
                                     </td>
-                                    <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                        <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['name'] }}</p> <!-- Display Condition -->                                    
-                                    </td>
-                                    <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                        <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['position'] }}</p> <!-- Display Condition -->                                    
-                                    </td>
-                                    <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                        <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['unit'] }}</p> <!-- Display Condition -->                                    
-                                    </td>
-                                    <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                        <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['department'] }}</p> <!-- Display Condition -->                                    
-                                    </td>
-                                    <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                        <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['directorate'] }}</p> <!-- Display Condition -->                                    
-                                    </td>
-                                    <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                        <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['picadded'] }}</p> <!-- Display Condition -->                                    
-                                    </td>
                                 @endforeach
                             @else
                                 <p class="mb-2 font-semibold leading-tight text-xl border-gray-300">No data is available</p> <!-- Display Condition -->                                    
                             @endif        
                             </tbody>
                         </table>
+                         --}}
+                         <ol class="relative border-s border-gray-200 dark:border-gray-700">                  
+                            @foreach ($histData as $data)
+                            <li class="mb-10 ms-4">
+                                <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+                                <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{{$data ['dateadded']}}</time>
+                                <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">{{ $data['assetcode'] }}</p>
+                                @if(isset($data['nipp']) && !empty($data['nipp']))
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-900">Assigned Asset</h3>
+                                <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Asset has been assigned to {{ $data['employee']['name'] }}</p>
+                                @else
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-900">Unassigned Asset</h3>
+                                    <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Asset returned to IT</p>
+                                @endif
+                            </li>
+                            @endforeach
+                        </ol>
+
+
                     </div>
                 </div>
             </div>

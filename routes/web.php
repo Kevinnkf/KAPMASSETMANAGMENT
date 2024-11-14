@@ -62,7 +62,7 @@ Route::prefix('Log')->name('Log.')->group(function(){
 });
 
 //Detail Asset
-Route::prefix('detailAsset')->name('detailAsset.')->group(function(){
+Route::prefix('detail-asset')->name('detailAsset.')->group(function(){
     Route::get('/laptop/{assetcode}', [TrnAssetController::class, 'show'])->name('laptop');
     Route::get('/mobile/{assetcode}', [TrnAssetController::class, 'show'])->name('mobile');
     Route::get('/others/{assetcode}', [TrnAssetController::class, 'show'])->name('others');
