@@ -52,7 +52,9 @@
                             </a>
                             <!-- Right Aligned Buttons -->
                             <div class="flex space-x-4">
-                                <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                                <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+                                    {{-- onclick="assignAsset('{{ route('transaction.assign', ['assetcode' => $assetcode]) }}')"> --}}
+                                    onclick= "openNippModal()">
                                     Assign This Asset
                                 </button>
                             </div>
@@ -683,55 +685,56 @@
     <div id="imgModal" class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
         <div class="bg-white p-6 rounded-md w-96">
             <h2 class="text-xl font-bold mb-4">Update picture</h2>
-    
-            <form id="imgForm" method="POST" enctype="multipart/form-data" action="{{ route('detailAsset.image.update', ['idassetpic' => $img['idassetpic'], 'assetcode' => $img['assetcode']]) }}">
-                @method('PUT')
-                @csrf
-                {{-- ID Picture --}}
-                <div class="mb-4">
-                    <label for="idassetpic" class="block text-sm font-semibold">ID Picture</label>
-                    <input id="idassetpic" name="idassetpic" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" readonly value="{{ $img['idassetpic'] }}">
-                </div>
-                
-                {{-- Asset Code --}}
-                <div class="mb-4">
-                    <label for="imgAssetCode" class="block text-sm font-semibold">Asset Code</label>
-                    <input id="imgAssetCode" name="assetcode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" readonly value="{{ $assetcode }}">
-                </div>
-                
-                {{-- Current Image --}}
-                <div class="mb-4">
-                    <label class="block text-sm font-semibold">Current Asset Image</label>
-                    <img id="currentImage" src="{{ asset($img['assetpic']) }}" alt="Current Asset Image" class="w-full h-auto mb-2">
-                    <input type="hidden" name="assetpic" value="{{ $img['assetpic'] }}">
-                    <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50" aria-describedby="assetimage" id="assetpic" name="assetpic" type="file">
-                </div>
-                
-                {{-- Active Status --}}
-                <div class="mb-4">
-                    <label for="active" class="block text-sm font-semibold">Active</label>
-                    <select id="active" name="active" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        <option value="Y" {{ $img['active'] == 'Y' ? 'selected' : '' }}>Y</option>
-                        <option value="N" {{ $img['active'] == 'N' ? 'selected' : '' }}>N</option>
-                    </select>
-                </div>
-                
-                {{-- PIC --}}
-                <div class="mb-4">
-                    <label for="picadded" class="block text-sm font-semibold">PIC</label>
-                    <select id="picadded" name="picadded" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        @foreach ($userData as $user)
-                            <option value="{{ $user['name'] }}" {{ $user['name'] == $img['picadded'] ? 'selected' : '' }}>{{ $user['name'] }}</option>
-                        @endforeach
-                    </select>
-                </div>   
-                
-                <!-- Buttons -->
-                <div class="flex justify-end">
-                    <button type="button" onclick="closeModal()" class="bg-gray-500 text-white px-4 py-2 rounded mr-2">Back</button>
-                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Save</button>
-                </div>
-            </form>
+            @if (!empty($img))
+                <form id="imgForm" method="POST" enctype="multipart/form-data" action="{{ route('detailAsset.image.update', ['idassetpic' => $img['idassetpic'], 'assetcode' => $img['assetcode']]) }}">
+                    @method('PUT')
+                    @csrf
+                    {{-- ID Picture --}}
+                    <div class="mb-4">
+                        <label for="idassetpic" class="block text-sm font-semibold">ID Picture</label>
+                        <input id="idassetpic" name="idassetpic" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" readonly value="{{ $img['idassetpic'] }}">
+                    </div>
+                    
+                    {{-- Asset Code --}}
+                    <div class="mb-4">
+                        <label for="imgAssetCode" class="block text-sm font-semibold">Asset Code</label>
+                        <input id="imgAssetCode" name="assetcode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" readonly value="{{ $assetcode }}">
+                    </div>
+                    
+                    {{-- Current Image --}}
+                    <div class="mb-4">
+                        <label class="block text-sm font-semibold">Current Asset Image</label>
+                        <img id="currentImage" src="{{ asset($img['assetpic']) }}" alt="Current Asset Image" class="w-full h-auto mb-2">
+                        <input type="hidden" name="assetpic" value="{{ $img['assetpic'] }}">
+                        <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50" aria-describedby="assetimage" id="assetpic" name="assetpic" type="file">
+                    </div>
+                    
+                    {{-- Active Status --}}
+                    <div class="mb-4">
+                        <label for="active" class="block text-sm font-semibold">Active</label>
+                        <select id="active" name="active" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <option value="Y" {{ $img['active'] == 'Y' ? 'selected' : '' }}>Y</option>
+                            <option value="N" {{ $img['active'] == 'N' ? 'selected' : '' }}>N</option>
+                        </select>
+                    </div>
+                    
+                    {{-- PIC --}}
+                    <div class="mb-4">
+                        <label for="picadded" class="block text-sm font-semibold">PIC</label>
+                        <select id="picadded" name="picadded" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            @foreach ($userData as $user)
+                                <option value="{{ $user['name'] }}" {{ $user['name'] == $img['picadded'] ? 'selected' : '' }}>{{ $user['name'] }}</option>
+                            @endforeach
+                        </select>
+                    </div>   
+                    
+                    <!-- Buttons -->
+                    <div class="flex justify-end">
+                        <button type="button" onclick="closeModal()" class="bg-gray-500 text-white px-4 py-2 rounded mr-2">Back</button>
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Save</button>
+                    </div>
+                </form>     
+            @endif
         </div>
     </div>
 </div>
