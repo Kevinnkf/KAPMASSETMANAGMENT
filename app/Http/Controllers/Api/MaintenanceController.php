@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Maintenance;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Barryvdh\Snappy\Facades\SnappyPdf;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -146,8 +147,14 @@ class MaintenanceController extends Controller{
         //     'assetData' => $assetData,
         //     'userData' => $userData,  
         //     'mtcData' => $mtcData
-        // ]); // Keep the view name consistent
-        $pdf = Pdf::loadView('maintenance.preview', $data);
-        return $pdf->download('Berita Acara Perbaikan.pdf');
+        // ]); 
+        
+        // Keep the view name consistent
+        $pdf = SnappyPdf::loadView('maintenance.preview', $data);
+
+        // Activate local file
+        $pdf->setOption('enable-local-file-access', true);
+
+        return $pdf->inline('Berita Acara Perbaikan.pdf');
     }
 }

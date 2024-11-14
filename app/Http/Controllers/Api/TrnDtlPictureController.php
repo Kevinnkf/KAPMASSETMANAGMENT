@@ -7,6 +7,8 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
+use function Symfony\Component\Clock\now;
+
 class TrnDtlPictureController extends Controller
 {
     public function index($assetcode) {
@@ -136,40 +138,31 @@ class TrnDtlPictureController extends Controller
 
         try {
             // Prepare the multipart form data
-            $multipartData = [
-                [
-                    'name' => 'ASSETCODE',
-                    'contents' => $validated['assetcode'],
-                ],
-                [
-                    'name' => 'ACTIVE',
-                    'contents' => $validated['active'],
-                ],
-                [
-                    'name' => 'PICADDED',
-                    'contents' => $validated['picadded'],
-                ],
+            $queryParams = [
+                'ASSETCODE' => $validated['assetcode'],
+                'ACTIVE' => $validated['active'],
+                'PICADDED' => $validated['picadded'],
+                'year' => now(), // or set this based on your logic
+                'month' => now(), // or set this based on your logic
+                'day' => now(), // or set this based on your logic
+                'dayOfWeek' => now(), // or set this based on your logic
             ];
 
             // If a new file is uploaded, add it to the multipart data
-            if ($request->hasFile('ASSETPIC')) {
-                $file = $request->file('ASSETPIC');
-                $multipartData[] = [
-                    'name' => 'ASSETPIC',
-                    'contents' => fopen($file->getPathname(), 'r'),
-                    'filename' => $file->getClientOriginalName(),
-                ];
+            if ($request->hasFile('assetpic')) {
+                $file = $request->file('assetpic');
+                // Assuming you need to upload the file first, handle it accordingly
+                // This part may depend on how your API is set up to handle file uploads
+                $queryParams['ASSETPIC'] = $file->getClientOriginalName(); // or the file path if needed
+                // You might need to upload the file separately if the API expects it to be stored first
             } else {
-                $existingImageUrl = $validated['ASSETPIC']; // Use the existing image URL from the request
-                $multipartData[] = [
-                    'name' => 'ASSETIMG', // Assuming this is the field the API expects
-                    'contents' => $existingImageUrl,
-                ];
+                // Handle the case where no file is uploaded
+                return back()->withErrors(['message' => 'No image file provided.']);
             }
 
             // Make the PUT request
             $response = $client->put("http://localhost:5252/api/TrnAssetDtlPicture/{$validated['idassetpic']}", [
-                'multipart' => $multipartData,
+                'query' => $queryParams,
             ]);
 
             $data = json_decode($response->getBody()->getContents(), true);

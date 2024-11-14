@@ -169,7 +169,7 @@
                                 <tbody>
                                     <!-- Table Head in the First Column -->
 
-                                    <tr class="bg-white">
+                                    <tr class="bg-white hidden">
                                         <th scope="row" class="px-6 py-4 font-medium text-b lack whitespace-nowrap ">Asset ID:</th>
                                         <td class="px-6 py-4">: {{$idassetspec}}</td>
                                     </tr>
