@@ -45,7 +45,7 @@
                 @php
                     $assetbrand = isset($log['assetbrand']) ? $log['assetbrand'] : ' ';
                     $assetmodel = isset($log['assetmodel']) ? $log['assetmodel'] : ' ';
-                    $assetseries = isset($log['as   setseries']) ? $log['assetseries'] : ' ';
+                    $assetseries = isset($log['assetseries']) ? $log['assetseries'] : ' ';
                     $asset = $assetbrand . ' ' . $assetmodel . ' ' . $assetseries;
 
                     $employeeName = isset($log['employee']['name']) ? $log['employee']['name'] : 'N/A';
@@ -79,11 +79,11 @@
                   <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
                     <!-- Edit Icon -->
                     <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="window.location.href='{{ route('detailAsset.laptop', ['assetcode' => $log['assetcode']]) }}'">Detail</button>                    
-                    <button type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800" 
+                    {{-- <button type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800" 
                         onclick="window.location.href='{{ route('detailAsset.laptop', ['assetcode' => $log['assetcode']]) }}'" 
                         @if (empty($employeeName) ||$employeeName === 'N/A') disabled @endif>
                         Destroy Asset
-                    </button>
+                    </button> --}}
                 </td>
               </tr>
               @endforeach
@@ -197,4 +197,4 @@
 </div>
 </body>
 
-@endsection
+@endsection             

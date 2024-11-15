@@ -232,7 +232,7 @@ class MasterController extends Controller
             $responseBody = $e->hasResponse() ? (string) $e->getResponse()->getBody() : null;
             Log::error('API Error: ' . $e->getMessage() . ' - Response Body: ' . $responseBody);
         
-            return redirect('/master/create')->withErrors(['error' => 'An error occurred while submitting the data.']);
+            return redirect('/master')->withErrors(['error' => 'An error occurred while submitting the data.']);
         }    
     }   
 }
