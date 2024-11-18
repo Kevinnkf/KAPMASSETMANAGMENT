@@ -108,7 +108,7 @@
                                 <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
                                     Print QR
                                 </button>
-
+                                @if (!empty($assetSpecData))
                                 @foreach ($assetSpecData as $assetspecs)
                                 @php
                                 $idassetspec = isset($assetspecs['idassetspec']) ? $assetspecs['idassetspec'] : 'N/A';
@@ -152,6 +152,7 @@
                                 $bluetooth = isset($assetspecs['bluetooth']) ? $assetspecs['bluetooth'] : 'N/A';
                             @endphp
                             @endforeach
+                            @endif
                                 <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300" onclick="window.location.href='{{ route('transaction.edit',[
                                     'assetcategory' => $assetcategory, 
                                     'assetcode' => $assetcode,
@@ -163,12 +164,9 @@
                             {{-- @endauth --}}
                         </div>
                         <div class="relative overflow-x-auto">
-                           
-
                             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                 <tbody>
                                     <!-- Table Head in the First Column -->
-
                                     <tr class="bg-white hidden">
                                         <th scope="row" class="px-6 py-4 font-medium text-b lack whitespace-nowrap ">Asset ID:</th>
                                         <td class="px-6 py-4">: {{$idassetspec}}</td>
@@ -193,6 +191,7 @@
                                         <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">Asset SerialNumber:</th>
                                         <td class="px-6 py-4">: {{$assetserialnumber}}</td>
                                     </tr>
+                                    @if (!empty($assetSpecData))
                                     <tr class="bg-white">
                                         <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">Processor:</th>
                                         <td class="px-6 py-4">: {{$processor}}</td>
@@ -257,6 +256,7 @@
                                         <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">Bluetooth</th>
                                         <td class="px-6 py-4">: @if($bluetooth == 'true') yes @else no @endif</td>
                                     </tr>
+                                    @endif
                                     <!-- Add more rows as necessary -->
                                 </tbody>
                             </table>

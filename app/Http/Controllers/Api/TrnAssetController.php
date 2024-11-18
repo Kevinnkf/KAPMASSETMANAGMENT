@@ -249,13 +249,13 @@ class TRNAssetController extends Controller
             ]);
 
             if ($historyResponse->successful()) {
-                return redirect()->route('asset.index')->with('success', 'Asset assigned and logged successfully!');
+                return back()->with('success', 'Asset assigned successfully.');
             } else {
                 Log::error('Failed to History asset history.', ['response' => $historyResponse->body()]);
                 return back()->withErrors(['message' => 'Asset assigned, but failed to log in history.'])->withInput();
             }
         } else {
-            Log::error('Failed to assign asset.', ['response' => $response->body()]);
+            Log::error('Failed to assign asset.', [ 'response' => $response->body()]);
             return back()->withErrors(['message' => 'Failed to assign asset. Please try again.'])->withInput();
         }
     }
@@ -284,7 +284,7 @@ class TRNAssetController extends Controller
 
             if ($historyResponse->successful()) {
                 Log::info('Asset unassigned and history logged successfully.', ['assetcode' => $assetcode]);
-                return redirect()->route('transaction.index')->with('success', 'Asset unassigned and logged successfully!');
+                return back()->with('success', 'Asset unassigned successfully.');
             } else {
                 Log::error('Failed to log history for unassigned asset.', ['assetcode' => $assetcode, 'response' => $historyResponse->body()]);
                 return back()->withErrors(['message' => 'Asset unassigned, but failed to log in history.'])->withInput();
