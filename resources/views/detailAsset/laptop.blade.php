@@ -440,15 +440,16 @@
                                 <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
                             @if(!empty($histData))
                                 @foreach ($histData as $histData)
+                                <tbody>       
                                     <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
                                         <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['idassethistory'] }}</p> <!-- Display Condition -->
                                     </td>
                                     <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
                                         <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['nipp'] }}</p> <!-- Display Condition -->                                    
                                     </td>
+                                    @if(!empty($histData['employee']))
                                     <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
                                         <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['employee']['name'] }}</p> <!-- Display Condition -->                                    
                                     </td>
@@ -464,14 +465,15 @@
                                     <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
                                         <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['employee']['directorate'] }}</p> <!-- Display Condition -->                                    
                                     </td>
+                                    @endif
                                     <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
                                         <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['picadded'] }}</p> <!-- Display Condition -->                                    
-                                    </td>
-                                @endforeach
+                                    </td>      
+                                </tbody>
+                            @endforeach
                             @else
-                                <p class="mb-2 font-semibold leading-tight text-xl border-gray-300">No data is available</p> <!-- Display Condition -->                                    
-                            @endif        
-                            </tbody>
+                                <p class="mb-2 font-semibold leading-tight text-xl border-gray-300">No data is available</p> <!-- Display Condition -->
+                            @endif
                         </table>
                     </div>
                 </div>
