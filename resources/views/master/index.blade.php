@@ -15,7 +15,7 @@
                 Add masters
             </button>
         @else
-            <p>No condition available for adding masters.</p>
+            <p> </p>
         @endif
     </div>  
   </div>
@@ -139,10 +139,6 @@
                     <label for="condition" class="block text-sm font-semibold">Condition</label>
                     <input type="text" id="condition" name="condition" class="w-full p-2 border rounded" required>
                 </div>
-                <div class="mb-4">
-                    <label for="sbarcondition" class="block text-sm font-semibold">SbarCondition</label>
-                    <input type="text" id="sbarcondition" name="sbarcondition" class="w-full p-2 border rounded">
-                </div>
             
                 <div class="mb-4">
                     <label for="nosr" class="block text-sm font-semibold">NOSR</label>
@@ -244,6 +240,25 @@
 <script>
 
 
+function confirm(url) {
+    // Show SweetAlert confirmation dialog
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, unassign it!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // If confirmed, call the unassignAsset function
+            unassignAsset(url);
+        }
+    });
+}
+
   // Function to open modal and pre-fill form
   function openEditModal(masterData) {
     document.getElementById('masterid').value = masterData.masterid;
@@ -253,7 +268,6 @@
     document.getElementById('valuegcm').value = masterData.valuegcm;
     document.getElementById('typegcm').value = masterData.typegcm;
     document.getElementById('active').value = masterData.active;
-    document.getElementById('sbarcondition').value = masterData.sbarcondition;
 
       // Populate other form fields as necessary
       
@@ -267,40 +281,81 @@
   }
 
   // Handle form edit submission via AJAX
-document.getElementById('editForm').addEventListener('submit', function (event) {
-    event.preventDefault();
+  document.getElementById('editForm').addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevent the default form submission
 
-    const masterid = document.getElementById('masterid').value;
-    const formData = new FormData(this);
+    // Show SweetAlert confirmation dialog
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You are about to submit the form!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, submit it!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // If confirmed, proceed with form submission
+            const masterid = document.getElementById('masterid').value;
+            const formData = new FormData(this);
 
-    // Debugging output: Log form data
-    for (let pair of formData.entries()) {
-        console.log(pair[0]+ ': ' + pair[1]);
-    }
+            // Debugging output: Log form data
+            for (let pair of formData.entries()) {
+                console.log(pair[0] + ': ' + pair[1]);
+            }
 
-    fetch(`/master/update/${masterid}`, {
-        method: 'PUT', // Change this to PUT
-        headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-            'Accept': 'application/json',
-        },
-        body: formData
-
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error('Failed to update record');
+            fetch(`/master/update/${masterid}`, {
+                method: 'PUT', // Change this to PUT
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json',
+                },
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                    Swal.fire({
+                    title: 'Success!',
+                    text: 'Master updated successfully',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    location.reload(); // Reload the page after confirmation
+                });
+                } else {
+                    throw new Error('Failed to update record');
+                    Swal.fire({
+                    title: 'Success!',
+                    text: 'Master updated successfully',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    location.reload(); // Reload the page after confirmation
+                });
+                }
+            })
+            .then(data => {
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Master updated successfully',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    location.reload(); // Reload the page after confirmation
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Failed to update the record',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            });
         }
-    })
-    .then(data => {
-        alert('Master updated sucessfully');
-        location.reload(); 
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Failed to update the record');
     });
 });
   // Function to open modal and pre-fill form

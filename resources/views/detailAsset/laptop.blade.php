@@ -133,7 +133,7 @@
                                 $graphicscapacity1 = isset($assetspecs['graphicscapacitY1']) ? $assetspecs['graphicscapacitY1'] : 'N/A';
                                 $graphics1 = $graphicsbrand1 . ' ' . $graphicsmodel1 . ' ' . $graphicsseries1 . ' ' . $graphicscapacity1 . ' GB';
                                 $graphicstype1 = isset($assetspecs['graphicstypE1']) ? $assetspecs['graphicstypE1'] : 'N/A';
-
+  
                                 $graphicsbrand2 = isset($assetspecs['graphicsbranD2']) ? $assetspecs['graphicsbranD2'] : 'N/A';
                                 $graphicsmodel2 = isset($assetspecs['graphicsmodeL2']) ? $assetspecs['graphicsmodeL2'] : 'N/A';
                                 $graphicsseries2 = isset($assetspecs['graphicsserieS2']) ? $assetspecs['graphicsserieS2'] : 'N/A';
@@ -406,141 +406,94 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    {{-- @auth --}}
-    <div class="flex-auto px-0 pt-0 pb-2">
-        <div class="p-0 overflow-x-auto">
-            <div class="flex flex-wrap justify-evenly gap-4 p-4 bg-white">
-                <div class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow">
-                    <div class="flex justify-between items-center pb-4 mb-4">
-                        <!-- Left Aligned Heading -->
-                        <a href="#">
-                            <h5 class="text-2xl font-bold tracking-tight text-gray-900">
-                                Device's User History
-                            </h5>
-                        </a>
-                    </div>
-                    <!-- Dynamic Table-like Section with Headers as Rows -->
-                    <div class="relative overflow-x-auto">
-                        <table class="p-4 items-center w-full mb-8 align-top border-gray-200 text-slate-500">
-                            <thead class="align-bottom">
-                                <tr>
-                                <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b  shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">ID History</th>
-                                <th class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b  shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">NIPP</th>
-                                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">Name</th>
-                                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">Position</th>
-                                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">Unit</th>
-                                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">Department</th>
-                                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">Directorate</th>
-                                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">PIC Added</th>
-                                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">Date Added</th>
-                                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">Date Updated</th>
-                                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">Asset Code</th>
-                                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">Action</th>
-                                </tr>
-                            </thead>
-                            @if(!empty($histData))
-                                @foreach ($histData as $histData)
-                                <tbody>       
-                                    <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                        <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['idassethistory'] }}</p> <!-- Display Condition -->
-                                    </td>
-                                    <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                        <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['nipp'] }}</p> <!-- Display Condition -->                                    
-                                    </td>
-                                    @if(!empty($histData['employee']))
-                                    <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                        <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['employee']['name'] }}</p> <!-- Display Condition -->                                    
-                                    </td>
-                                    <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                        <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['employee']['position'] }}</p> <!-- Display Condition -->                                    
-                                    </td>
-                                    <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                        <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['employee']['unit'] }}</p> <!-- Display Condition -->                                    
-                                    </td>
-                                    <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                        <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['employee']['department'] }}</p> <!-- Display Condition -->                                    
-                                    </td>
-                                    <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                        <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['employee']['directorate'] }}</p> <!-- Display Condition -->                                    
-                                    </td>
+            <div class="flex-auto px-0 pt-0 pb-2">
+                <div class="p-0 overflow-x-auto">
+                    <div class="flex flex-wrap justify-between p-4 m-2 bg-white">
+                        <div class="w-8/12 p-6 rounded-lg bg-white border border-gray-300 ">
+                            {{-- bg-white border border-gray-300 --}}
+                            <div class="flex justify-between items-center pb-4 mb-4">
+                                <!-- Left Aligned Heading -->
+                                <a href="#">
+                                    <h5 class="text-2xl font-bold tracking-tight text-gray-900">
+                                        Device Maintenance History
+                                    </h5>
+                                </a>
+                                <!-- Right Aligned Buttons -->
+                                <div class="flex space-x-4">
+                                    <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300" onclick="window.location.href='{{ route('maintenance.create', ['assetcode' => $assetcode]) }}'"">
+                                            Add Record
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Dynamic Table-like Section with Headers as Rows -->
+                            <div class="relative overflow-x-auto">
+                                <table class="p-4 items-center w-full mb-8 align-top border-gray-200 text-slate-500">
+                                    <thead class="align-bottom">
+                                        <tr>
+                                            <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">Maintenance ID</th>
+                                            <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">PIC Added</th>
+                                            <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b  shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">Date Added</th>
+                                            <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b  shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">Notes</th>
+                                        </tr>
+                                    </thead>
+                                @if(!empty($historyMaintenanceData))
+                                    @foreach ($historyMaintenanceData as $history)
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent"> 
+                                                <p class="text-center mb-2 font-semibold leading-tight text-xs">{{ $history['maintenanceid'] }}</p> <!-- Display Condition -->
+                                            </td>
+                                            <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent"> 
+                                                <p class="text-center mb-2 font-semibold leading-tight text-xs">{{ $history['picadded'] }}</p> <!-- Display Condition -->
+                                            </td>
+                                            <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent"> 
+                                                <p class="text-center mb-2 font-semibold leading-tight text-xs">{{ $history['dateadded'] }}</p> <!-- Display Condition -->
+                                            </td>
+                                            <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent"> 
+                                                <p class="text-center mb-2 font-semibold leading-tight text-xs">{{ $history['notes'] }}</p> <!-- Display Condition -->
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    @endforeach
+                                    @else
+                                    <p class="mb-2 font-semibold leading-tight text-xl border-gray-300">No data is available</p> <!-- Display Condition -->                                    
                                     @endif
-                                    <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                        <p class="mb-2 font-semibold leading-tight text-xs border-gray-300">{{ $histData['picadded'] }}</p> <!-- Display Condition -->                                    
-                                    </td>      
-                                </tbody>
-                            @endforeach
-                            @else
-                                <p class="mb-2 font-semibold leading-tight text-xl border-gray-300">No data is available</p> <!-- Display Condition -->
-                            @endif
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-        
-    <div class="flex-auto px-0 pt-0 pb-2">
-        <div class="p-0 overflow-x-auto">
-            <div class="flex flex-wrap justify-evenly gap-4 p-4 bg-white">
-                <div class="w-full p-6 bg-white border border-gray-300 rounded-lg shadow">
-                    <div class="flex justify-between items-center pb-4 mb-4">
-                        <!-- Left Aligned Heading -->
-                        <a href="#">
-                            <h5 class="text-2xl font-bold tracking-tight text-gray-900">
-                                Device Maintenance History
-                            </h5>
-                        </a>
-                        <!-- Right Aligned Buttons -->
-                        <div class="flex space-x-4">
-                            <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300" onclick="window.location.href='{{ route('maintenance.create', ['assetcode' => $assetcode]) }}'"">
-                                    Add Record
-                            </button>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                    <!-- Dynamic Table-like Section with Headers as Rows -->
-                    <div class="relative overflow-x-auto">
-                        <table class="p-4 items-center w-full mb-8 align-top border-gray-200 text-slate-500">
-                            <thead class="align-bottom">
-                                <tr>
-                                    <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">Maintenance ID</th>
-                                    <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">PIC Added</th>
-                                    <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b  shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">Date Added</th>
-                                    <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b  shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">Notes</th>
-                                </tr>
-                            </thead>
-                        @if(!empty($historyMaintenanceData))
-                            @foreach ($historyMaintenanceData as $history)
-                            <tbody>
-                                <tr>
-                                    <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent"> 
-                                        <p class="text-center mb-2 font-semibold leading-tight text-xs">{{ $history['maintenanceid'] }}</p> <!-- Display Condition -->
-                                    </td>
-                                    <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent"> 
-                                        <p class="text-center mb-2 font-semibold leading-tight text-xs">{{ $history['picadded'] }}</p> <!-- Display Condition -->
-                                    </td>
-                                    <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent"> 
-                                        <p class="text-center mb-2 font-semibold leading-tight text-xs">{{ $history['dateadded'] }}</p> <!-- Display Condition -->
-                                    </td>
-                                    <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent"> 
-                                        <p class="text-center mb-2 font-semibold leading-tight text-xs">{{ $history['notes'] }}</p> <!-- Display Condition -->
-                                    </td>
-                                </tr>
-                            </tbody>
-                            @endforeach
-                            @else
-                            <p class="mb-2 font-semibold leading-tight text-xl border-gray-300">No data is available</p> <!-- Display Condition -->                                    
-                            @endif
-                        </table>
-                    </div>
+                        <div class="w-4/12 p-6 bg-white border border-gray-200 rounded-lg shadow">
+                            <div class="flex justify-between items-center pb-4 mb-4">
+                                <!-- Left Aligned Heading -->
+                                <a href="#">
+                                    <h5 class="text-2xl font-bold tracking-tight text-gray-900">
+                                        Device's User History
+                                    </h5>
+                                </a>
+                            </div>
+                                <ol class="relative border-s border-gray-200 dark:border-gray-700">                  
+                                    @foreach ($histData as $data)
+                                    <li class="mb-10 ms-4">
+                                        <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+                                        <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{{$data ['dateadded']}}</time>
+                                        <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">{{ $data['assetcode'] }}</p>
+                                        @if(isset($data['nipp']) && !empty($data['nipp']))
+                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-900">Assigned Asset</h3>
+                                        <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Asset has been assigned to {{ $data['employee']['name'] }}</p>
+                                        @else
+                                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-900">Unassigned Asset</h3>
+                                            <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Asset returned to IT</p>
+                                        @endif
+                                    </li>
+                                    @endforeach
+                                </ol>
+                            </div>
+                        </div>  
                 </div>
+             </div>
             </div>
         </div>
     </div>
 </div>
-    {{-- @endauth --}}
 
     {{-- Modal for all of the tables --}}
     <!-- Software Modal -->

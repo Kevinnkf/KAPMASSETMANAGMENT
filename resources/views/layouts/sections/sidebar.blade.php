@@ -43,13 +43,27 @@
                 <div class="px-8">
                     <div class="h-20 w-full flex items-center"> 
                         {{-- Place KAI SVG here --}}
-                        <img class="h-16 items-center text-center" src="{{ asset('assets/logo/KAPM-logo.png') }}" alt="">
+                        <img class="h-16 items-center text-center" src="{{ asset('assets/logo/KAPM-logo.png') }}" alt="" onclick="window.location.href='{{ url('dashboard') }}'">
                         <button id="toggleSidebarInside" class="m-2 xl:hidden text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button">
                         <i class="fas fa-bars"></i>
                     </button>
                 </div>
 
                 <ul>
+                    <h5 class="mb-0">
+                        <button class="relative flex items-center w-full p-4 font-semibold text-left transition-all border-b border-solid cursor-pointer border-slate-100 ease-soft-in text-white rounded-t-1"
+                                aria-expanded="false" onclick="window.location.href='{{ url('dashboard') }}'">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 icon icon-tabler icon-tabler-grid" width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z"></path>
+                                    <rect x="4" y="4" width="6" height="6" rx="1"></rect>
+                                    <rect x="14" y="4" width="6" height="6" rx="1"></rect>
+                                    <rect x="4" y="14" width="6" height="6" rx="1"></rect>
+                                    <rect x="14" y="14" width="6" height="6" rx="1"></rect>
+                                </svg>
+                            <span class="text-base ml-2 text-white" style="opacity: 0.9;">DASHBOARD</span>
+                        </button>
+                    </h5>
+
                     @foreach ($masterData as $masters)
                         @if($masters['condition'] == 'FIELD')
                         @php
@@ -103,6 +117,7 @@
                               <i class="absolute right-0 hidden pt-1 mr-4 leading-normal fa fa-minus text-xs"></i>
                             </button>
                         </h5>
+                       
                         <ul class="dropdown-hidden inner-masters-list">
                             <li class="p-0.5">
                                 <div class="p-3 leading-normal text-base" style="background-color: rgba(0, 0, 0, 0.1);">
