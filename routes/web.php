@@ -52,8 +52,8 @@ Route::prefix('transaction')->name('transaction.')->group(function(){
     Route::put('/laptop/{assetcode}/assign', [TrnAssetController::class, 'assignAsset'])->name('assign');
     Route::Put('/unassign/{assetcode}', [TrnAssetController::class, 'unassignAsset'])->name('unassign');
 
-    // Route::get('/asset/assign', [TrnAssetCo  ntroller::class, 'AssignView'])-> name('transaction.assign'); //Retrieve transaction.assing view along with all the data
-    // Route::Post('/asset/assign   /store', [TrnAssetController::class, 'assign'])-> name('assign');   
+    Route::get('/print/{assetcode}', [TrnAssetController::class, 'print'])->name('print');
+    
 });
 
 //Log

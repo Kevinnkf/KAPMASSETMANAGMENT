@@ -19,9 +19,9 @@
         @endif
     </div>  
   </div>
-    <div class="flex-auto px-0 pt-0 pb-2 space-x-5">
+    <div class="flex-auto px-0 pt-0 pb-2 space-x-5 h-full">
       <div class="p-4 overflow-x-auto">
-        <table class="p-4 items-center w-full mb-8 align-top border-gray-200 text-slate-500">
+        <table id="data-table" class="p-4 items-center w-full mb-8 align-top border-gray-200 text-slate-500" >
           <thead class="align-bottom">
             <tr>
               <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70">Master Id</th>
@@ -70,7 +70,6 @@
 
         <nav aria-label="Page navigation example">
             <ul class="inline-flex -space-x-px text-sm">
-                <!-- Previous Page Link -->
                 @if ($masterData->onFirstPage())
                     <li>
                         <span class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-700 bg-gray-200 border border-gray-300 rounded-s-lg cursor-not-allowed">
@@ -79,12 +78,11 @@
                     </li>
                 @else
                     <li>
-                        <a href="{{ $masterData->previousPageUrl() }}" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-700 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-800">
+                        <a href="javascript:void(0);" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-700 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-800 ajax-pagination" data-url="{{ $masterData->previousPageUrl() }}">
                             Previous
                         </a>
                     </li>
                 @endif
-        
                 <!-- Pagination Elements -->
                 @foreach ($masterData->links()->elements[0] as $page => $url)
                     @if ($page == $masterData->currentPage())
@@ -95,17 +93,16 @@
                         </li>
                     @else
                         <li>
-                            <a href="{{ $url }}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-800">
-                                {{ $page }}
+                            <a href="javascript:void(0);" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-800 ajax-pagination" data-url="{{ $url }}">
+                                {{ $page }} 
                             </a>
                         </li>
                     @endif
                 @endforeach
-        
                 <!-- Next Page Link -->
                 @if ($masterData->hasMorePages())
                     <li>
-                        <a href="{{ $masterData->nextPageUrl() }}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-800">
+                        <a href="javascript:void(0);" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-800 ajax-pagination" data-url="{{ $masterData->nextPageUrl() }}">
                             Next
                         </a>
                     </li>
@@ -117,7 +114,7 @@
                     </li>
                 @endif
             </ul>
-        </nav>  
+        </nav>
       
 
         <!-- Edit Modal -->
@@ -235,6 +232,50 @@
     </div>
   </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    function attachPaginationListeners() {
+        const paginationLinks = document.querySelectorAll('.ajax-pagination');
+
+        paginationLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const url = this.getAttribute('data-url');
+
+                fetch(url)
+                    .then(response => response.text())
+                    .then(data => {
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = data;
+
+                        const newTable = tempDiv.querySelector('#data-table');
+                        const newPagination = tempDiv.querySelector('nav');
+
+                        // Update the existing table and pagination
+                        document.getElementById('data-table').innerHTML = newTable.innerHTML;
+                        document.querySelector('nav').innerHTML = newPagination.innerHTML;
+
+                        // Update the current page state
+                        updateCurrentPageState();
+
+                    })
+                    .catch(error => console.error('Error fetching data:', error));
+            });
+        });
+    }
+
+    function updateCurrentPageState() {
+        const currentPage = document.querySelector('.ajax-pagination.active'); // Assuming you have a class for the active page
+        if (currentPage) {
+            const currentPageNumber = currentPage.textContent; // Get the current page number
+            console.log('Current Page:', currentPageNumber); // For debugging
+            // Additional logic can be added here if needed
+        }
+    }
+});
+</script>
+
 </body>
 
 <script>
@@ -463,7 +504,6 @@ document.getElementById('deleteForm').addEventListener('submit', function (event
 //     })
 
 
-</script>
 @endsection
 
 

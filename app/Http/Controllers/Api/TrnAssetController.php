@@ -2,12 +2,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Barryvdh\Snappy\Facades\SnappyPdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use Knp\Snappy\Pdf;
 
 class TRNAssetController extends Controller
 {
@@ -299,6 +301,38 @@ class TRNAssetController extends Controller
             ]);
             return back()->withErrors(['message' => 'Failed to unassign asset. Please try again.'])->withInput();
         }
+    }
+
+    public function print($assetCode) {
+        $client = new Client();
+    
+        try {
+            $responseAsset = $client->request('GET', "http://localhost:5252/api/TrnAsset/{$assetCode}");
+    
+            
+            if ($responseAsset->getStatusCode() !== 200) {
+                return response()->json(['err   or' => 'Failed to retrieve asset data.'], $responseAsset->getStatusCode());
+            }
+    
+            $contentAsset = $responseAsset->getBody()->getContents();
+            $assetData = json_decode($contentAsset, true);
+    
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                return response()->json(['error' => 'Error decoding asset data.'], 500);
+            }
+    
+        } catch (\Exception $e) {
+        
+            return response()->json(['error' => 'Unable to fetch asset data: ' . $e->getMessage()], 500);
+        }
+    
+        $data = [
+            'assetData' => $assetData
+        ];
+    
+        $pdf = SnappyPdf::loadView('detailAsset.preview', $data);
+        $pdf->setOption('enable-local-file-access', true);
+        return $pdf->inline('Berita Acara Serah Terima.pdf');
     }
 
 }

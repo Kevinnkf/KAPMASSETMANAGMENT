@@ -45,7 +45,7 @@
 <p style="position:absolute;top:382px;left:636px;white-space:nowrap" class="ft13">:</p>
 <p style="position:absolute;top:382px;left:650px;white-space:nowrap" class="ft13">{{ $selectedRecord['notes'] ?? 'N/A' }}</p>
 <p style="position:absolute;top:436px;left:53px;white-space:nowrap" class="ft13">&#160;</p>
-
+    
 //TINDAKAN PERBAIKAN
 <p style="position:absolute;top:454px;left:62px;white-space:nowrap" class="ft14"><b>Tindakan&#160;Perbaikan&#160;</b>–&#160;<i>diisikan oleh&#160;Pelaksana&#160;Perbaikan</i>&#160;</p>
 <p style="position:absolute;top:489px;left:62px;white-space:nowrap" class="ft14">{{ $selectedRecord['notes'] ?? 'N/A' }}&#160;</p>

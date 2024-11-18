@@ -25,7 +25,7 @@ class MasterController extends Controller
         $data = json_decode($content, true);
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
-        $perPage = 5;
+        $perPage = 10;
         $currentItems = array_slice($data, ($currentPage-1)*$perPage, $perPage);
 
         $paginatedData = new LengthAwarePaginator(
@@ -37,7 +37,7 @@ class MasterController extends Controller
         );
 
         return view('master.index', ['masterData' => $paginatedData]); // Keep the view name consistent
-    }
+    } 
     
     public function show($condition) {
         // Create a new HTTP client instance
