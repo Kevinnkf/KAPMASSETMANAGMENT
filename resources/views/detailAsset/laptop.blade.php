@@ -411,7 +411,7 @@
                     <div class="flex flex-wrap justify-between p-4 m-2 bg-white">
                         <div class="w-8/12 p-6 rounded-lg bg-white border border-gray-300 ">
                             {{-- bg-white border border-gray-300 --}}
-                            <div class="flex justify-between items-center pb-4 mb-4">
+                            <div class="flex justify-between items-center pb-4 mb-4">   
                                 <!-- Left Aligned Heading -->
                                 <a href="#">
                                     <h5 class="text-2xl font-bold tracking-tight text-gray-900">
@@ -434,6 +434,7 @@
                                             <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">PIC Added</th>
                                             <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b  shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">Date Added</th>
                                             <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b  shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">Notes</th>
+                                            <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b  shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">action</th>
                                         </tr>
                                     </thead>
                                 @if(!empty($historyMaintenanceData))
@@ -452,6 +453,13 @@
                                             <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent"> 
                                                 <p class="text-center mb-2 font-semibold leading-tight text-xs">{{ $history['notes'] }}</p> <!-- Display Condition -->
                                             </td>
+                                            <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent"> 
+                                                <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300" 
+                                                        onclick="window.location.href='{{ route('maintenance.print', ['assetcode' => $assetcode, 'idmtc' => $history['maintenanceid']]) }}'">
+                                                    Print BAP
+                                                </button>
+                                            </td>
+                                            
                                         </tr>
                                     </tbody>
                                     @endforeach

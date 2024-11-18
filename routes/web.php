@@ -86,7 +86,7 @@ Route::prefix('maintenance')->name('maintenance.')->group(function(){
     Route::get('/', [MaintenanceController::class, 'indexz'])->name('index');
     Route::get('/create/{assetcode}', [MaintenanceController::class, 'index'])->name('create');
     Route::post('/store/{assetcode}', [MaintenanceController::class, 'store'])->name('store');
-    Route::get('/preview', [MaintenanceController::class, 'print'])->name('print');
+    Route::get('/preview/{assetcode}/{idmtc}', [MaintenanceController::class, 'print'])->name('print');
 });
 
 Route::prefix('software')->name('software.')->group(function(){
