@@ -70,27 +70,19 @@
 
         <nav aria-label="Page navigation example">
             <ul class="inline-flex -space-x-px text-sm">
-                @if ($masterData->onFirstPage())
-                    <li>
-                        <span class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-700 bg-gray-200 border border-gray-300 rounded-s-lg cursor-not-allowed">
-                            Previous
-                        </span>
-                    </li>
-                @else
                     <li>
                         <a href="javascript:void(0);" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-700 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-800 ajax-pagination" data-url="{{ $masterData->previousPageUrl() }}">
                             Previous
                         </a>
                     </li>
-                @endif
                 <!-- Pagination Elements -->
                 @foreach ($masterData->links()->elements[0] as $page => $url)
                     @if ($page == $masterData->currentPage())
                         <li>
-                            <span class="flex items-center justify-center px-3 h-8 text-white border border-gray-300 bg-blue-600 hover:bg-blue-700 hover:text-white">
+                            <span class="flex items-center justify-center px-3 h-8 text-gray-700 border border-gray-300 bg-white hover:bg-gray-100 hover:text-white">
                                 {{ $page }}
                             </span>
-                        </li>
+                        </li>   
                     @else
                         <li>
                             <a href="javascript:void(0);" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-800 ajax-pagination" data-url="{{ $url }}">
@@ -270,7 +262,12 @@
         if (currentPage) {
             const currentPageNumber = currentPage.textContent; // Get the current page number
             console.log('Current Page:', currentPageNumber); // For debugging
-            // Additional logic can be added here if needed
+
+            // Set the active class on the current page link
+            const activeLink = Array.from(paginationLinks).find(link => link.textContent === currentPageNumber);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
         }
     }
 

@@ -27,7 +27,7 @@
       </div>
       <div class="flex-auto px-0 pt-0 pb-2 space-x-5">
         <div class="p-4 overflow-x-auto">
-          <table class="p-4 items-center w-full mb-8 align-top border-gray-200 text-slate-500">
+          <table id="data-table" class="p-4 items-center w-full mb-8 align-top border-gray-200 text-slate-500">
             <thead class="align-bottom">
               <tr>
                 <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70">ID Asset</th>
@@ -91,42 +91,31 @@
           </table>
           <nav aria-label="Page navigation example">
             <ul class="inline-flex -space-x-px text-sm">
-                <!-- Previous Page Link -->
-                @if ($assetData->onFirstPage())
                     <li>
-                        <span class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-700 bg-gray-200 border border-gray-300 rounded-s-lg cursor-not-allowed">
-                            Previous
-                        </span>
-                    </li>
-                @else
-                    <li>
-                        <a href="{{ $assetData->previousPageUrl() }}" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-700 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-800">
+                        <a href="javascript:void(0);" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-700 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-800 ajax-pagination" data-url="{{ $assetData->previousPageUrl() }}">
                             Previous
                         </a>
                     </li>
-                @endif
-        
                 <!-- Pagination Elements -->
                 @foreach ($assetData->links()->elements[0] as $page => $url)
                     @if ($page == $assetData->currentPage())
                         <li>
-                            <span class="flex items-center justify-center px-3 h-8 text-white border border-gray-300 bg-blue-600 hover:bg-blue-700 hover:text-white">
+                            <span class="flex items-center justify-center px-3 h-8 text-gray-700 border border-gray-300 bg-white hover:bg-gray-100 hover:text-white">
                                 {{ $page }}
                             </span>
-                        </li>
+                        </li>   
                     @else
                         <li>
-                            <a href="{{ $url }}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-800">
-                                {{ $page }}
+                            <a href="javascript:void(0);" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-800 ajax-pagination" data-url="{{ $url }}">
+                                {{ $page }} 
                             </a>
                         </li>
                     @endif
                 @endforeach
-        
                 <!-- Next Page Link -->
                 @if ($assetData->hasMorePages())
                     <li>
-                        <a href="{{ $assetData->nextPageUrl() }}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-800">
+                        <a href="javascript:void(0);" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-800 ajax-pagination" data-url="{{ $assetData->nextPageUrl() }}">
                             Next
                         </a>
                     </li>
@@ -195,6 +184,56 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    function attachPaginationListeners() {
+        const paginationLinks = document.querySelectorAll('.ajax-pagination');
+
+        paginationLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const url = this.getAttribute('data-url');
+
+                fetch(url)
+                    .then(response => response.text())
+                    .then(data => {
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = data;
+
+                        const newTable = tempDiv.querySelector('#data-table');
+                        const newPagination = tempDiv.querySelector('nav');
+
+                        // Update the existing table and pagination
+                        document.getElementById('data-table').innerHTML = newTable.innerHTML;
+                        document.querySelector('nav').innerHTML = newPagination.innerHTML;
+
+                        // Update the current page state
+                        updateCurrentPageState();
+
+                    })
+                    .catch(error => console.error('Error fetching data:', error));
+            });
+        });
+    }
+
+    function updateCurrentPageState() {
+        const currentPage = document.querySelector('.ajax-pagination.active'); // Assuming you have a class for the active page
+        if (currentPage) {
+            const currentPageNumber = currentPage.textContent; // Get the current page number
+            console.log('Current Page:', currentPageNumber); // For debugging
+
+            // Set the active class on the current page link
+            const activeLink = Array.from(paginationLinks).find(link => link.textContent === currentPageNumber);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+        }
+    }
+
+    attachPaginationListeners();
+});
+</script>
 </body>
 
 @endsection             

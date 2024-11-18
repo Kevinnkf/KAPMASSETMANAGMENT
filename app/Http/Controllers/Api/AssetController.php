@@ -42,7 +42,7 @@ class AssetController extends Controller
         $assetData = json_decode($body, true);
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
-        $perPage = 5;
+        $perPage = 10;
         $currentItems = array_slice($assetData, ($currentPage-1)*$perPage, $perPage);
 
         $paginatedData = new LengthAwarePaginator(
