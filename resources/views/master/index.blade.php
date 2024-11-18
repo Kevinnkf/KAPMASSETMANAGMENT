@@ -273,6 +273,8 @@
             // Additional logic can be added here if needed
         }
     }
+
+    attachPaginationListeners();
 });
 </script>
 
