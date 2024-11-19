@@ -23,13 +23,13 @@
             {{-- <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="window.location.href='{{ route('transaction.create') }}'">
                 Add Asset
             </button> --}}
-        </div>   
+        </div>
       </div>
       <div class="flex-auto px-0 pt-0 pb-2 space-x-5">
         <div class="p-4 overflow-x-auto">
             <form action="{{ route('searchAssets') }}" method="GET" class="mb-4">
                 <div class="flex items-center">
-                    <input type="text" name="searchTerm" placeholder="Search assets..." class="p-2 border rounded" required>
+                    <input type="text" name="search" placeholder="Search assets..." class="p-2 border rounded">
                     <button type="submit" class="ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">Search</button>
                 </div>
             </form>
@@ -50,43 +50,46 @@
                     </tr>
                 </thead>
                 <tbody class="justify-center">
-                    @foreach ($assetData as $log)
+                    @foreach ($assetData as $data)
                         @php
-                            $assetbrand = isset($log['assetbrand']) ? $log['assetbrand'] : ' ';
-                            $assetmodel = isset($log['assetmodel']) ? $log['assetmodel'] : ' ';
-                            $assetseries = isset($log['assetseries']) ? $log['assetseries'] : ' ';
+                            $idasset = isset($data['idasset']) ? $data['idasset'] : ' ';
+                            $assetbrand = isset($data['assetbrand']) ? $data['assetbrand'] : ' ';
+                            $assetmodel = isset($data['assetmodel']) ? $data['assetmodel'] : ' ';
+                            $assetseries = isset($data['assetseries']) ? $data['assetseries'] : ' ';
                             $asset = $assetbrand . ' ' . $assetmodel . ' ' . $assetseries;
 
-                            $employeeName = isset($log['employee']['name']) ? $log['employee']['name'] : 'N/A';
+                            $employeeName = isset($data['employee']['name']) ? $data['employee']['name'] : 'Device available at';
                         @endphp
+
+                        {{-- {{ dd($data['assetserialnumber']) }} --}}
 
                         <tr>
                             <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                <p class="mb-0 font-semibold leading-tight text-xs">{{ $log['idasset'] }}</p>
+                                <p class="mb-0 font-semibold leading-tight text-xs">{{ $idasset }}</p>
                             </td>
-                            <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
+                            <td class="text-center p-2 align-middle bg-transparent border-b border-r    whitespace-nowrap shadow-transparent">
                                 <p class="mb-0 font-semibold leading-tight text-xs">{{ $employeeName }}</p>
                             </td>
                             <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-            <span class="font-semibold leading-tight text-xs text-black">{{ $asset }}</span>
+                                <span class="font-semibold leading-tight text-xs text-black">{{ $asset }}</span>
                             </td>
                             <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                <span class="font-semibold leading-tight text-xs text-black">{{ $log['assetserialnumber'] }}</span>
+                                <span class="font-semibold leading-tight text-xs text-black">{{ $data['assetserialnumber'] ?? 'N/A' }}</span>
                             </td>
                             <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                <span class="font-semibold leading-tight text-xs text-black">{{ $log['active'] }}</span>
+                                <span class="font-semibold leading-tight text-xs text-black">{{ $data['active'] ?? 'N/A'}}</span>
+                            </td>
+                            <td class="text-center p-2 align-middle bg-trans    parent border-b border-r whitespace-nowrap shadow-transparent">
+                                <span class="font-semibold leading-tight text-xs text-black">{{ $data['assetcategory'] ?? 'N/A'}}</span>
                             </td>
                             <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                <span class="font-semibold leading-tight text-xs text-black">{{ $log['assetcategory'] }}</span>
+                                <span class="font-semibold leading-tight text-xs text-black">{{ $data['assetcode'] ?? 'N/A'}}</span>
                             </td>
                             <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                <span class="font-semibold leading-tight text-xs text-black">{{ $log['assetcode'] }}</span>
+                                <span class="font-semibold leading-tight text-xs text-black">{{ $data['assettype'] ?? 'N/A'}}</span>
                             </td>
                             <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                <span class="font-semibold leading-tight text-xs text-black">{{ $log['assettype'] }}</span>
-                            </td>
-                            <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="window.location.href='{{ route('detailAsset.laptop', ['assetcode' => $log['assetcode']]) }}'">Detail</button>
+                                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="window.location.href='{{ route('detailAsset.laptop', ['assetcode' => $data['assetcode']?? 'N/A']) }}'">Detail</button>
                             </td>
                         </tr>
                     @endforeach

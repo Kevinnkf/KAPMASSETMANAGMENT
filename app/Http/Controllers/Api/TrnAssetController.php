@@ -334,4 +334,30 @@ class TRNAssetController extends Controller
         $pdf->setOption('enable-local-file-access', true);
         return $pdf->inline('Berita Acara Serah Terima.pdf');
     }
+
+    public function search(Request $request) {
+        $request->validate([
+            'searchTerm' => 'required|string|max:255',
+        ]);
+    
+        $client = new Client();
+        $searchTerm = $request->input('searchTerm'); 
+    
+        try {
+            $response = $client->request("GET", "http://localhost:5252/api/TrnAsset", [
+                'query' => ['term' => $searchTerm] 
+            ]);
+            $content = $response->getBody()->getContents();
+            $assetData = json_decode($content, true);
+    
+            return view('dashboard', [
+                'assetData' => $assetData,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Unable to fetch asset data: ' . $e->getMessage()], 500);
+        }
+    }
+
+
+
 }
