@@ -334,5 +334,4 @@ class TRNAssetController extends Controller
         $pdf->setOption('enable-local-file-access', true);
         return $pdf->inline('Berita Acara Serah Terima.pdf');
     }
-
 }

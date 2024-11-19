@@ -646,7 +646,7 @@
     <div id="imgModal" class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
         <div class="bg-white p-6 rounded-md w-96">
             <h2 class="text-xl font-bold mb-4">Update picture</h2>
-            @if (!empty($img))
+                @if (!empty($img))
                 <form id="imgForm" method="POST" enctype="multipart/form-data" action="{{ route('detailAsset.image.update', ['idassetpic' => $img['idassetpic'], 'assetcode' => $img['assetcode']]) }}">
                     @method('PUT')
                     @csrf

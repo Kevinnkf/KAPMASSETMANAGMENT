@@ -227,10 +227,10 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-    function attachPaginationListeners() {
-        const paginationLinks = document.querySelectorAll('.ajax-pagination');
-
-        paginationLinks.forEach(link => {
+        function attachPaginationListeners() {
+            const paginationLinks = document.querySelectorAll('.ajax-pagination');
+            
+            paginationLinks.forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 const url = this.getAttribute('data-url');
@@ -257,17 +257,16 @@
         });
     }
 
-    function updateCurrentPageState() {
-        const currentPage = document.querySelector('.ajax-pagination.active'); // Assuming you have a class for the active page
+    function updateCurrentPageState() {        
+        const currentPage = document.querySelector('.ajax-pagination'); // Assuming you have a class for the active page
         if (currentPage) {
-            const currentPageNumber = currentPage.textContent; // Get the current page number
-            console.log('Current Page:', currentPageNumber); // For debugging
-
-            // Set the active class on the current page link
+            const currentPageNumber = currentPage.textContent;
+            console.log('Current Page:', currentPageNumber); 
+            
             const activeLink = Array.from(paginationLinks).find(link => link.textContent === currentPageNumber);
             if (activeLink) {
                 activeLink.classList.add('active');
-            }
+            }   
         }
     }
 

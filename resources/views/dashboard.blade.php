@@ -27,68 +27,71 @@
       </div>
       <div class="flex-auto px-0 pt-0 pb-2 space-x-5">
         <div class="p-4 overflow-x-auto">
-          <table id="data-table" class="p-4 items-center w-full mb-8 align-top border-gray-200 text-slate-500">
-            <thead class="align-bottom">
-              <tr>
-                <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70">ID Asset</th>
-                <th class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70">Assigned Employee</th>
-                <th class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70">Brand</th>
-                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70">Serial Number</th>
-                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70">Active</th>
-                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70">Category</th>
-                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70">Code</th>
-                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70">Type</th>
-                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70">Action</th>
-            </thead>
-            <tbody class= "justify-center">
-              @foreach ($assetData as $log)
-                @php
-                    $assetbrand = isset($log['assetbrand']) ? $log['assetbrand'] : ' ';
-                    $assetmodel = isset($log['assetmodel']) ? $log['assetmodel'] : ' ';
-                    $assetseries = isset($log['assetseries']) ? $log['assetseries'] : ' ';
-                    $asset = $assetbrand . ' ' . $assetmodel . ' ' . $assetseries;
+            <form action="{{ route('searchAssets') }}" method="GET" class="mb-4">
+                <div class="flex items-center">
+                    <input type="text" name="searchTerm" placeholder="Search assets..." class="p-2 border rounded" required>
+                    <button type="submit" class="ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">Search</button>
+                </div>
+            </form>
 
-                    $employeeName = isset($log['employee']['name']) ? $log['employee']['name'] : 'N/A';
-                @endphp
+            <!-- Data Table -->
+            <table id="data-table" class="p-4 items-center w-full mb-8 align-top border-gray-200 text-slate-500">
+                <thead class="align-bottom">
+                    <tr>
+                        <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70">ID Asset</th>
+                        <th class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70">Assigned Employee</th>
+                        <th class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70">Brand</th>
+                        <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70">Serial Number</th>
+                        <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70">Active</th>
+                        <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70">Category</th>
+                        <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70">Code</th>
+                        <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70">Type</th>
+                        <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="justify-center">
+                    @foreach ($assetData as $log)
+                        @php
+                            $assetbrand = isset($log['assetbrand']) ? $log['assetbrand'] : ' ';
+                            $assetmodel = isset($log['assetmodel']) ? $log['assetmodel'] : ' ';
+                            $assetseries = isset($log['assetseries']) ? $log['assetseries'] : ' ';
+                            $asset = $assetbrand . ' ' . $assetmodel . ' ' . $assetseries;
 
-              <tr>
-                  <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                      <p class="mb-0 font-semibold leading-tight text-xs">{{ $log['idasset'] }}</p> <!-- Display Condition -->
-                  </td>
-                  <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                      <p class="mb-0 font-semibold leading-tight text-xs">{{ $employeeName }}</p> <!-- Display Condition -->
-                  </td>
-                  <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                      <span class="font-semibold leading-tight text-xs text-black"> {{ $asset }}</span> <!-- Display Description -->
-                  </td>
-                  <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                      <span class="font-semibold leading-tight text-xs text-black">{{ $log['assetserialnumber'] }}<span> <!-- Display Type -->
-                  </td>
-                  <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                      <span class="font-semibold leading-tight text-xs text-black">{{ $log['active'] }}<span> <!-- Display Type -->
-                  </td>
-                  <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                      <span class="font-semibold leading-tight text-xs text-black">{{ $log['assetcategory'] }}<span> <!-- Display Type -->
-                  </td>
-                  <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                      <span class="font-semibold leading-tight text-xs text-black">{{ $log['assetcode'] }}<span> <!-- Display Type -->
-                  </td>
-                  <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                      <span class="font-semibold leading-tight text-xs text-black">{{ $log['assettype'] }}<span> <!-- Display Type -->
-                  </td>
-                  <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                    <!-- Edit Icon -->
-                    <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="window.location.href='{{ route('detailAsset.laptop', ['assetcode' => $log['assetcode']]) }}'">Detail</button>                    
-                    {{-- <button type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800" 
-                        onclick="window.location.href='{{ route('detailAsset.laptop', ['assetcode' => $log['assetcode']]) }}'" 
-                        @if (empty($employeeName) ||$employeeName === 'N/A') disabled @endif>
-                        Destroy Asset
-                    </button> --}}
-                </td>
-              </tr>
-              @endforeach
-          </tbody>
-          </table>
+                            $employeeName = isset($log['employee']['name']) ? $log['employee']['name'] : 'N/A';
+                        @endphp
+
+                        <tr>
+                            <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
+                                <p class="mb-0 font-semibold leading-tight text-xs">{{ $log['idasset'] }}</p>
+                            </td>
+                            <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
+                                <p class="mb-0 font-semibold leading-tight text-xs">{{ $employeeName }}</p>
+                            </td>
+                            <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
+            <span class="font-semibold leading-tight text-xs text-black">{{ $asset }}</span>
+                            </td>
+                            <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
+                                <span class="font-semibold leading-tight text-xs text-black">{{ $log['assetserialnumber'] }}</span>
+                            </td>
+                            <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
+                                <span class="font-semibold leading-tight text-xs text-black">{{ $log['active'] }}</span>
+                            </td>
+                            <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
+                                <span class="font-semibold leading-tight text-xs text-black">{{ $log['assetcategory'] }}</span>
+                            </td>
+                            <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
+                                <span class="font-semibold leading-tight text-xs text-black">{{ $log['assetcode'] }}</span>
+                            </td>
+                            <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
+                                <span class="font-semibold leading-tight text-xs text-black">{{ $log['assettype'] }}</span>
+                            </td>
+                            <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
+                                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="window.location.href='{{ route('detailAsset.laptop', ['assetcode' => $log['assetcode']]) }}'">Detail</button>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
           <nav aria-label="Page navigation example">
             <ul class="inline-flex -space-x-px text-sm">
                     <li>
@@ -218,10 +221,10 @@
     }
 
     function updateCurrentPageState() {
-        const currentPage = document.querySelector('.ajax-pagination.active'); // Assuming you have a class for the active page
+        const currentPage = document.querySelector('.ajax-pagination');
         if (currentPage) {
-            const currentPageNumber = currentPage.textContent; // Get the current page number
-            console.log('Current Page:', currentPageNumber); // For debugging
+            const currentPageNumber = currentPage.textContent; 
+            console.log('Current Page:', currentPageNumber); 
 
             // Set the active class on the current page link
             const activeLink = Array.from(paginationLinks).find(link => link.textContent === currentPageNumber);

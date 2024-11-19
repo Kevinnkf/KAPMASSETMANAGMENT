@@ -101,4 +101,27 @@ class AssetController extends Controller
             return redirect('/master/create')->withErrors(['error' => 'An error occurred while submitting the data.']);
         }   
     }
+
+    public function search(Request $request) {
+        $request->validate([
+            'searchTerm' => 'required|string|max:255',
+        ]);
+    
+        $client = new Client();
+        $searchTerm = $request->input('searchTerm'); 
+    
+        try {
+            $response = $client->request("GET", "http://localhost:5252/api/TrnAsset", [
+                'query' => ['term' => $searchTerm] 
+            ]);
+            $content = $response->getBody()->getContents();
+            $assetData = json_decode($content, true);
+    
+            return view('dashboard', [
+                'assetData' => $assetData,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Unable to fetch asset data: ' . $e->getMessage()], 500);
+        }
+    }
 }

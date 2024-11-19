@@ -19,6 +19,7 @@ Route::post('/login/check', [AuthController::class, 'loginCheck'])->name('login.
 Route::get('/dashboard', [AuthController::class, 'showDashboard'])->name('dashboard'); //return view to dashboard if login success
 
 Route::get('/dashboard', [AssetController::class, 'create'])->name('dashboard'); //view dashboard and retrieve all asset list using create func
+Route::get('/dashboard/search', [AssetController::class, 'search'])->name('searchAssets');
 
 //Master
 Route::prefix('master')->name('master.')->group(function() {
