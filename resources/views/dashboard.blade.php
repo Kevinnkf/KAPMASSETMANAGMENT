@@ -50,7 +50,9 @@
                     </tr>
                 </thead>
                 <tbody class="justify-center">
-                    @foreach ($assetData as $data)
+                    {{-- {{ dd($assetData) }} --}}
+                    @foreach ($assetData->items() as $item)
+                        @foreach ($item as $data)
                         @php
                             $idasset = isset($data['idasset']) ? $data['idasset'] : ' ';
                             $assetbrand = isset($data['assetbrand']) ? $data['assetbrand'] : ' ';
@@ -61,7 +63,9 @@
                             $employeeName = isset($data['employee']['name']) ? $data['employee']['name'] : 'Device available at';
                         @endphp
 
-                        {{-- {{ dd($data['assetserialnumber']) }} --}}
+                        {{-- {{ dd($assetData['assetserialnumber']) }} --}}
+                        {{-- {{ dd($data['idasset']) }} --}}
+                        {{-- {{ dd($data['assetbrand']) }} --}}
 
                         <tr>
                             <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
@@ -92,6 +96,7 @@
                                 <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="window.location.href='{{ route('detailAsset.laptop', ['assetcode' => $data['assetcode']?? 'N/A']) }}'">Detail</button>
                             </td>
                         </tr>
+                        @endforeach
                     @endforeach
                 </tbody>
             </table>
