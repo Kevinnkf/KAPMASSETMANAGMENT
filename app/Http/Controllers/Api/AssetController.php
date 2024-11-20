@@ -12,9 +12,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class AssetController extends Controller
 {
-    //
-    public function getAllDashboard() 
-    {
+    public function create(){
         $client = new Client();
         $response = $client->request('GET', 'http://localhost:5252/api/Master');
         $body = $response->getBody();
@@ -37,20 +35,25 @@ class AssetController extends Controller
             $currentPage, // Current page
             ['path' => request()->url(), 'query' => request()->query()] // Maintain query parameters
         );
-
-            // Count assets based on conditions
+        
+        
+        
+        // Count assets based on conditions
         $countAsset = count(array_filter($assetData, function ($item) {
             return is_array($item) && (!array_key_exists('nipp', $item) || is_null($item['nipp']));
         }));
-
+        
         $destroyedAsset = count(array_filter($assetData, function ($item) {
             return is_array($item) && array_key_exists('condition', $item) && $item['condition'] == "DESTROYED";
         }));
-
+        
         $inMtc = count(array_filter($assetData, function ($item) {
             return is_array($item) && array_key_exists('condition', $item) && $item['condition'] == "MAINTENANCE";
         }));
-
+        
+        Log::info('Result', ['data' => $paginatedData]);
+        Log::info('Result', ['data' => $countAsset]);
+        
         return view('dashboard', [  
             'masterData' => $masterData,
             'assetData' => $paginatedData,
@@ -59,10 +62,6 @@ class AssetController extends Controller
             'inMtc' => $inMtc
         
         ]);
-    }
-
-    public function create(){
-        return $this->getAllDashboard();
     }
 
     public function store(Request $request){
