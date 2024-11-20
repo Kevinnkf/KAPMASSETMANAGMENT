@@ -29,7 +29,7 @@
         <div class="p-4 overflow-x-auto">
             <form action="{{ route('searchAssets') }}" method="GET" class="mb-4">
                 <div class="flex items-center">
-                    <input type="text" name="search" placeholder="Search assets..." class="p-2 border rounded">
+                    <input type="text" name="search" placeholder="Search name, brand, model, series, category, serial number, type, condition" class="p-2 border rounded w-[50%]">
                     <button type="submit" class="ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">Search</button>
                 </div>
             </form>
@@ -51,54 +51,55 @@
                 </thead>
                 <tbody class="justify-center">
                     {{-- {{ dd($assetData) }} --}}
-                    @foreach($assetData as $data)
-                    {{-- @foreach ($assetData->items() as $item) --}}
-                        {{-- @foreach ($item as $data) --}}
-                        @php
-                            $idasset = isset($data['idasset']) ? $data['idasset'] : ' ';
-                            $assetbrand = isset($data['assetbrand']) ? $data['assetbrand'] : ' ';
-                            $assetmodel = isset($data['assetmodel']) ? $data['assetmodel'] : ' ';
-                            $assetseries = isset($data['assetseries']) ? $data['assetseries'] : ' ';
-                            $asset = $assetbrand . ' ' . $assetmodel . ' ' . $assetseries;
+                    @if($assetData !== null)
+                        @foreach($assetData as $data)
+                            @php
+                                $idasset = $data['idasset'] ?? ' ';
+                                $assetbrand = $data['assetbrand'] ?? ' ';
+                                $assetmodel = $data['assetmodel'] ?? ' ';
+                                $assetseries = $data['assetseries'] ?? ' ';
+                                $asset = trim($assetbrand . ' ' . $assetmodel . ' ' . $assetseries);
 
-                            $employeeName = isset($data['employee']['name']) ? $data['employee']['name'] : 'Device available at';
-                        @endphp
+                                $employeeName = $data['employee']['name'] ?? 'Device available at';
+                            @endphp
 
-                        {{-- {{ dd($assetData['assetserialnumber']) }} --}}
-                        {{-- {{ dd($data['idasset']) }} --}}
-                        {{-- {{ dd($data['assetbrand']) }} --}}
-
+                            <tr>
+                                <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
+                                    <p class="mb-0 font-semibold leading-tight text-xs">{{ $idasset }}</p>
+                                </td>
+                                <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
+                                    <p class="mb-0 font-semibold leading-tight text-xs">{{ $employeeName }}</p>
+                                </td>
+                                <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
+                                    <span class="font-semibold leading-tight text-xs text-black">{{ $asset }}</span>
+                                </td>
+                                <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
+                                    <span class="font-semibold leading-tight text-xs text-black">{{ $data['assetserialnumber'] ?? 'N/A' }}</span>
+                                </td>
+                                <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
+                                    <span class="font-semibold leading-tight text-xs text-black">{{ $data['active'] ?? 'N/A' }}</span>
+                                </td>
+                                <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
+                                    <span class="font-semibold leading-tight text-xs text-black">{{ $data['assetcategory'] ?? 'N/A' }}</span>
+                                </td>
+                                <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
+                                    <span class="font-semibold leading-tight text-xs text-black">{{ $data['assetcode'] ?? 'N/A' }}</span>
+                                </td>
+                                <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
+                                    <span class="font-semibold leading-tight text-xs text-black">{{ $data['assettype'] ?? 'N/A' }}</span>
+                                </td>
+                                <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
+                                    <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus :ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="window.location.href='{{ route('detailAsset.laptop', ['assetcode' => $data['assetcode'] ?? 'N/A']) }}'">Detail</button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @else
                         <tr>
                             <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                <p class="mb-0 font-semibold leading-tight text-xs">{{ $idasset }}</p>
-                            </td>
-                            <td class="text-center p-2 align-middle bg-transparent border-b border-r    whitespace-nowrap shadow-transparent">
-                                <p class="mb-0 font-semibold leading-tight text-xs">{{ $employeeName }}</p>
-                            </td>
-                            <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                <span class="font-semibold leading-tight text-xs text-black">{{ $asset }}</span>
-                            </td>
-                            <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                <span class="font-semibold leading-tight text-xs text-black">{{ $data['assetserialnumber'] ?? 'N/A' }}</span>
-                            </td>
-                            <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                <span class="font-semibold leading-tight text-xs text-black">{{ $data['active'] ?? 'N/A'}}</span>
-                            </td>
-                            <td class="text-center p-2 align-middle bg-trans    parent border-b border-r whitespace-nowrap shadow-transparent">
-                                <span class="font-semibold leading-tight text-xs text-black">{{ $data['assetcategory'] ?? 'N/A'}}</span>
-                            </td>
-                            <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                <span class="font-semibold leading-tight text-xs text-black">{{ $data['assetcode'] ?? 'N/A'}}</span>
-                            </td>
-                            <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                <span class="font-semibold leading-tight text-xs text-black">{{ $data['assettype'] ?? 'N/A'}}</span>
-                            </td>
-                            <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent">
-                                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="window.location.href='{{ route('detailAsset.laptop', ['assetcode' => $data['assetcode']?? 'N/A']) }}'">Detail</button>
+                                <span class="font-semibold leading-tight text-xs text-black">No data is available</span>
                             </td>
                         </tr>
-                        {{-- @endforeach --}}
-                    @endforeach
+                    @endif
                 </tbody>
             </table>
           <nav aria-label="Page navigation example">
