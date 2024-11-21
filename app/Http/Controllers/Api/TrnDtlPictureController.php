@@ -102,7 +102,7 @@ class TrnDtlPictureController extends Controller
             $data = json_decode($response->getBody()->getContents(), true); // Decode the response
             // Log success (ensure $data is an array or provide a message)
             Log::info("Success", $data ? $data : []); // Pass empty array if $data is null  
-            return redirect("/detailAsset/Laptop/$assetcode")
+            return redirect("/detail-asset/laptop/$assetcode")
                 ->with("success", "Data has been added successfully");
         } catch (\Throwable $th) {
             // Log error and handle the exception
@@ -169,7 +169,7 @@ class TrnDtlPictureController extends Controller
             Log::info("Success", $data ? $data : []);
 
             // Redirect to the detail page
-            return redirect("/detailAsset/Laptop/$assetcode")
+            return redirect("/detail-asset/laptop/$assetcode")
                 ->with("success", "Data has been added successfully");
         } catch (RequestException $e) {
             Log::error('API Error: ' . $e->getMessage());

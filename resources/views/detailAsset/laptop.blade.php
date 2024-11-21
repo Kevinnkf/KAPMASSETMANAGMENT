@@ -521,32 +521,40 @@
                 <div class="mb-4">
                     <label for="softwaretype" class="block text-sm font-semibold">Type</label>
                     <select id="softwaretype" name="softwaretype" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        @foreach ($assetMaster as $user)
-                            <option value="{{ $user['condition'] }}">{{ $user['condition'] }}</option>
+                        @foreach ($assetMaster as $optionvalue)
+                            @if ($optionvalue['condition'] == 'PROC_BRAND' )
+                                <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>
                 <div class="mb-4">
                     <label for="softwarecategory" class="block text-sm font-semibold">Category</label>
                     <select id="softwarecategory" name="softwarecategory" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        @foreach ($assetMaster as $user)
-                            <option value="{{ $user['condition'] }}">{{ $user['condition'] }}</option>
+                        @foreach ($assetMaster as $optionvalue)
+                            @if ($optionvalue['condition'] == 'SOFTWARE_CATEGORY' )
+                                <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>  
                 <div class="mb-4">
                     <label for="softwarename" class="block text-sm font-semibold">Name</label>
                     <select id="softwarename" name="softwarename" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        @foreach ($assetMaster as $user)
-                        <option value="{{ $user['condition'] }}">{{ $user['condition'] }}</option>
+                        @foreach ($assetMaster as $optionvalue)
+                            @if ($optionvalue['condition'] == 'SOFTWARE_NAME' )
+                                <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>  
                 <div class="mb-4">
                     <label for="softwarelicense" class="block text-sm font-semibold">License</label>
                     <select id="softwarelicense" name="softwarelicense" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        @foreach ($assetMaster as $user)
-                        <option value="{{ $user['condition'] }}">{{ $user['condition'] }}</option>
+                        @foreach ($assetMaster as $optionvalue)
+                            @if ($optionvalue['condition'] == 'SOFTWARE_LICENSE' )
+                                <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>  
@@ -554,8 +562,10 @@
                 <div class="mb-4">
                     <label for="softwareperiod" class="block text-sm font-semibold">Software Period</label>
                     <select id="softwareperiod" name="softwareperiod" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        @foreach ($userData as $user)
-                            <option value="{{ $user['name'] }}">{{ $user['name'] }}</option>
+                        @foreach ($assetMaster as $optionvalue)
+                            @if ($optionvalue['condition'] == 'SOFTWARE_PERIOD' )
+                                <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>   

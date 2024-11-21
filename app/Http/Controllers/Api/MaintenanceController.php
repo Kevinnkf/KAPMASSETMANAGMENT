@@ -97,7 +97,8 @@ class MaintenanceController extends Controller{
 
             $data = json_decode($response->getBody()->getContents(), true);
             Log::info("API Response: ", $data);
-            return redirect()->route('maintenance.print', ['assetcode' => $assetcode])->with('Success', 'success add device to maintenance');
+            return redirect("/detail-asset/laptop/$assetcode")
+                ->with("success", "Data has been added successfully");
 
         } catch (\GuzzleHttp\Exception\RequestException $e) {
             $responseBody = $e->hasResponse() ? (string) $e->getResponse()->getBody() : null;
