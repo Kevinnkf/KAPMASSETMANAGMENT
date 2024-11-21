@@ -21,7 +21,7 @@
   </div>
     <div class="flex-auto px-0 pt-0 pb-2 space-x-5 h-full">
       <div class="p-4 overflow-x-auto">
-        <table id="data-table" class="p-4 items-center w-full mb-8 align-top border-gray-200 text-slate-500" >
+        <table class="p-4 items-center w-full mb-8 align-top border-gray-200 text-slate-500">
           <thead class="align-bottom">
             <tr>
               <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70">Master Id</th>
@@ -61,7 +61,7 @@
                   <a href="javascript:void(0);" class="text-red-500 text-sm font-bold mr-2" onclick="openDeleteModal({{json_encode($masters)}})">
                      <i class="fas fa-trash"></i>
                   </a>
-                
+
                 </td>
             </tr>
             @endforeach
@@ -70,31 +70,42 @@
 
         <nav aria-label="Page navigation example">
             <ul class="inline-flex -space-x-px text-sm">
+                <!-- Previous Page Link -->
+                @if ($masterData->onFirstPage())
                     <li>
-                        <a href="javascript:void(0);" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-700 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-800 ajax-pagination" data-url="{{ $masterData->previousPageUrl() }}">
+                        <span class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-700 bg-gray-200 border border-gray-300 rounded-s-lg cursor-not-allowed">
+                            Previous
+                        </span>
+                    </li>
+                @else
+                    <li>
+                        <a href="{{ $masterData->previousPageUrl() }}" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-700 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-800">
                             Previous
                         </a>
                     </li>
+                @endif
+        
                 <!-- Pagination Elements -->
                 @foreach ($masterData->links()->elements[0] as $page => $url)
                     @if ($page == $masterData->currentPage())
                         <li>
-                            <span class="flex items-center justify-center px-3 h-8 text-gray-700 border border-gray-300 bg-white hover:bg-gray-100 hover:text-white">
+                            <span class="flex items-center justify-center px-3 h-8 text-white border border-gray-300 bg-blue-600 hover:bg-blue-700 hover:text-white">
                                 {{ $page }}
                             </span>
-                        </li>   
+                        </li>
                     @else
                         <li>
-                            <a href="javascript:void(0);" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-800 ajax-pagination" data-url="{{ $url }}">
-                                {{ $page }} 
+                            <a href="{{ $url }}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-800">
+                                {{ $page }}
                             </a>
                         </li>
                     @endif
                 @endforeach
+        
                 <!-- Next Page Link -->
                 @if ($masterData->hasMorePages())
                     <li>
-                        <a href="javascript:void(0);" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-800 ajax-pagination" data-url="{{ $masterData->nextPageUrl() }}">
+                        <a href="{{ $masterData->nextPageUrl() }}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-800">
                             Next
                         </a>
                     </li>
@@ -106,7 +117,7 @@
                     </li>
                 @endif
             </ul>
-        </nav>
+        </nav>  
       
 
         <!-- Edit Modal -->
@@ -225,7 +236,7 @@
   </div>
 </div>
 
-<script>
+{{-- <script>
     document.addEventListener('DOMContentLoaded', function() {
         function attachPaginationListeners() {
             const paginationLinks = document.querySelectorAll('.ajax-pagination');
@@ -272,7 +283,7 @@
 
     attachPaginationListeners();
 });
-</script>
+</script> --}}
 
 </body>
 
@@ -500,7 +511,7 @@ document.getElementById('deleteForm').addEventListener('submit', function (event
 //         });
 
 //     })
-
+</script>
 
 @endsection
 

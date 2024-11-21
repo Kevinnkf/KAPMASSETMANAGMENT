@@ -345,16 +345,10 @@
                                         <a href="javascript:void(0);" class="text-blue-500 text-sm font-bold mr-2" onclick="openSoftwareModal({{ json_encode($software) }})">
                                             <i class="fas fa-edit"></i>
                                          </a>
-
                                         {{-- href="{{ route('detailAsset.software.edit', ['assetcode' => $assetcode, 'id' => $software['idassetsoftware']]) }}" --}}
-
-                                        
-
-
                                         {{-- <a href="javascript:void(0);" class="text-red-500 text-sm font-bold mr-2" onclick="openDeleteModal({{json_encode($detailSoftwareData)}})">
                                            <i class="fas fa-trash"></i>
                                         </a> --}}
-                                      
                                     </td>
                                     {{-- @endauth --}}
                                 </tbody>
@@ -720,6 +714,7 @@
             </form>
         </div>
     </div>
+</div>
 </div>
 
 <script>

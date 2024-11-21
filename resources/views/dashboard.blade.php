@@ -210,7 +210,6 @@
                 e.preventDefault();
                 const url = this.getAttribute('data-url');
 
-                // Optional: Show loading indicator
                 const loadingIndicator = document.getElementById('loading-indicator');
                 loadingIndicator.style.display = 'block';
 
