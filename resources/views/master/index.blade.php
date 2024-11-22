@@ -19,7 +19,7 @@
         @endif
     </div>  
   </div>
-    <div class="flex-auto px-0 pt-0 pb-2 space-x-5">
+    <div class="flex-auto px-0 pt-0 pb-2 space-x-5 h-full">
       <div class="p-4 overflow-x-auto">
         <table class="p-4 items-center w-full mb-8 align-top border-gray-200 text-slate-500">
           <thead class="align-bottom">
@@ -61,7 +61,7 @@
                   <a href="javascript:void(0);" class="text-red-500 text-sm font-bold mr-2" onclick="openDeleteModal({{json_encode($masters)}})">
                      <i class="fas fa-trash"></i>
                   </a>
-                
+
                 </td>
             </tr>
             @endforeach
@@ -235,6 +235,56 @@
     </div>
   </div>
 </div>
+
+{{-- <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function attachPaginationListeners() {
+            const paginationLinks = document.querySelectorAll('.ajax-pagination');
+            
+            paginationLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const url = this.getAttribute('data-url');
+
+                fetch(url)
+                    .then(response => response.text())
+                    .then(data => {
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = data;
+
+                        const newTable = tempDiv.querySelector('#data-table');
+                        const newPagination = tempDiv.querySelector('nav');
+
+                        // Update the existing table and pagination
+                        document.getElementById('data-table').innerHTML = newTable.innerHTML;
+                        document.querySelector('nav').innerHTML = newPagination.innerHTML;
+
+                        // Update the current page state
+                        updateCurrentPageState();
+
+                    })
+                    .catch(error => console.error('Error fetching data:', error));
+            });
+        });
+    }
+
+    function updateCurrentPageState() {        
+        const currentPage = document.querySelector('.ajax-pagination'); // Assuming you have a class for the active page
+        if (currentPage) {
+            const currentPageNumber = currentPage.textContent;
+            console.log('Current Page:', currentPageNumber); 
+            
+            const activeLink = Array.from(paginationLinks).find(link => link.textContent === currentPageNumber);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }   
+        }
+    }
+
+    attachPaginationListeners();
+});
+</script> --}}
+
 </body>
 
 <script>
@@ -461,9 +511,8 @@ document.getElementById('deleteForm').addEventListener('submit', function (event
 //         });
 
 //     })
-
-
 </script>
+
 @endsection
 
 

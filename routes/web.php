@@ -19,6 +19,7 @@ Route::post('/login/check', [AuthController::class, 'loginCheck'])->name('login.
 Route::get('/dashboard', [AuthController::class, 'showDashboard'])->name('dashboard'); //return view to dashboard if login success
 
 Route::get('/dashboard', [AssetController::class, 'create'])->name('dashboard'); //view dashboard and retrieve all asset list using create func
+Route::get('/dashboard/search', [AssetController::class, 'search'])->name('searchAssets');
 
 //Master
 Route::prefix('master')->name('master.')->group(function() {
@@ -52,8 +53,8 @@ Route::prefix('transaction')->name('transaction.')->group(function(){
     Route::put('/laptop/{assetcode}/assign', [TrnAssetController::class, 'assignAsset'])->name('assign');
     Route::Put('/unassign/{assetcode}', [TrnAssetController::class, 'unassignAsset'])->name('unassign');
 
-    // Route::get('/asset/assign', [TrnAssetCo  ntroller::class, 'AssignView'])-> name('transaction.assign'); //Retrieve transaction.assing view along with all the data
-    // Route::Post('/asset/assign   /store', [TrnAssetController::class, 'assign'])-> name('assign');   
+    Route::get('/print/{assetcode}', [TrnAssetController::class, 'print'])->name('print');
+    
 });
 
 //Log
@@ -86,7 +87,7 @@ Route::prefix('maintenance')->name('maintenance.')->group(function(){
     Route::get('/', [MaintenanceController::class, 'indexz'])->name('index');
     Route::get('/create/{assetcode}', [MaintenanceController::class, 'index'])->name('create');
     Route::post('/store/{assetcode}', [MaintenanceController::class, 'store'])->name('store');
-    Route::get('/preview', [MaintenanceController::class, 'print'])->name('print');
+    Route::get('/preview/{assetcode}/{idmtc}', [MaintenanceController::class, 'print'])->name('print');
 });
 
 Route::prefix('software')->name('software.')->group(function(){

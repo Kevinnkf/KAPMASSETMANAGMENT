@@ -74,7 +74,8 @@
                                         onclick="confirmUnassignAsset('{{ route('transaction.unassign', ['assetcode' => $assetcode]) }}')">
                                     Unassign
                                 </button>
-                                <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                                <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+                                        onclick="window.location='{{ route('transaction.print', ['assetcode' => $assetcode]) }}'">
                                     Print BAST
                                 </button>
                                 {{-- @endauth --}}
@@ -343,16 +344,10 @@
                                         <a href="javascript:void(0);" class="text-blue-500 text-sm font-bold mr-2" onclick="openSoftwareModal({{ json_encode($software) }})">
                                             <i class="fas fa-edit"></i>
                                          </a>
-
                                         {{-- href="{{ route('detailAsset.software.edit', ['assetcode' => $assetcode, 'id' => $software['idassetsoftware']]) }}" --}}
-
-                                        
-
-
                                         {{-- <a href="javascript:void(0);" class="text-red-500 text-sm font-bold mr-2" onclick="openDeleteModal({{json_encode($detailSoftwareData)}})">
                                            <i class="fas fa-trash"></i>
                                         </a> --}}
-                                      
                                     </td>
                                     {{-- @endauth --}}
                                 </tbody>
@@ -410,7 +405,7 @@
                     <div class="flex flex-wrap justify-between p-4 gap-4 bg-white items-start">
                         <div class="w-9/12 p-6 rounded-lg bg-white border border-gray-300">
                             {{-- bg-white border border-gray-300 --}}
-                            <div class="flex justify-between items-center pb-4 mb-4">
+                            <div class="flex justify-between items-center pb-4 mb-4">   
                                 <!-- Left Aligned Heading -->
                                 <a href="#">
                                     <h5 class="text-2xl font-bold tracking-tight text-gray-900">
@@ -433,6 +428,7 @@
                                             <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">PIC Added</th>
                                             <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b  shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">Date Added</th>
                                             <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b  shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">Notes</th>
+                                            <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b  shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">action</th>
                                         </tr>
                                     </thead>
                                 @if(!empty($historyMaintenanceData))
@@ -451,6 +447,13 @@
                                             <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent"> 
                                                 <p class="text-center mb-2 font-semibold leading-tight text-xs">{{ $history['notes'] }}</p> <!-- Display Condition -->
                                             </td>
+                                            <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent"> 
+                                                <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300" 
+                                                        onclick="window.location.href='{{ route('maintenance.print', ['assetcode' => $assetcode, 'idmtc' => $history['maintenanceid']]) }}'">
+                                                    Print BAP
+                                                </button>
+                                            </td>
+                                            
                                         </tr>
                                     </tbody>
                                     @endforeach
@@ -517,32 +520,40 @@
                 <div class="mb-4">
                     <label for="softwaretype" class="block text-sm font-semibold">Type</label>
                     <select id="softwaretype" name="softwaretype" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        @foreach ($assetMaster as $user)
-                            <option value="{{ $user['condition'] }}">{{ $user['condition'] }}</option>
+                        @foreach ($assetMaster as $optionvalue)
+                            @if ($optionvalue['condition'] == 'PROC_BRAND' )
+                                <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>
                 <div class="mb-4">
                     <label for="softwarecategory" class="block text-sm font-semibold">Category</label>
                     <select id="softwarecategory" name="softwarecategory" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        @foreach ($assetMaster as $user)
-                            <option value="{{ $user['condition'] }}">{{ $user['condition'] }}</option>
+                        @foreach ($assetMaster as $optionvalue)
+                            @if ($optionvalue['condition'] == 'SOFTWARE_CATEGORY' )
+                                <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>  
                 <div class="mb-4">
                     <label for="softwarename" class="block text-sm font-semibold">Name</label>
                     <select id="softwarename" name="softwarename" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        @foreach ($assetMaster as $user)
-                        <option value="{{ $user['condition'] }}">{{ $user['condition'] }}</option>
+                        @foreach ($assetMaster as $optionvalue)
+                            @if ($optionvalue['condition'] == 'SOFTWARE_NAME' )
+                                <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>  
                 <div class="mb-4">
                     <label for="softwarelicense" class="block text-sm font-semibold">License</label>
                     <select id="softwarelicense" name="softwarelicense" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        @foreach ($assetMaster as $user)
-                        <option value="{{ $user['condition'] }}">{{ $user['condition'] }}</option>
+                        @foreach ($assetMaster as $optionvalue)
+                            @if ($optionvalue['condition'] == 'SOFTWARE_LICENSE' )
+                                <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>  
@@ -550,8 +561,10 @@
                 <div class="mb-4">
                     <label for="softwareperiod" class="block text-sm font-semibold">Software Period</label>
                     <select id="softwareperiod" name="softwareperiod" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        @foreach ($userData as $user)
-                            <option value="{{ $user['name'] }}">{{ $user['name'] }}</option>
+                        @foreach ($assetMaster as $optionvalue)
+                            @if ($optionvalue['condition'] == 'SOFTWARE_PERIOD' )
+                                <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>   
@@ -636,7 +649,7 @@
     <div id="imgModal" class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
         <div class="bg-white p-6 rounded-md w-96">
             <h2 class="text-xl font-bold mb-4">Update picture</h2>
-            @if (!empty($img))
+                @if (!empty($img))
                 <form id="imgForm" method="POST" enctype="multipart/form-data" action="{{ route('detailAsset.image.update', ['idassetpic' => $img['idassetpic'], 'assetcode' => $img['assetcode']]) }}">
                     @method('PUT')
                     @csrf
@@ -710,6 +723,7 @@
             </form>
         </div>
     </div>
+</div>
 </div>
 
 <script>

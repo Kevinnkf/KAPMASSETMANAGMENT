@@ -80,18 +80,6 @@ class MaintenanceController extends Controller{
         ]);
     }
 
-    // // Get a specific maintenance record by ID
-    // public function show($id)
-    // {
-    //     $maintenance = Maintenance::with(['MASTERID', 'User'])->find($id);
-
-    //     if (!$maintenance) {
-    //         return response()->json(['message' => 'Maintenance record not found'], 404);
-    //     }
-
-    //     return response()->json($maintenance, 200);
-    // }
-
     // Store a new maintenance record
     public function store(Request $request, $assetcode){
         $validatedData = $request->validate([
@@ -103,14 +91,14 @@ class MaintenanceController extends Controller{
         $client = new Client();
 
         try {
-            $validatedData['dateadded'] = now()->format('Y-m-d H:i:s');
             $response = $client->post("http://localhost:5252/api/TrnHistMaintenance/{$assetcode}", [
                 'query' => $validatedData,
             ]);
 
             $data = json_decode($response->getBody()->getContents(), true);
             Log::info("API Response: ", $data);
-            return redirect("/detailAsset/Laptop/{$assetcode}")->with('Success', 'success add device to maintenance' );
+            return redirect("/detail-asset/laptop/$assetcode")
+                ->with("success", "Data has been added successfully");
 
         } catch (\GuzzleHttp\Exception\RequestException $e) {
             $responseBody = $e->hasResponse() ? (string) $e->getResponse()->getBody() : null;
@@ -120,41 +108,46 @@ class MaintenanceController extends Controller{
         }
     }
 
-    public function print() {
+    public function print($assetcode, $maintenanceid) {
         $client = new Client();
-        $response = $client->request('GET', 'http://localhost:5252/api/TrnHistMaintenance');
-        $body = $response->getBody();
-        $content = $body->getContents();
-        $mtcData = json_decode($content, true);
-
-        $assetResponse = $client->request('GET', 'http://localhost:5252/api/TrnAsset');
-        $assetBody = $assetResponse->getBody();
-        $assetContent = $assetBody->getContents();
-        $assetData = json_decode($assetContent, true);
-
-        $userResponse = $client->request('GET', 'http://localhost:5252/api/user');
-        $userBody = $userResponse->getBody();
-        $userContent = $userBody->getContents();
-        $userData = json_decode($userContent, true);
         
+        // Fetch maintenance data for the specific asset code
+        $response = $client->request('GET', "http://localhost:5252/api/TrnHistMaintenance/{$assetcode}");
+        $mtcData = json_decode($response->getBody()->getContents(), true);
+        
+        // Filter to find the specific maintenance record by maintenanceid
+        $selectedRecord = null;
+        foreach ($mtcData as $record) {
+            if ($record['maintenanceid'] == $maintenanceid) { // Adjust 'id' to the actual key in your response
+                $selectedRecord = $record;
+                break;
+            }
+        }
+    
+        // Check if the record was found
+        if (!$selectedRecord) {
+            return abort(404); // Or handle the error appropriately
+        }
+        
+        // Fetch asset data
+        $assetResponse = $client->request('GET', 'http://localhost:5252/api/TrnAsset');
+        $assetData = json_decode($assetResponse->getBody()->getContents(), true);
+        
+        // Fetch user data
+        $userResponse = $client->request('GET', 'http://localhost:5252/api/user');
+        $userData = json_decode($userResponse->getBody()->getContents(), true);
+        
+        // Prepare data for PDF
         $data = [
-            'userData' => $userData, // This key should match what you use in your view
+            'assetData' => $assetData,
+            'userData' => $userData,
+            'selectedRecord' => $selectedRecord, // Pass the selected maintenance record
         ];
         
-        
-        Log::info($userData); // Log the data to check what is being passed
-        // return view('maintenance.preview', [
-        //     'assetData' => $assetData,
-        //     'userData' => $userData,  
-        //     'mtcData' => $mtcData
-        // ]); 
-        
-        // Keep the view name consistent
+        // Generate PDF
         $pdf = SnappyPdf::loadView('maintenance.preview', $data);
-
-        // Activate local file
         $pdf->setOption('enable-local-file-access', true);
-
+        
         return $pdf->inline('Berita Acara Perbaikan.pdf');
     }
 }

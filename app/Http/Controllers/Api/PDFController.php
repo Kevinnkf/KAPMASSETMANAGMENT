@@ -17,11 +17,11 @@ class PDFController extends Controller
         $userData = json_decode($userContent, true);
         
         $data = [
-            'userData' => $userData, // This key should match what you use in your view
+            'userData' => $userData, 
         ];
         
         
-        Log::info($userData); // Log the data to check what is being passed
+        Log::info($userData); 
         $pdf = Pdf::loadView('pdf.usersPdf', $data);
         return $pdf->download('users-lists.pdf');
     }

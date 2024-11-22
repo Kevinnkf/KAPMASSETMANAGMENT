@@ -12,23 +12,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class AssetController extends Controller
 {
-    //
-    public function index() 
-    {
-        $client = new Client();
-        $response = $client->request('get', 'http://localhost:5252/api/Log');
-        $body = $response -> getBody();
-        $content = $body -> getContents();
-        $data = json_decode($content, true);
-        
-        // Check the contents of $data
-           if (empty($data)) {
-            dd('No data received from API');
-        }    
-  
-        return view('dashboard', ['logData' => $data]);
-    }
-
     public function create(){
         $client = new Client();
         $response = $client->request('GET', 'http://localhost:5252/api/Master');
@@ -42,7 +25,7 @@ class AssetController extends Controller
         $assetData = json_decode($body, true);
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
-        $perPage = 5;
+        $perPage = 10;
         $currentItems = array_slice($assetData, ($currentPage-1)*$perPage, $perPage);
 
         $paginatedData = new LengthAwarePaginator(
@@ -52,18 +35,25 @@ class AssetController extends Controller
             $currentPage, // Current page
             ['path' => request()->url(), 'query' => request()->query()] // Maintain query parameters
         );
-
-        $countAsset = count(array_filter($assetData, function($item) {
-            return is_null($item['nipp']); // Check if 'nipp' is null
+        
+        
+        
+        // Count assets based on conditions
+        $countAsset = count(array_filter($assetData, function ($item) {
+            return is_array($item) && (!array_key_exists('nipp', $item) || is_null($item['nipp']));
         }));
-
-        $destroyedAsset = count(array_filter($assetData, function($item) {
-            return $item['condition'] == "DESTROYED"; // Check if 'nipp' is null
+        
+        $destroyedAsset = count(array_filter($assetData, function ($item) {
+            return is_array($item) && array_key_exists('condition', $item) && $item['condition'] == "DESTROYED";
         }));
-        $inMtc = count(array_filter($assetData, function($item) {
-            return $item['condition'] == "MAINTENANCE"; // Check if 'nipp' is null
+        
+        $inMtc = count(array_filter($assetData, function ($item) {
+            return is_array($item) && array_key_exists('condition', $item) && $item['condition'] == "MAINTENANCE";
         }));
-
+        
+        Log::info('Result', ['data' => $paginatedData]);
+        Log::info('Result', ['data' => $countAsset]);
+        
         return view('dashboard', [  
             'masterData' => $masterData,
             'assetData' => $paginatedData,
@@ -100,5 +90,61 @@ class AssetController extends Controller
         
             return redirect('/master/create')->withErrors(['error' => 'An error occurred while submitting the data.']);
         }   
+    }
+
+    public function search(Request $request) {
+        $validated = $request->validate([
+            'search' => 'required|string|max:255',
+        ]);
+
+        Log::info('Result', ['data' => $validated]);
+    
+        $client = new Client();
+    
+        try {
+            // Fetch asset data based on search term
+            $response = $client->request("GET", "http://localhost:5252/api/TrnAsset/search", [
+                'query' => $validated 
+            ]);
+            $content = $response->getBody()->getContents();
+            $responseData = json_decode($content, true); // Decoding JSON to associative array
+
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+            $perPage = 10;  
+            $currentItems = array_slice($responseData, ($currentPage-1)*$perPage, $perPage);
+
+            $paginatedData = new LengthAwarePaginator(
+                $currentItems,
+                count($responseData), // Total items
+                $perPage, // Items per page
+                $currentPage, // Current page
+                ['path' => request()->url(), 'query' => request()->query()] // Maintain query parameters
+            );
+    
+            // Count assets based on conditions
+            $countAsset = count(array_filter($responseData, function ($item) {
+                return is_array($item) && (!array_key_exists('nipp', $item) || is_null($item['nipp']));
+            }));
+    
+            $destroyedAsset = count(array_filter($responseData, function ($item) {
+                return is_array($item) && array_key_exists('condition', $item) && $item['condition'] == "DESTROYED";
+            }));
+    
+            $inMtc = count(array_filter($responseData, function ($item) {
+                return is_array($item) && array_key_exists('condition', $item) && $item['condition'] == "MAINTENANCE";
+            }));
+
+            Log::info('Result', ['data' => $paginatedData]);
+            Log::info('Result', ['data' => $countAsset]);
+    
+            return view('dashboard', [
+                'assetData' => $paginatedData,
+                'countAsset' => $countAsset,
+                'destroyedAsset' => $destroyedAsset,
+                'inMtc' => $inMtc,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Unable to fetch asset data: ' . $e->getMessage()], 500);
+        }
     }
 }
