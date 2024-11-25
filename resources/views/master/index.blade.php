@@ -239,8 +239,8 @@
 {{-- <script>
     document.addEventListener('DOMContentLoaded', function() {
         function attachPaginationListeners() {
-            const paginationLinks = document.querySelectorAll('.ajax-pagination');
-            
+            const paginationLinks = document.querySelectorAll('.ajax-pagination')
+            ;
             paginationLinks.forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();

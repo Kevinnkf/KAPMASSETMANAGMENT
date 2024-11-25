@@ -39,8 +39,18 @@
             </div>
             
             <div class="mb-4">
-                <label for="notes" class="block text-sm font-semibold">Notes</label>
-                <textarea type="text" id="notes" name="notes" class="w-full p-2 border rounded" required></textarea>
+                <label for="notesaction" class="block text-sm font-semibold">Notes</label>
+                <textarea type="text" id="notesaction" name="notesaction" class="w-full p-2 border rounded" required></textarea>
+            </div>
+
+            <div class="mb-4">
+                <label for="notessparepart" class="block text-sm font-semibold">Sparepart</label>
+                <textarea type="text" id="notessparepart" name="notessparepart" class="w-full p-2 border rounded" required></textarea>
+            </div>  
+
+            <div class="mb-4">
+                <label for="notesresult" class="block text-sm font-semibold">Result</label>
+                <textarea type="text" id="notesresult" name="notesresult" class="w-full p-2 border rounded" required></textarea>
             </div>  
 
             <!-- Buttons -->
