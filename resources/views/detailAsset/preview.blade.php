@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
@@ -18,6 +20,16 @@
 	.ft18{font-size:18px;line-height:21px;font-family:TimesNewRomanPS;color:#000000;}
 	.ft19{font-size:18px;line-height:21px;font-family:TimesNewRomanPSMT;color:#000000;}
 	.ft110{font-size:18px;line-height:25px;font-family:TimesNewRomanPSMT;color:#000000;}
+
+	.centered-container {
+            position: absolute;
+            top: 1010px; /* Positioning the container */
+            left: 530px; /* Center the container horizontally */
+            transform: translateX(-50%); /* Shift left by 50% of its width */
+            max-width: 300px; /* Set a max width to limit the container size */
+            text-align: center; /* Center text within the container */
+            white-space: nowrap; /* Prevent text wrapping */
+        }
 -->
 </style>
 </head>
@@ -145,11 +157,18 @@
 <p style="position:absolute;top:1010px;left:150px;white-space:nowrap" class="ft13"><b>{{ $assetData['picadded']?? 'N/A' }}&#160;</b></p>
 
 <p style="position:absolute;top:1037px;left:159px;white-space:nowrap" class="ft13"><b>Nippm.&#160;{{$nippm}}&#160;</b></p>
-<p style="position:absolute;top:1010px;left:515px;white-space:nowrap" class="ft13"><b>{{ $assetData['employee']['name'] ?? 'N/A' }}&#160;</b></p>
+	<div class="centered-container">
+        <p class="ft13"><b>{{ $assetData['employee']['name'] ?? 'N/A' }}&#160;</b></p>
+    </div>
 <p style="position:absolute;top:1037px;left:554px;white-space:nowrap" class="ft13"><b>Nippm.&#160;{{ $assetData['employee']['nipp'] ?? 'N/A' }}</b>&#160;</p>
 <p style="position:absolute;top:1057px;left:53px;white-space:nowrap" class="ft17">&#160;</p>
 <p style="position:absolute;top:1081px;left:53px;white-space:nowrap" class="ft17">*Mohon setelah di&#160;tandatangani&#160;BAST&#160;dikembalikan ke&#160;alamat&#160;pengirim&#160;</p>
 <p style="position:absolute;top:1110px;left:53px;white-space:nowrap" class="ft17">&#160;</p>
+
+<img src="data:image/png;base64,{{ $qrCode }}" alt="QR Code" style="position:absolute;top:1087px;left:554px;white-space:nowrap;" />
+
+
+
 </div>
 </body>
 </html>

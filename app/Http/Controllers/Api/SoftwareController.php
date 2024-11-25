@@ -203,12 +203,12 @@ class SoftwareController extends Controller
 
 # TODO
 
-# PRINT BAST (Half complete)
-# PRINT QRCODE (Ongoing)
+# PRINT BAST (DONE)
+# PRINT QRCODE (DONE)
 # PRINT LABEL ASSET CODE (Soon)
-# Regular sized QR CODE (Yes)
+# Regular sized QR CODE (DONE)
 # Date purcharsed for new asset 
-# Add new fields for maintenance
+# Add new fields for maintenance (DONE)
  
 
 
