@@ -100,7 +100,7 @@
             $nippm = 'Unknown NIPP'; // Default case if picadded doesn't match
             break;
     }
-@endphp
+@endphp 
 
 <p style="position:absolute;top:1110px;left:170px;white-space:nowrap" class="ft14"><b>Nippm.&#160;{{ $nippm }}</b></p>
 
