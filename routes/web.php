@@ -67,19 +67,19 @@ Route::prefix('detail-asset')->name('detailAsset.')->group(function(){
     Route::get('/laptop/{assetcode}', [TrnAssetController::class, 'show'])->name('laptop');
     Route::get('/mobile/{assetcode}', [TrnAssetController::class, 'show'])->name('mobile');
     Route::get('/others/{assetcode}', [TrnAssetController::class, 'show'])->name('others');
-    // Route::get('Laptop/{assetcode}', [MaintenanceController::class, 'sidebar'])->name('laptop'); //return view with all of the data.
+    // Route::get('laptop/{assetcode}', [MaintenanceController::class, 'sidebar'])->name('laptop'); //return view with all of the data.
  
     //Post Image 
-    Route::get('/Laptop/{assetcode}/Image', [TrnDtlPictureController::class, 'index'])->name('image'); //get image form
-    Route::get('/Laptop/{assetcode}/Image/Update', [TrnDtlPictureController::class, 'indexUpdate'])->name('update.image'); //get image form
-    Route::post('Laptop/Image/store', [TrnDtlPictureController::class, 'store'])->name('image.store'); //submit image data 
-    Route::put('Laptop/{assetcode}/Image/update/{idassetpic}', [TrnDtlPictureController::class, 'update'])->name('image.update'); //submit image data 
+    Route::get('/laptop/{assetcode}/Image', [TrnDtlPictureController::class, 'index'])->name('image'); //get image form
+    Route::get('/laptop/{assetcode}/Image/Update', [TrnDtlPictureController::class, 'indexUpdate'])->name('update.image'); //get image form
+    Route::post('laptop/Image/store', [TrnDtlPictureController::class, 'store'])->name('image.store'); //submit image data 
+    Route::put('laptop/{assetcode}/Image/update/{idassetpic}', [TrnDtlPictureController::class, 'update'])->name('image.update'); //submit image data 
 
     //Post Software
-    Route::get('/Laptop/{assetcode}/Software', [SoftwareController::class, 'create'])->name('software');
-    Route::post('/Laptop/{assetcode}/Software', [SoftwareController::class, 'store'])->name('software.store');
-    Route::get('/Laptop/{assetcode}/Software/edit/{idasset}', [SoftwareController::class, 'edit'])->name('software.edit');
-    Route::put('/Laptop/{assetcode}/Software/update/{idassetsoftware}', [SoftwareController::class, 'update'])->name('software.update');
+    Route::get('/laptop/{assetcode}/Software', [SoftwareController::class, 'create'])->name('software');
+    Route::post('/laptop/{assetcode}/Software', [SoftwareController::class, 'store'])->name('software.store');
+    Route::get('/laptop/{assetcode}/Software/edit/{idasset}', [SoftwareController::class, 'edit'])->name('software.edit');
+    Route::put('/laptop/{assetcode}/Software/update/{idassetsoftware}', [SoftwareController::class, 'update'])->name('software.update');
 });
 
 //Maintenance

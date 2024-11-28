@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Knp\Snappy\Pdf;
+use Milon\Barcode\Facades\DNS1DFacade;
+use Milon\Barcode\Facades\DNS2DFacade;
 
 class TRNAssetController extends Controller
 {
@@ -326,8 +328,12 @@ class TRNAssetController extends Controller
             return response()->json(['error' => 'Unable to fetch asset data: ' . $e->getMessage()], 500);
         }
     
+        $url = url("/detail-asset/laptop/{$assetCode}");
+        $qrCode = DNS2DFacade::getBarcodePNG($url, 'QRCODE', 5, 5); // Generate QR code
+
         $data = [
-            'assetData' => $assetData
+            'assetData' => $assetData,
+            'qrCode' => $qrCode,
         ];
     
         $pdf = SnappyPdf::loadView('detailAsset.preview', $data);

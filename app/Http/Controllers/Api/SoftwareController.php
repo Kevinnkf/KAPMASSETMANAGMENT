@@ -198,3 +198,19 @@ class SoftwareController extends Controller
         }
     }
 }
+
+
+
+# TODO
+
+# PRINT BAST (DONE)
+# PRINT QRCODE (DONE)
+# Regular sized QR CODE (DONE)
+# Add new fields for maintenance (DONE)
+# Date purcharsed for new asset  
+# PRINT LABEL ASSET CODE (Soon)
+ 
+
+
+
+

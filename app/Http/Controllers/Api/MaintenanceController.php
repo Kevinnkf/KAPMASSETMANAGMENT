@@ -85,7 +85,9 @@ class MaintenanceController extends Controller{
         $validatedData = $request->validate([
             "assetcode"=> 'required',
             "picadded"=> 'required',
-            "notes"=> 'required',
+            "notesaction"=> 'required',
+            "notessparepart"=> 'required',
+            "notesresult"=> 'required',
         ]);
 
         $client = new Client();
