@@ -329,15 +329,15 @@ class TRNAssetController extends Controller
         }
     
         $url = url("/detail-asset/laptop/{$assetCode}");
-        $qrCode = DNS2DFacade::getBarcodePNG($url, 'QRCODE', 5, 5); // Generate QR code
+        $qrCode = DNS2DFacade::getBarcodePNG($url, 'QRCODE', 3, 3); // Generate QR code
 
         $data = [
             'assetData' => $assetData,
             'qrCode' => $qrCode,
         ];
     
-        $pdf = SnappyPdf::loadView('detailAsset.preview', $data);
-        $pdf->setOption('enable-local-file-access', true);
+        $pdf = SnappyPdf::loadView('detailAsset.BAST', $data);
+        $pdf->setOption('enable-local-file-access', true)->setPaper('a4');
         return $pdf->inline('Berita Acara Serah Terima.pdf');
     }
 
