@@ -1,28 +1,34 @@
 @extends('layouts.app')
 
 @section('content')
-@foreach ($assetData as $assets)
+
 @php
     // Asset Information
-    $assetbrand = isset($assets['assetbrand']) ? $assets['assetbrand'] : 'N/A';
-    $assetmodel = isset($assets['assetmodel']) ? $assets['assetmodel'] : 'N/A';
-    $assetseries = isset($assets['assetseries']) ? $assets['assetseries'] : 'N/A';
+    $assetbrand = isset($assetData['assetbrand']) ? $assetData['assetbrand'] : 'N/A';
+    $assetmodel = isset($assetData['assetmodel']) ? $assetData['assetmodel'] : 'N/A';
+    $assetseries = isset($assetData['assetseries']) ? $assetData['assetseries'] : 'N/A';
     $assetbms = $assetbrand . ' ' . $assetmodel . ' ' . $assetseries;
-    $assettype = isset($assets['assettype']) ? $assets['assettype'] : 'N/A';
-    $assetcategory = isset($assets['assetcategory']) ? $assets['assetcategory'] : 'N/A';
-    $assetcode = isset($assets['assetcode']) ? $assets['assetcode'] : 'N/A';
-    $assetserialnumber = isset($assets['assetserialnumber']) ? $assets['assetserialnumber'] : 'N/A';
+    $assettype = isset($assetData['assettype']) ? $assetData['assettype'] : 'N/A';
+    $assetcategory = isset($assetData['assetcategory']) ? $assetData['assetcategory'] : 'N/A';
+    $assetcode = isset($assetData['assetcode']) ? $assetData['assetcode'] : 'N/A';
+    $assetserialnumber = isset($assetData['assetserialnumber']) ? $assetData['assetserialnumber'] : 'N/A';
 
     // Employee Information
-    $employeeNIPP = isset($assets['employee']['nipp']) ? $assets['employee']['nipp'] : 'N/A';
-    $employeeName = isset($assets['employee']['name']) ? $assets['employee']['name'] : 'N/A';
-    $employeePosition = isset($assets['employee']['position']) ? $assets['employee']['position'] : 'N/A';
-    $employeeUnit = isset($assets['employee']['unit']) ? $assets['employee']['unit'] : 'N/A';
-    $employeeDepartment = isset($assets['employee']['department']) ? $assets['employee']['department'] : 'N/A';
-    $employeeDirectorate = isset($assets['employee']['directorate']) ? $assets['employee']['directorate'] : 'N/A';
-    $employeeActive = isset($assets['employee']['active']) ? $assets['employee']['active'] : 'N/A';
+    $employeeNIPP = isset($assetData['employee']['nipp']) ? $assetData['employee']['nipp'] : 'N/A';
+    $employeeName = isset($assetData['employee']['name']) ? $assetData['employee']['name'] : 'N/A';
+    $employeePosition = isset($assetData['employee']['position']) ? $assetData['employee']['position'] : 'N/A';
+    $employeeUnit = isset($assetData['employee']['unit']) ? $assetData['employee']['unit'] : 'N/A';
+    $employeeDepartment = isset($assetData['employee']['department']) ? $assetData['employee']['department'] : 'N/A';
+    $employeeDirectorate = isset($assetData['employee']['directorate']) ? $assetData['employee']['directorate'] : 'N/A';
+    $employeeActive = isset($assetData['employee']['active']) ? $assetData['employee']['active'] : 'N/A';
+    
 @endphp 
-@endforeach
+
+{{-- @php
+
+dd($assetbrand);
+dd($assetData['assetcategory']);
+@endphp --}}
 
 @if(session('success'))
     <div class="alert alert-success">
