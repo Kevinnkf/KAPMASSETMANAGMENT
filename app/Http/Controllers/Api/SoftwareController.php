@@ -205,10 +205,10 @@ class SoftwareController extends Controller
 
 # PRINT BAST (DONE)
 # PRINT QRCODE (DONE)
-# PRINT LABEL ASSET CODE (Soon)
 # Regular sized QR CODE (DONE)
-# Date purcharsed for new asset 
 # Add new fields for maintenance (DONE)
+# Date purcharsed for new asset  
+# PRINT LABEL ASSET CODE (Soon)
  
 
 

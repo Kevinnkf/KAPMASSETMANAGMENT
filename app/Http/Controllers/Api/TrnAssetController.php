@@ -328,7 +328,7 @@ class TRNAssetController extends Controller
             return response()->json(['error' => 'Unable to fetch asset data: ' . $e->getMessage()], 500);
         }
     
-        $url = url("/transaction/print/{$assetCode}");
+        $url = url("/detail-asset/laptop/{$assetCode}");
         $qrCode = DNS2DFacade::getBarcodePNG($url, 'QRCODE', 5, 5); // Generate QR code
 
         $data = [
