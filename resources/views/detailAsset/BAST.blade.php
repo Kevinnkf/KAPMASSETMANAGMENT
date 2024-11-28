@@ -1,7 +1,5 @@
-
-
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="" style="height: 100%; width: 100%">
 <head>
 <title>static/downloads/f4246daa-f389-4a59-bd69-59b98fbfa719/Lampiran-II-Form-BAST-html.html</title>
 
@@ -9,7 +7,10 @@
  <br/>
 <style type="text/css">
 <!--
-	p {margin: 0; padding: 0;}	.ft10{font-size:18px;font-family:BCDEEE+Calibri;color:#000000;}
+    .{margin: 0}
+
+	p {margin: 0; padding: 0; scale: 2;}	
+    .ft10{font-size:18px;font-family:BCDEEE+Calibri;color:#000000;}
 	.ft11{font-size:18px;font-family:BCDFEE+Calibri;color:#000000;}
 	.ft12{font-size:16px;font-family:BCDGEE+Calibri;color:#000000;}
 	.ft13{font-size:18px;font-family:TimesNewRomanPS;color:#000000;}
@@ -19,7 +20,9 @@
 	.ft17{font-size:12px;font-family:TimesNewRomanPSMT;color:#000000;}
 	.ft18{font-size:18px;line-height:21px;font-family:TimesNewRomanPS;color:#000000;}
 	.ft19{font-size:18px;line-height:21px;font-family:TimesNewRomanPSMT;color:#000000;}
-	.ft110{font-size:18px;line-height:25px;font-family:TimesNewRomanPSMT;color:#000000;}
+	.ft110{font-size:18px;line-height:25px;font-family:TimesNewRomanPSMT;color:#00FAFAFA;}
+
+
 
 	.centered-container {
             position: absolute;
@@ -47,7 +50,7 @@
 <p style="position:absolute;top:116px;left:604px;white-space:nowrap" class="ft14">Nomor&#160;</p>
 <p style="position:absolute;top:116px;left:710px;white-space:nowrap" class="ft14">:</p>
 <p style="position:absolute;top:113px;left:714px;white-space:nowrap" class="ft15">&#160;BAST/IT/2023/01&#160;</p>
-<p style="position:absolute;top:148px;left:604px;white-space:nowrap" class="ft14">Tanggal&#160;Terbit&#160;&#160;:&#160;{{ now()->format('d F Y') }}&#160;</p>
+<p style="position:absolute;top:148px;left:604px;white-space:nowrap" class="ft14">Tanggal&#160;Terbit&#160;&#160;:&#160;&#160;</p>
 <p style="position:absolute;top:183px;left:274px;white-space:nowrap" class="ft13"><b>BERTIA&#160;ACARA&#160;SERAH&#160;TERIMA&#160;</b></p>
 <p style="position:absolute;top:203px;left:374px;white-space:nowrap" class="ft13"><b>BARANG&#160;</b></p>
 <p style="position:absolute;top:179px;left:604px;white-space:nowrap" class="ft14">Status&#160;Revisi&#160;</p>
@@ -58,7 +61,7 @@
 <p style="position:absolute;top:269px;left:62px;white-space:nowrap" class="ft16">No Ref&#160;</p>
 <p style="position:absolute;top:269px;left:231px;white-space:nowrap" class="ft16">:&#160;BAST.ITMMYYxxxx&#160;</p>
 <p style="position:absolute;top:290px;left:62px;white-space:nowrap" class="ft16">Tanggal&#160;</p>
-<p style="position:absolute;top:290px;left:231px;white-space:nowrap" class="ft16">:&#160;{{ $assetData['assetcode'] ?? 'N/A' }}&#160;</p>
+<p style="position:absolute;top:290px;left:231px;white-space:nowrap" class="ft16">:&#160;{{ now()->format('d F Y') }}&#160;</p>
 <p style="position:absolute;top:314px;left:53px;white-space:nowrap" class="ft16">&#160;</p>
 @php
     // Get the current day in English
@@ -154,18 +157,20 @@
 <p style="position:absolute;top:894px;left:585px;white-space:nowrap" class="ft16">yang Menerima&#160;</p>
 <p style="position:absolute;top:931px;left:69px;white-space:nowrap" class="ft16">&#160;</p>
 <p style="position:absolute;top:931px;left:642px;white-space:nowrap" class="ft16">&#160;</p>
-<p style="position:absolute;top:1010px;left:150px;white-space:nowrap" class="ft13"><b>{{ $assetData['picadded']?? 'N/A' }}&#160;</b></p>
+<p style="position:absolute;top:1010px;left:150px;white-space:nowrap; text-decoration: underline;" class="ft13"><b>{{ $assetData['picadded'] ?? 'N/A' }}&#160;</b></p>
 
 <p style="position:absolute;top:1037px;left:159px;white-space:nowrap" class="ft13"><b>Nippm.&#160;{{$nippm}}&#160;</b></p>
 	<div class="centered-container">
-        <p class="ft13"><b>{{ $assetData['employee']['name'] ?? 'N/A' }}&#160;</b></p>
+        <p class="ft13" style="text-decoration: underline"><b>{{ $assetData['employee']['name'] ?? 'N/A' }}&#160;</b></p>
     </div>
 <p style="position:absolute;top:1037px;left:554px;white-space:nowrap" class="ft13"><b>Nippm.&#160;{{ $assetData['employee']['nipp'] ?? 'N/A' }}</b>&#160;</p>
 <p style="position:absolute;top:1057px;left:53px;white-space:nowrap" class="ft17">&#160;</p>
 <p style="position:absolute;top:1081px;left:53px;white-space:nowrap" class="ft17">*Mohon setelah di&#160;tandatangani&#160;BAST&#160;dikembalikan ke&#160;alamat&#160;pengirim&#160;</p>
+
 <p style="position:absolute;top:1110px;left:53px;white-space:nowrap" class="ft17">&#160;</p>
 
-<img src="data:image/png;base64,{{ $qrCode }}" alt="QR Code" style="position:absolute;top:1087px;left:554px;white-space:nowrap;" />
+<img src="data:image/png;base64,{{ $qrCode }}" alt="QR Code" style="position:absolute;top:269px;left:753px;white-space:nowrap;" />
+<p style="position:absolute;top:364px;left:753px;white-space:nowrap" class="ft13">{{$assetData['assetcode']}}&#160;</p>
 
 
 
