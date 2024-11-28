@@ -10,6 +10,7 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
+use Milon\Barcode\Facades\DNS2DFacade;
 
 use function Symfony\Component\Clock\now;
 
@@ -138,14 +139,17 @@ class MaintenanceController extends Controller{
         // Fetch user data
         $userResponse = $client->request('GET', 'http://localhost:5252/api/user');
         $userData = json_decode($userResponse->getBody()->getContents(), true);
+
+        $qrCode = DNS2DFacade::getBarcodePNG($assetcode, 'QRCODE', 3, 3); // Generate QR code
         
         // Prepare data for PDF
         $data = [
             'assetData' => $assetData,
             'userData' => $userData,
             'selectedRecord' => $selectedRecord, // Pass the selected maintenance record
+            'qrCode' => $qrCode
         ];
-        
+
         // Generate PDF
         $pdf = SnappyPdf::loadView('maintenance.preview', $data);
         $pdf->setOption('enable-local-file-access', true);

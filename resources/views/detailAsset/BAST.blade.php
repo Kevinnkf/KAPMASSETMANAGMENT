@@ -196,7 +196,7 @@
     <table class="info-table">
         <tr>
             <td><p white-space:nowrap" class="ft16">No Ref: </p></td>
-            <td><p white-space:nowrap" class="ft16">BAST.IT.MMYY.xxxx</p></td>
+            <td><p white-space:nowrap" class="ft16">BAST.IT.{{ now()->format('mY') }}.xxxx</p></td>
         </tr>
         <tr>
             <td><p white-space:nowrap" class="ft16">Tanggal: </p></td>
@@ -229,7 +229,7 @@
         </tr>
     </table>
 
-    <p>Menyerahkan barang-barang sebagai berikut:</p>
+    <p class="ft16">Menyerahkan barang-barang sebagai berikut:</p>
 
     
     <table>
@@ -281,12 +281,12 @@
         <table style="width: 100%; border: none; border-collapse: collapse;">
             <tr>
                 <td style="text-align: center; border: none; padding-bottom: 80px;">
-                    yang Menyerahkan<br><br><br><br><br><br><br>
+                    <p class="ft13">yang Menyerahkan</p><br><br><br><br><br><br><br>
                     <p class="ft13" style="text-decoration: underline"><b>{{ $assetData['picadded'] ?? 'N/A' }}&#160;</b></p>
                     <p class="ft13"><b>Nippm.&#160;{{$nippm}}&#160;</b></p>
                 </td>
                 <td style="text-align: center; border: none; padding-bottom: 80px;">
-                    yang Menerima<br><br><br><br><br><br><br>
+                    <p class="ft13"> yang Menerima</p><br><br><br><br><br><br><br>
                     <p class="ft13" style="text-decoration: underline"><b>{{ $assetData['employee']['name'] ?? 'N/A' }}&#160;</b></p>
                     <p class="ft13"><b>Nippm.&#160;{{ $assetData['employee']['nipp'] ?? 'N/A' }}</b>&#160;</p>
                 </td>
