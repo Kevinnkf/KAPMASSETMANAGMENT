@@ -116,50 +116,52 @@ dd($assetData['assetcategory']);
                                     Print QR
                                 </button>
                                 @if (!empty($assetSpecData))
-                                @foreach ($assetSpecData as $assetspecs)
-                                @php
-                                $idassetspec = isset($assetspecs['idassetspec']) ? $assetspecs['idassetspec'] : 'N/A';
-                                $processorbrand = isset($assetspecs['processorbrand']) ? $assetspecs['processorbrand'] : 'N/A';
-                                $processormodel = isset($assetspecs['processormodel']) ? $assetspecs['processormodel'] : 'N/A';
-                                $processorseries = isset($assetspecs['processorseries']) ? $assetspecs['processorseries'] : 'N/A';
-                                $processor = $processorbrand . ' ' . $processormodel . ' ' . $processorseries;
-                                $memorytype = isset($assetspecs['memorytype']) ? $assetspecs['memorytype'] : 'N/A';
-                                $memorybrand = isset($assetspecs['memorybrand']) ? $assetspecs['memorybrand'] : 'N/A';
-                                $memorymodel = isset($assetspecs['memorymodel']) ? $assetspecs['memorymodel'] : 'N/A';
-                                $memoryseries = isset($assetspecs['memoryseries']) ? $assetspecs['memoryseries'] : 'N/A';
-                                $memorycapacity = isset($assetspecs['memorycapacity']) ? $assetspecs['memorycapacity'] : 'N/A';
-                                $memory = $memorytype . ' ' . $memorybrand . ' ' . $memorymodel . ' ' . $memoryseries . ' ' . $memorycapacity . ' GB';
-                                $storagetype = isset($assetspecs['storagetype']) ? $assetspecs['storagetype'] : 'N/A';
-                                $storagebrand = isset($assetspecs['storagebrand']) ? $assetspecs['storagebrand'] : 'N/A';
-                                $storagemodel = isset($assetspecs['storagemodel']) ? $assetspecs['storagemodel'] : 'N/A';
-                                $storagecapacity = isset($assetspecs['storagecapacity']) ? $assetspecs['storagecapacity'] : 'N/A';
-                                $storage = $storagetype . ' ' . $storagebrand . ' ' . $storagemodel . ' ' . $storagecapacity . ' GB';
-                                $graphicsbrand1 = isset($assetspecs['graphicsbranD1']) ? $assetspecs['graphicsbranD1'] : 'N/A';
-                                $graphicsmodel1 = isset($assetspecs['graphicsmodeL1']) ? $assetspecs['graphicsmodeL1'] : 'N/A';
-                                $graphicsseries1 = isset($assetspecs['graphicsserieS1']) ? $assetspecs['graphicsserieS1'] : 'N/A';
-                                $graphicscapacity1 = isset($assetspecs['graphicscapacitY1']) ? $assetspecs['graphicscapacitY1'] : 'N/A';
-                                $graphics1 = $graphicsbrand1 . ' ' . $graphicsmodel1 . ' ' . $graphicsseries1 . ' ' . $graphicscapacity1 . ' GB';
-                                $graphicstype1 = isset($assetspecs['graphicstypE1']) ? $assetspecs['graphicstypE1'] : 'N/A';
-  
-                                $graphicsbrand2 = isset($assetspecs['graphicsbranD2']) ? $assetspecs['graphicsbranD2'] : 'N/A';
-                                $graphicsmodel2 = isset($assetspecs['graphicsmodeL2']) ? $assetspecs['graphicsmodeL2'] : 'N/A';
-                                $graphicsseries2 = isset($assetspecs['graphicsserieS2']) ? $assetspecs['graphicsserieS2'] : 'N/A';
-                                $graphicscapacity2 = isset($assetspecs['graphicscapacitY2']) ? $assetspecs['graphicscapacitY2'] : 'N/A';
-                                $graphics2 = $graphicsbrand2 . ' ' . $graphicsmodel2 . ' ' . $graphicsseries2 . ' ' . $graphicscapacity2 . ' GB';
-                                $graphicstype2 = isset($assetspecs['graphicstypE2']) ? $assetspecs['graphicstypE2'] : 'N/A';
+                                    @foreach ($assetSpecData as $assetspecs)
+                                        @php
+                                        $idassetspec = $assetspecs['idassetspec'] ?? '0';
+                                        $processorbrand = isset($assetspecs['processorbrand']) ? $assetspecs['processorbrand'] : 'N/A';
+                                        $processormodel = isset($assetspecs['processormodel']) ? $assetspecs['processormodel'] : 'N/A';
+                                        $processorseries = isset($assetspecs['processorseries']) ? $assetspecs['processorseries'] : 'N/A';
+                                        $processor = $processorbrand . ' ' . $processormodel . ' ' . $processorseries;
+                                        $memorytype = isset($assetspecs['memorytype']) ? $assetspecs['memorytype'] : 'N/A';
+                                        $memorybrand = isset($assetspecs['memorybrand']) ? $assetspecs['memorybrand'] : 'N/A';
+                                        $memorymodel = isset($assetspecs['memorymodel']) ? $assetspecs['memorymodel'] : 'N/A';
+                                        $memoryseries = isset($assetspecs['memoryseries']) ? $assetspecs['memoryseries'] : 'N/A';
+                                        $memorycapacity = isset($assetspecs['memorycapacity']) ? $assetspecs['memorycapacity'] : 'N/A';
+                                        $memory = $memorytype . ' ' . $memorybrand . ' ' . $memorymodel . ' ' . $memoryseries . ' ' . $memorycapacity . ' GB';
+                                        $storagetype = isset($assetspecs['storagetype']) ? $assetspecs['storagetype'] : 'N/A';
+                                        $storagebrand = isset($assetspecs['storagebrand']) ? $assetspecs['storagebrand'] : 'N/A';
+                                        $storagemodel = isset($assetspecs['storagemodel']) ? $assetspecs['storagemodel'] : 'N/A';
+                                        $storagecapacity = isset($assetspecs['storagecapacity']) ? $assetspecs['storagecapacity'] : 'N/A';
+                                        $storage = $storagetype . ' ' . $storagebrand . ' ' . $storagemodel . ' ' . $storagecapacity . ' GB';
+                                        $graphicsbrand1 = isset($assetspecs['graphicsbranD1']) ? $assetspecs['graphicsbranD1'] : 'N/A';
+                                        $graphicsmodel1 = isset($assetspecs['graphicsmodeL1']) ? $assetspecs['graphicsmodeL1'] : 'N/A';
+                                        $graphicsseries1 = isset($assetspecs['graphicsserieS1']) ? $assetspecs['graphicsserieS1'] : 'N/A';
+                                        $graphicscapacity1 = isset($assetspecs['graphicscapacitY1']) ? $assetspecs['graphicscapacitY1'] : 'N/A';
+                                        $graphics1 = $graphicsbrand1 . ' ' . $graphicsmodel1 . ' ' . $graphicsseries1 . ' ' . $graphicscapacity1 . ' GB';
+                                        $graphicstype1 = isset($assetspecs['graphicstypE1']) ? $assetspecs['graphicstypE1'] : 'N/A';
+        
+                                        $graphicsbrand2 = isset($assetspecs['graphicsbranD2']) ? $assetspecs['graphicsbranD2'] : 'N/A';
+                                        $graphicsmodel2 = isset($assetspecs['graphicsmodeL2']) ? $assetspecs['graphicsmodeL2'] : 'N/A';
+                                        $graphicsseries2 = isset($assetspecs['graphicsserieS2']) ? $assetspecs['graphicsserieS2'] : 'N/A';
+                                        $graphicscapacity2 = isset($assetspecs['graphicscapacitY2']) ? $assetspecs['graphicscapacitY2'] : 'N/A';
+                                        $graphics2 = $graphicsbrand2 . ' ' . $graphicsmodel2 . ' ' . $graphicsseries2 . ' ' . $graphicscapacity2 . ' GB';
+                                        $graphicstype2 = isset($assetspecs['graphicstypE2']) ? $assetspecs['graphicstypE2'] : 'N/A';
 
-                                $screenresolution = isset($assetspecs['screenresolution']) ? $assetspecs['screenresolution'] : 'N/A';
-                                $touchscreen = isset($assetspecs['touchscreen']) ? $assetspecs['touchscreen'] : 'N/A';
-                                $backlightkeyboard = isset($assetspecs['backlightkeyboard']) ? $assetspecs['backlightkeyboard'] : 'N/A';
-                                $convertible = isset($assetspecs['convertible']) ? $assetspecs['convertible'] : 'N/A';
-                                $webcamera = isset($assetspecs['webcamera']) ? $assetspecs['webcamera'] : 'N/A';
-                                $speaker = isset($assetspecs['speaker']) ? $assetspecs['speaker'] : 'N/A';
-                                $microphone = isset($assetspecs['microphone']) ? $assetspecs['microphone'] : 'N/A';
-                                $wifi = isset($assetspecs['wifi']) ? $assetspecs['wifi'] : 'N/A';
-                                $bluetooth = isset($assetspecs['bluetooth']) ? $assetspecs['bluetooth'] : 'N/A';
-                            @endphp
-                            @endforeach
-                            @endif
+                                        $screenresolution = isset($assetspecs['screenresolution']) ? $assetspecs['screenresolution'] : 'N/A';
+                                        $touchscreen = isset($assetspecs['touchscreen']) ? $assetspecs['touchscreen'] : 'N/A';
+                                        $backlightkeyboard = isset($assetspecs['backlightkeyboard']) ? $assetspecs['backlightkeyboard'] : 'N/A';
+                                        $convertible = isset($assetspecs['convertible']) ? $assetspecs['convertible'] : 'N/A';
+                                        $webcamera = isset($assetspecs['webcamera']) ? $assetspecs['webcamera'] : 'N/A';
+                                        $speaker = isset($assetspecs['speaker']) ? $assetspecs['speaker'] : 'N/A';
+                                        $microphone = isset($assetspecs['microphone']) ? $assetspecs['microphone'] : 'N/A';
+                                        $wifi = isset($assetspecs['wifi']) ? $assetspecs['wifi'] : 'N/A';
+                                        $bluetooth = isset($assetspecs['bluetooth']) ? $assetspecs['bluetooth'] : 'N/A';
+                                    @endphp
+                                    @endforeach
+                                    @else
+                                        @php $idassetspec = 0  @endphp
+                                @endif
                                 <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300" onclick="window.location.href='{{ route('transaction.edit',[
                                     'assetcategory' => $assetcategory, 
                                     'assetcode' => $assetcode,
@@ -391,6 +393,7 @@ dd($assetData['assetcategory']);
                     <!-- Dynamic Table-like Section with Headers as Rows -->
                         <div class="relative overflow-y-auto max-h-[400px]">
                             <div class="grid grid-cols-2 md:grid-cols-3 gap-4 overflow-auto">
+                                {{-- @php dd($imgData); @endphp --}}
                                 @if(!empty($imgData) && is_array($imgData)) <!-- Check if $imgData is not empty and is an array -->
                                     @foreach ($imgData as $img)
                                         <div>
@@ -480,20 +483,29 @@ dd($assetData['assetcategory']);
                                 </a>
                             </div>
                                 <ol class="relative border-s border-gray-200 dark:border-gray-700">                  
-                                    @foreach ($histData as $data)
+                                    @if(empty($histData))
                                     <li class="mb-10 ms-4">
                                         <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
-                                        <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{{$data ['dateadded']}}</time>
-                                        <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">{{ $data['assetcode'] }}</p>
-                                        @if(isset($data['nipp']) && !empty($data['nipp']))
-                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-900">Assigned Asset</h3>
-                                        <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Asset has been assigned to {{ $data['employee']['name'] }}</p>
-                                        @else
-                                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-900">Unassigned Asset</h3>
-                                            <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Asset returned to IT</p>
-                                        @endif
+                                        <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"> </time>
+                                        <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400"></p>
+                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-900"> No data is available</h3>
                                     </li>
-                                    @endforeach
+                                    @else
+                                        @foreach ($histData as $data)
+                                            <li class="mb-10 ms-4">
+                                                <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+                                                <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{{$data['dateadded']}}</time>
+                                                <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">{{ $data['assetcode'] }}</p>
+                                                @if(isset($data['nipp']) && !empty($data['nipp']))
+                                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-900">Assigned Asset</h3>
+                                                    <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Asset has been assigned to {{ $data['employee']['name'] }}</p>
+                                                @else
+                                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-900">Unassigned Asset</h3>
+                                                    <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Asset returned to IT</p>
+                                                @endif
+                                            </li>
+                                        @endforeach
+                                    @endif
                                 </ol>
                             </div>
                         </div>  
