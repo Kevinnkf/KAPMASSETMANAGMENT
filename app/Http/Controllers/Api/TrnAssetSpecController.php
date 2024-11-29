@@ -266,6 +266,23 @@ class  TRNAssetSpecController extends Controller
             ]);
         
             $data = json_decode($response->getBody()->getContents(),  true);
+
+            Log::info('API Response:', $data);
+
+            // Get the assetcode from the response
+            $assetcode = $data['assetcode'];
+            $category = $validated['assetcategory'];
+
+            // Check if the API response was successful and redirect accordingly
+            if ($category == 'LAPTOP') {
+                return redirect()->route('detailAsset.laptop', ['assetcode' => $assetcode])
+                                 ->with('success', 'Asset created successfully!');
+            } else if ($category == 'MOBILE') {
+                return redirect()->route('detailAsset.mobile', ['assetcode' => $assetcode])
+                                 ->with('success', 'Asset created successfully!');
+            } else {
+                return redirect()->route('detailAsset.others', ['assetcode' => $assetcode])
+                                ->with('success', 'Asset created successfully!');}
         
             return redirect()->back()->with("success", "Data has been updated successfully");
         } catch (\GuzzleHttp\Exception\RequestException $e) {
