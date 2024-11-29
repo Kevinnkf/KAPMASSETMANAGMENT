@@ -108,7 +108,7 @@
             detail-table{
                 width: 100%;
                 border-collapse: collapse;
-                border: 1px black;
+                border: none
                 height: wrap;
             }
     
@@ -228,16 +228,16 @@
 
     <table class="detail-table">
         <tr>
-            <td><p white-space:nowrap" class="ft16">Nomor Asset: </p></td>
-            <td><p white-space:nowrap" class="ft16">{{$selectedRecord['assetcode']}}</p></td>
-            <td><p white-space:nowrap" class="ft16">Tanggal Perbaikan</p></td>
-            <td><p white-space:nowrap" class="ft16">BAST.IT.{{ now()->format('mY')}}.xxxx</p></td>
+            <td style="border: none"> <p style="white-space: nowrap;" class="ft16">Nomor Asset </p></td>
+            <td style="border: none"> <p style="white-space: nowrap;" class="ft16">: {{$selectedRecord['assetcode']}}</p></td>
+            <td style="border: none"> <p style="white-space: nowrap;" class="ft16">Tanggal Perbaikan</p></td>
+            <td style="border: none"> <p style="white-space: nowrap;" class="ft16">: BAST.IT.{{ now()->format('mY')}}.xxxx</p></td>
         </tr>
         <tr>
-            <td><p white-space:nowrap" class="ft16">Serial Number: </p></td>
-            <td><p white-space:nowrap" class="ft16">{{ $selectedRecord['trnasset']['assetserialnumber']}}</p></td>
-            <td><p white-space:nowrap" class="ft16">Jenis Perangkat: </p></td>
-            <td><p white-space:nowrap" class="ft16">{{ $selectedRecord['trnasset']['assetcategory']}}</p></td>
+            <td style="border: none"> <p style="white-space: nowrap;" class="ft16">Serial Number </p></td>
+            <td style="border: none"> <p style="white-space: nowrap;" class="ft16">: {{ $selectedRecord['trnasset']['assetserialnumber']}}</p></td>
+            <td style="border: none"> <p style="white-space: nowrap;" class="ft16">Jenis Perangkat</p></td>
+            <td style="border: none"> <p style="white-space: nowrap;" class="ft16">: {{ $selectedRecord['trnasset']['assetcategory']}}</p></td>
         </tr>
     </table>
 
