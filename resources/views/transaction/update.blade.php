@@ -39,7 +39,7 @@
             <div class="mb-4">
                 <label for="processorbrand" class="block text-sm font-semibold"> Processor Brand </label>
                 <select id="processorbrand" name="processorbrand" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                    <option value="">Select Processor Brand</option>
+                    <option value="{{ $specData['processorbrand'] }}">{{ $specData['processorbrand'] }}</option>
                     @foreach ($optionData as $optionvalue)
                         @if ($optionvalue['condition'] == 'PROC_BRAND' )
                             <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
@@ -52,7 +52,7 @@
             <div class="mb-4">
                 <label for="processormodel" class="block text-sm font-semibold"> Processor Model </label>
                 <select id="processormodel" name="processormodel" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                    <option value="">Select Processor Model</option>
+                    <option value="{{ $specData['processormodel'] }}">{{ $specData['processormodel'] }}</option>
                 </select>
             </div>
 
