@@ -82,7 +82,7 @@ dd($assetData['assetcategory']);
                                 </button>
                                 <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
                                         onclick="window.location='{{ route('transaction.print', ['assetcode' => $assetcode]) }}'">
-                                    Print BAST
+                                    Print BAST`
                                 </button>
                                 {{-- @endauth --}}
                             </div>
@@ -112,8 +112,9 @@ dd($assetData['assetcategory']);
                             <!-- Right Aligned Buttons -->
                             {{-- @auth --}}
                             <div class="flex space-x-4">
-                                <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
-                                    Print QR
+                                <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+                                        onclick="window.location='{{ route('detailAsset.qrlabel', ['assetcode' => $assetcode]) }}'">
+                                    Print QR 
                                 </button>
                                 @if (!empty($assetSpecData))
                                     @foreach ($assetSpecData as $assetspecs)
