@@ -41,10 +41,12 @@ Route::prefix('transaction')->name('transaction.')->group(function(){
 
     Route::get('/trnlaptop/{assetcategory}/{assetcode}', [TrnAssetSpecController::class, 'msttrnassetspec'])-> name('laptop'); //Retrieve transaction.create view along with all the data 
     Route::get('/trnlaptop-update/{assetcategory}/{assetcode}/{idassetspec}', [TrnAssetSpecController::class, 'edit'])-> name('edit'); //Retrieve transaction.update view along with all the data 
+    Route::get('/trnlaptop-update-asset/{assettype}/{assetcategory}/{assetcode}', [TrnAssetController::class, 'editAsset'])-> name('editAsset');
 
     //Transaction Hardware
     Route::post('/storespec/{assetcode}', [TrnAssetSpecController::class, 'store'])-> name('storespec');
     Route::put('/storespec-edit/{assetcode}/{idassetspec}', [TrnAssetSpecController::class, 'update'])-> name('update');
+    Route::put('/storespec-edit-asset/{assetcode}', [TrnAssetController::class, 'updateAsset'])-> name('updateAsset');
 
     // Transaction Asset
     Route::Post('/store', [TrnAssetController::class, 'store'])-> name('store');
