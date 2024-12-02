@@ -413,7 +413,7 @@ dd($assetData['assetcategory']);
             <div class="flex-auto px-0 pt-0 pb-2">
                 <div class="p-0 overflow-x-auto">
                     <div class="flex flex-wrap justify-between p-4 gap-4 bg-white items-start">
-                        <div class="w-9/12 p-6 rounded-lg bg-white border border-gray-300">
+                        <div class="w-7/12 p-6 rounded-lg bg-white border border-gray-300 mr-6">
                             {{-- bg-white border border-gray-300 --}}
                             <div class="flex justify-between items-center pb-4 mb-4">   
                                 <!-- Left Aligned Heading -->
@@ -445,7 +445,7 @@ dd($assetData['assetcategory']);
                                     @foreach ($historyMaintenanceData as $history)
                                     <tbody>
                                         <tr>
-                                            <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent"> 
+                                            <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent w-1"> 
                                                 <p class="text-center mb-2 font-semibold leading-tight text-xs">{{ $history['maintenanceid'] }}</p> <!-- Display Condition -->
                                             </td>
                                             <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent"> 
@@ -473,7 +473,7 @@ dd($assetData['assetcategory']);
                                 </table>
                             </div>
                         </div>
-                        <div class="w-3/12 p-6 bg-white border border-gray-200 rounded-lg shadow">
+                        <div class="w-4/12 p-6 bg-white border border-gray-200 rounded-lg shadow mr-6">
                             <div class="flex justify-between items-center pb-4 mb-4">
                                 <!-- Left Aligned Heading -->
                                 <a href="#">
