@@ -364,6 +364,89 @@ class TRNAssetController extends Controller
         }
     }
 
+    // Update asset data
+    public function editAsset($assettype ,$assetcategory, $assetcode) {
+        $client = new Client();
+        $response = $client->request('GET', 'http://localhost:5252/api/Master');
+        $body = $response->getBody();
+        $content = $body->getContents();
+        $data = json_decode($content, true);
+
+        $responseAsset = $client->request('GET', "http://localhost:5252/api/TrnAsset/{$assetcode}");
+        $contentAsset = $responseAsset->getBody()->getContents();
+        $assetData = json_decode($contentAsset, true);
+        // dd($assetData);
+
+        return view('transaction.updateasset', [
+            'assetcode' => $assetcode,
+            'assettype' => $assettype,
+            'assetcategory' => $assetcategory,
+            'optionData' => $data,
+            'assetData' => $assetData]); // Keep the view name consistent
+    }
+
+    public function updateAsset(Request $request, $assetcode)
+    {
+        // Validate the incoming request data
+        $validated = $request->validate([
+            'assetcategory' => 'required|string|max:255',
+            'assetbrand' => 'required|string|max:255',
+            'assetmodel' => 'required|string|max:255',
+            'assetseries' => 'required|string|max:255',
+            'assetserialnumber' => 'required|string|max:255',
+            'picupdated' => 'required|string|max:255',
+            'condition' => 'required|string|max:255',
+            'status' => 'required|string|max:255',
+        ]);
+
+        // Initialize the HTTP client for making requests
+        $client = new \GuzzleHttp\Client();
+
+        try {
+            // Send POST request directly using the validated data
+            $response = $client->put("http://localhost:5252/api/TrnAsset/{$assetcode}", [
+                'json' => [
+                    'idasset' => '0',
+                    'assetcode' => 'assetcode',
+                    'assettype' => 'assettype',
+                    'assetcategory' => 'assetcategory',
+                    'assetbrand' => $validated['assetbrand'],
+                    'assetmodel' => $validated['assetmodel'],
+                    'assetseries' => $validated['assetseries'],
+                    'assetserialnumber' => $validated['assetserialnumber'],
+                    'picadded' => 'picadded',
+                    'picupdated' => $validated['picupdated'],
+                    'condition' => $validated['condition'],
+                    'active' => $validated['status'],
+                ]
+            ]);
+
+            // Retrieve the response data and log for debugging
+            $responseData = json_decode($response->getBody()->getContents(), true);
+            Log::info('API Response:', $responseData);
+
+            // Get the assetcode from the response
+            $category = $validated['assetcategory'];
+            // Check if the API response was successful and redirect accordingly
+            if ($category == 'LAPTOP') {
+                return redirect()->route('detailAsset.laptop', ['assetcode' => $assetcode])
+                                 ->with('success', 'Asset created successfully!');
+            } else if ($category == 'MOBILE') {
+                return redirect()->route('detailAsset.mobile', ['assetcode' => $assetcode])
+                                 ->with('success', 'Asset created successfully!');
+            } else {
+                return redirect()->route('detailAsset.laptop', ['assetcode' => $assetcode])
+                                ->with('success');}
+            
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+            // Handle error response, log the error message, and show the error to the user
+            $responseBody = $e->hasResponse() ? (string) $e->getResponse()->getBody() : null;
+            Log::error('API Error: ' . $e->getMessage() . ' - Response Body: ' . $responseBody);
+
+            return back()->withErrors(['error' => 'Failed to create asset. Please try again.'])->withInput();
+        }
+    }
+
 
 
 }
