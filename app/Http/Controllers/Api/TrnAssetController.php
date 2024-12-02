@@ -389,6 +389,7 @@ class TRNAssetController extends Controller
         $pdf->setOption('margin-bottom', '0mm'); // Set bottom margin
         $pdf->setOption('margin-left', '0mm');   // Set left margin
         
+        
         return $pdf->inline("Label QRCode.pdf");
     }
 

@@ -13,11 +13,11 @@
     .ft10{font-size:18px;font-family:BCDEEE+Calibri;color:#000000;}
 	.ft11{font-size:18px;font-family:BCDFEE+Calibri;color:#000000;}
 	.ft12{font-size:16px;font-family:BCDGEE+Calibri;color:#000000;}
-	.ft13{font-size:18px;font-family:Tahoma;color:#000000;}
+	.ft13{font-size:11px;font-family:Tahoma;color:#000000; font-weight: bold}
 	.ft14{font-size:15px;font-family:TimesNewRomanPSMT;color:#000000;}
 	.ft15{font-size:16px;font-family:BCDHEE+Calibri;color:#000000;}
 	.ft16{font-size:18px;font-family:TimesNewRomanPSMT;color:#000000;}
-	.ft17{font-size:12px;font-family:TimesNewRomanPSMT;color:#000000;}
+	.ft17{font-size:12px;font-family:Tahoma;color:#000000;}
 	.ft18{font-size:18px;line-height:21px;font-family:TimesNewRomanPS;color:#000000;}
 	.ft19{font-size:18px;line-height:21px;font-family:TimesNewRomanPSMT;color:#000000;}
 	.ft110{font-size:18px;line-height:25px;font-family:TimesNewRomanPSMT;color:#00FAFAFA;}
@@ -28,34 +28,51 @@
         }
 
         .header-table {
-            border: none;
+            border:none;
             padding: 6px;
-            width: 60mm; /* Set the width of the table */x
+            width: 73mm; /* Set the width of the table */x
             height: 16mm; /* Set the height of the table */
             border-collapse: collapse; /* Optional: collapse borders */
             text-align: left;
-            position: absolute; top: 0px; left: 0px; white-space: nowrap; z-index: -100;
+            position: absolute; top: 9px; left: 4px; white-space : nowrap; z-index: -100;
         }
         .header-table td {
-            padding: 1mm; /* Optional: padding for cells */
+            border:none;
             vertical-align: middle; /* Align content to the top */
-            font-size: 10pt
+        }
+
+        .header-title {
+            padding: 20px
+            vertical-align: middle; /* Center the text vertically */
         }
 
         .logo {
-            text-align: center;
-            font-size: 10px;
+            width: 5px;
         }
 
         .logo img {
-            width: auto; /* Set your desired width */
-            height: auto; /* Maintain aspect ratio */
+            width: auto; /* Set yur desired width */
+            height: 4%; /* Maintain aspect ratio */
             max-width: none; /* Allow the image to exceed the default max width */
             vertical-align: middle;
-            text-align: center;
+            text-align: center;            
         }
 
-        .
+        .qr{
+            width: 5px;
+        }
+
+        .qr img {
+            width: auto; /* Set your desired width */
+            height: 80%; /* Maintain aspect ratio */
+            max-width: none; /* Allow the image to exceed the default max width */
+            vertical-align: middle;
+            text-align: center;            
+        }
+        
+        
+
+        
 -->
 </style>
 </head>
@@ -81,25 +98,24 @@
 
     <table class="header-table">
         <tr>
-            <td class="logo" rowspan="2">
-                <img src="data:image/png;base64,{{ $qrCode }}" alt="QR Code" /> <br>                
+            <td class="qr" rowspan="3">
+                <img src="data:image/png;base64,{{ $qrCode }}" alt="QR Code" /> <br>
+                <!-- <p class="ft17">{{ $assetData['assetcode'] }}&#160;</p-->                
             </td>
-            <td class="header-title">
+            <td class="header-title" style="height: 50px">
                 <p style="white-space:nowrap" class="ft13">{{ $assetData['assetbrand'] ?? 'N/A' }} {{ $assetData['assetmodel'] ?? 'N/A' }} {{ $assetData['assetseries'] ?? 'N/A' }}</p>
                 <p style="white-space:nowrap" class="ft13">{{ $assetData['assetserialnumber'] ?? 'N/A' }}</p>
                 <p style="white-space:nowrap" class="ft13">{{ $formattedDate }}</p>
             </td>
             <td class="logo" rowspan="3"> 
-                <img style="max-width: 100px" src="D:\laragon\www\KAPMASSETMANAGMENT\public\assets\logo\KAPM-logo.png" alt="Logo">
+                <img style="max-width: 100px" src="D:\laragon\www\KAPMASSETMANAGMENT\public\assets\logo\Logo-KAPM-biru.png" alt="Logo">
             </td>
         </tr>
         <tr>
             
         </tr>
         <tr>
-            <td class="header-title">
-                <p class="ft17">{{ $assetData['assetcode'] }}&#160;</p>
-            </td>
+            
         </tr>
     </table>
 
