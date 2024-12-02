@@ -447,6 +447,32 @@ class TRNAssetController extends Controller
         }
     }
 
+    public function printLabel($assetcode) {
+        $client = new Client();
+        
+        // Fetch asset data
+        $assetResponse = $client->request('GET', "http://localhost:5252/api/TrnAsset/{$assetcode}");
+        $assetData = json_decode($assetResponse->getBody()->getContents(), true);
 
+        $qrCode = DNS2DFacade::getBarcodePNG($assetcode, 'QRCODE', 3, 3); // Generate QR code
+        
+        // Prepare data for PDF
+        $data = [
+            'assetData' => $assetData,
+            'qrCode' => $qrCode
+        ];
 
+        // Generate PDF
+        $pdf = SnappyPdf::loadView('detailAsset.label', $data);
+        $pdf->setOption('enable-local-file-access', true);
+
+        // Set margins
+        $pdf->setOption('margin-top', '0mm');    // Set top margin
+        $pdf->setOption('margin-right', '0mm');  // Set right margin
+        $pdf->setOption('margin-bottom', '0mm'); // Set bottom margin
+        $pdf->setOption('margin-left', '0mm');   // Set left margin
+        
+        
+        return $pdf->inline("Label QRCode.pdf");
+    }
 }

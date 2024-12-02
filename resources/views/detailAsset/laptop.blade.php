@@ -82,7 +82,7 @@ dd($assetData['assetcategory']);
                                 </button>
                                 <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
                                         onclick="window.location='{{ route('transaction.print', ['assetcode' => $assetcode]) }}'">
-                                    Print BAST
+                                    Print BAST`
                                 </button>
                                 {{-- @endauth --}}
                             </div>
@@ -112,8 +112,9 @@ dd($assetData['assetcategory']);
                             <!-- Right Aligned Buttons -->
                             {{-- @auth --}}
                             <div class="flex space-x-4">
-                                <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
-                                    Print QR
+                                <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+                                        onclick="openAndDownloadPDF('{{ route('detailAsset.qrlabel', ['assetcode' => $assetcode]) }}')">
+                                    Print QR 
                                 </button>
                                 @if (!empty($assetSpecData))
                                     @foreach ($assetSpecData as $assetspecs)
@@ -419,7 +420,7 @@ dd($assetData['assetcategory']);
             <div class="flex-auto px-0 pt-0 pb-2">
                 <div class="p-0 overflow-x-auto">
                     <div class="flex flex-wrap justify-between p-4 gap-4 bg-white items-start">
-                        <div class="w-9/12 p-6 rounded-lg bg-white border border-gray-300">
+                        <div class="w-7/12 p-6 rounded-lg bg-white border border-gray-300 mr-6">
                             {{-- bg-white border border-gray-300 --}}
                             <div class="flex justify-between items-center pb-4 mb-4">   
                                 <!-- Left Aligned Heading -->
@@ -451,7 +452,7 @@ dd($assetData['assetcategory']);
                                     @foreach ($historyMaintenanceData as $history)
                                     <tbody>
                                         <tr>
-                                            <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent"> 
+                                            <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent w-1"> 
                                                 <p class="text-center mb-2 font-semibold leading-tight text-xs">{{ $history['maintenanceid'] }}</p> <!-- Display Condition -->
                                             </td>
                                             <td class="text-center p-2 align-middle bg-transparent border-b border-r whitespace-nowrap shadow-transparent"> 
@@ -479,7 +480,7 @@ dd($assetData['assetcategory']);
                                 </table>
                             </div>
                         </div>
-                        <div class="w-3/12 p-6 bg-white border border-gray-200 rounded-lg shadow">
+                        <div class="w-4/12 p-6 bg-white border border-gray-200 rounded-lg shadow mr-6">
                             <div class="flex justify-between items-center pb-4 mb-4">
                                 <!-- Left Aligned Heading -->
                                 <a href="#">
@@ -908,6 +909,26 @@ form.addEventListener('submit', function(event) {
         document.getElementById('picadded').value = imgData.picadded;
         
         document.getElementById('imgModal').classList.remove('hidden');
+    }
+
+    function openAndDownloadPDF(url) {
+        // Open the PDF in a new tab
+        const printWindow = window.open(url, '_blank');
+
+        // Wait for the PDF to load and then trigger the print dialog
+        printWindow.onload = function() {
+            printWindow.print();
+
+            // Trigger the download after a short delay
+            setTimeout(() => {
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'Label QRCode.pdf';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }, 1000); // Adjust the delay as necessary
+        };
     }
 
 </script>

@@ -82,6 +82,9 @@ Route::prefix('detail-asset')->name('detailAsset.')->group(function(){
     Route::post('/laptop/{assetcode}/Software', [SoftwareController::class, 'store'])->name('software.store');
     Route::get('/laptop/{assetcode}/Software/edit/{idasset}', [SoftwareController::class, 'edit'])->name('software.edit');
     Route::put('/laptop/{assetcode}/Software/update/{idassetsoftware}', [SoftwareController::class, 'update'])->name('software.update');
+
+    //Print QR
+    Route::get('/laptop/{assetcode}/qrlabel', [TrnAssetController::class, 'printLabel'])->name('qrlabel');
 });
 
 //Maintenance
