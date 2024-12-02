@@ -307,7 +307,6 @@ dd($assetData['assetcategory']);
                                         <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">Category</th>
                                         <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">Description</th>
                                         <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">Date Added</th>
-                                        <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">Active</th>
                                         <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-black opacity-70 border-r border-gray-300">Action</th>
                                     </tr>
                                 </thead>
@@ -413,8 +412,8 @@ dd($assetData['assetcategory']);
             </div>
             <div class="flex-auto px-0 pt-0 pb-2">
                 <div class="p-0 overflow-x-auto">
-                    <div class="flex flex-wrap justify-between p-4 m-2 bg-white">
-                        <div class="w-8/12 p-6 rounded-lg bg-white border border-gray-300 ">
+                    <div class="flex flex-wrap justify-between p-4 gap-4 bg-white items-start">
+                        <div class="w-9/12 p-6 rounded-lg bg-white border border-gray-300">
                             {{-- bg-white border border-gray-300 --}}
                             <div class="flex justify-between items-center pb-4 mb-4">   
                                 <!-- Left Aligned Heading -->
@@ -474,7 +473,7 @@ dd($assetData['assetcategory']);
                                 </table>
                             </div>
                         </div>
-                        <div class="w-4/12 p-6 bg-white border border-gray-200 rounded-lg shadow">
+                        <div class="w-3/12 p-6 bg-white border border-gray-200 rounded-lg shadow">
                             <div class="flex justify-between items-center pb-4 mb-4">
                                 <!-- Left Aligned Heading -->
                                 <a href="#">
@@ -510,8 +509,8 @@ dd($assetData['assetcategory']);
                                 </ol>
                             </div>
                         </div>  
+                    </div>
                 </div>
-             </div>
             </div>
         </div>
     </div>

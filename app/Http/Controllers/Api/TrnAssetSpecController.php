@@ -41,11 +41,17 @@ class  TRNAssetSpecController extends Controller
         $content = $body->getContents();
         $data = json_decode($content, true);
 
+        $responseAssetSpec = $client->request('GET', "http://localhost:5252/api/TrnAssetSpec/{$idassetspec}");
+        $contentAssetSpec = $responseAssetSpec->getBody()->getContents();
+        $assetSpecData = json_decode($contentAssetSpec, true);
+        // dd($assetSpecData);
+
         return view('transaction.update', [
             'assetcode' => $assetcode,  
             'assetcategory' => $assetcategory,
             'idassetspec' => $idassetspec,
-            'optionData' => $data]); // Keep the view name consistent
+            'optionData' => $data,
+            'specData' => $assetSpecData]); // Keep the view name consistent
     }
     
     public function store(Request $request, $assetcode)
