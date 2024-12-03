@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\API\MasterController;
-use App\Http\Controllers\Api\TRNAssetController;
+
 use App\Http\Controllers\Auth\{
     LoginFormController,
     ForgetPasswordController,
@@ -18,7 +17,9 @@ use App\Http\Controllers\TimeManagement\izin\{
 };
 use App\Http\Controllers\Asset\{
     ConfigurationController,
-    MasterController as AssetMasterController
+    MasterController as MasterController,
+    TRNAssetController as TrnAssetController
+    
 };
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -78,11 +79,11 @@ Route::middleware(['user-auth'])->group(function () {
     });
     Route::prefix("master")->group(function () {
         Route::prefix("/type")->group(function () {
-            Route::get("/index", [AssetMasterController::class, 'index'])->name('master.type.index');
-            Route::get('/create/{condition}', [AssetMasterController::class, 'create'])->name('master.type.create'); // return master view with all of the master dataRoute::get("/create/{condition}")
-            Route::post('/store/{condition}', [AssetMasterController::class, 'store'])->name('master.type.store');//send a post request to the API for master_gcm table
-            Route::get('/show/{condition}', [AssetMasterController::class, 'show'])->name('master.type.show');//return master view with all of the master data
-            Route::put('/update/{masterid}', [AssetMasterController::class, 'update'])->name('master.type.update');//send a post request to the API for master_gcm table
+            Route::get("/index", [MasterController::class, 'index'])->name('master.type.index');
+            Route::get('/create/{condition}', [MasterController::class, 'create'])->name('master.type.create'); // return master view with all of the master dataRoute::get("/create/{condition}")
+            Route::post('/store/{condition}', [MasterController::class, 'store'])->name('master.type.store');//send a post request to the API for master_gcm table
+            Route::get('/show/{condition}', [MasterController::class, 'show'])->name('master.type.show');//return master view with all of the master data
+            Route::put('/update/{masterid}', [MasterController::class, 'update'])->name('master.type.update');//send a post request to the API for master_gcm table
         });
         Route::prefix("/user")->group(function () {
             Route::get("/index", [IzinController::class, 'index'])->name('master.user.index');
@@ -90,9 +91,9 @@ Route::middleware(['user-auth'])->group(function () {
     });
     Route::prefix("transaction")->group(function () {
         Route::prefix("/asset")->group(function () {
-            Route::get("/index", [::class, 'index'])->name('transaction.asset.index');
+            Route::get("/index", [TrnAssetController::class, 'create'])->name('transaction.asset.index');
 
-            Route::get('detail/laptop/{assetcode}', [TRNAssetController::class, 'show'])->name('laptop');
+            Route::get('detail/laptop/{assetcode}', [TrnAssetController::class, 'show'])->name('transaction.asset.laptop');
         });        
         Route::prefix("/assign")->group(function () {
             Route::get("/index", [IzinController::class, 'index'])->name('transaction.assign.index');

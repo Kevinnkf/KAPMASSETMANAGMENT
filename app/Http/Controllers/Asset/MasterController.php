@@ -70,7 +70,8 @@ class MasterController extends Controller
         $atasan = ['atasan' => $dataIzin['data'][0]['atasan'] ?? null];
 
 
-        $response = $client->request('GET', 'http://localhost:5252/api/Master');
+        // $response = $client->request('GET', 'http://localhost:5252/api/Master');
+        $response = $client->request('GET', 'http://10.48.0.17:7252/api/Master');
         $body = $response->getBody();
         $content = $body->getContents();
         $data = json_decode($content, true);
@@ -93,6 +94,7 @@ class MasterController extends Controller
                 "group-2" => $this->modul,
                 "time-management.izin.index" => "Izin ",
             ],
+            "data" => session('userdata'),
             "title" => "Halaman Izin",
             "subtitle" => "Berikut ini adalah daftar riwayat Izin Anda.",
             "atasan" => $atasan,

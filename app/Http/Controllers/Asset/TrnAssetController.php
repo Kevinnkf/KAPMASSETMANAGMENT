@@ -6,12 +6,120 @@ use Barryvdh\Snappy\Facades\SnappyPdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Milon\Barcode\Facades\DNS2DFacade;
 
 class TRNAssetController extends Controller
 {
+    private $parent = "Kepegawaian";
+    private $modul = "Time Management";
+    private $title = "Halaman Izin";
+    
+    public function create(){
+        // Ambil data dari session
+        $userData = session('userdata');
+        $getNipp = $userData['nipp'];
+
+        // Inisiasi Guzzle client
+        $client = new Client();
+
+        // URL API
+        $apiUrlIzin = config('constants.GET_DATA_IZIN_PEGAWAI') . "?nipp=" . $getNipp;
+        $apiUrlStatus = config('constants.GET_STATUS_IZIN');
+        
+        // Buat permintaan GET ke API Izin Pegawai
+        $responseIzin = $client->request('GET', $apiUrlIzin, [
+            'headers' => [
+                'Authorization' => 'Bearer ' . session('token'),
+                'Accept' => 'application/json',
+            ],
+            'timeout' => 10,
+        ]);
+
+        // Cek apakah respon berhasil (status 200)
+        if ($responseIzin->getStatusCode() !== 200) {
+            return back()->withErrors(['message' => 'Gagal mengambil data pegawai.']);
+        }
+
+        // Buat permintaan GET ke API Status Izin
+        $responseStatus = $client->request('GET', $apiUrlStatus, [
+            'headers' => [
+                'Authorization' => 'Bearer ' . session('token'),
+                'Accept' => 'application/json',
+            ],
+            'timeout' => 10,
+        ]);
+
+        // Cek apakah respon berhasil (status 200)
+        if ($responseStatus->getStatusCode() !== 200) {
+            return back()->withErrors(['message' => 'Gagal mengambil status izin.']);
+        }
+
+        // Ambil isi dari kedua respons
+        $dataIzin = json_decode($responseIzin->getBody(), true);
+        $dataStatus = json_decode($responseStatus->getBody(), true);
+
+        // Data atasan dari data izin pegawai
+        $atasan = ['atasan' => $dataIzin['data'][0]['atasan'] ?? null];
+        $response = $client->request('GET', 'http://localhost:5252/api/Master');
+        $body = $response->getBody();
+        $content = $body->getContents();
+        $masterData = json_decode($content, true);
+
+        $response = $client->request('GET', 'http://localhost:5252/api/TrnAsset');
+        $body = $response->getBody()->getContents();
+        $assetData = json_decode($body, true);
+
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $perPage = 10;
+        $currentItems = array_slice($assetData, ($currentPage-1)*$perPage, $perPage);
+
+        $paginatedData = new LengthAwarePaginator(
+            $currentItems,
+            count($assetData), // Total items
+            $perPage, // Items per page
+            $currentPage, // Current page
+            ['path' => request()->url(), 'query' => request()->query()] // Maintain query parameters
+        );
+        
+        
+        
+        // Count assets based on conditions
+        $countAsset = count(array_filter($assetData, function ($item) {
+            return is_array($item) && (!array_key_exists('nipp', $item) || is_null($item['nipp']));
+        }));
+        
+        $destroyedAsset = count(array_filter($assetData, function ($item) {
+            return is_array($item) && array_key_exists('condition', $item) && $item['condition'] == "DESTROYED";
+        }));
+        
+        $inMtc = count(array_filter($assetData, function ($item) {
+            return is_array($item) && array_key_exists('condition', $item) && $item['condition'] == "MAINTENANCE";
+        }));
+        
+        Log::info('Result', ['data' => $paginatedData]);
+        Log::info('Result', ['data' => $countAsset]);
+        
+        return view('asset.transaction.asset.index', [  
+            'masterData' => $masterData,
+            'assetData' => $paginatedData,
+            'countAsset' => $countAsset,
+            'destroyedAsset' => $destroyedAsset,
+            'inMtc' => $inMtc,
+            "breadcrumb" => [
+                "group-1" => $this->parent,
+                "group-2" => $this->modul,
+                "time-management.izin.index" => "Izin ",
+            ],
+            "title" => "Daftar Aset",
+            "subtitle" => "Berikut ini adalah daftar aset",
+            "atasan" => $atasan,
+        
+        ]);
+    }
+    
     public function AssignView($assetCode){
         //new guzzle http client
         $client = new Client();
@@ -65,7 +173,7 @@ class TRNAssetController extends Controller
         $content = $body->getContents();
         $data = json_decode($content, true);
 
-        return view('transaction.asset', [
+        return view('asset.transaction.asset.indexs', [
             'optionData' => $data]); // Keep the view name consistent
     }
 
@@ -139,7 +247,7 @@ class TRNAssetController extends Controller
         }
 
         // Pass both assetData and assetSpecData to the view
-        return view('detailAsset.Laptop', [
+        return view('asset.transaction.asset.detail.laptop', [
             'assetMaster' => $assetMaster,
             'assetData' => $assetData,
             'assetSpecData' => $assetSpecData,
@@ -151,7 +259,52 @@ class TRNAssetController extends Controller
         ]);
     }
     public function index($assetcode) {
+        // Ambil data dari session
+        $userData = session('userdata');
+        $getNipp = $userData['nipp'];
+
+        // Inisiasi Guzzle client
         $client = new Client();
+
+        // URL API
+        $apiUrlIzin = config('constants.GET_DATA_IZIN_PEGAWAI') . "?nipp=" . $getNipp;
+        $apiUrlStatus = config('constants.GET_STATUS_IZIN');
+        
+        // Buat permintaan GET ke API Izin Pegawai
+        $responseIzin = $client->request('GET', $apiUrlIzin, [
+            'headers' => [
+                'Authorization' => 'Bearer ' . session('token'),
+                'Accept' => 'application/json',
+            ],
+            'timeout' => 10,
+        ]);
+
+        // Cek apakah respon berhasil (status 200)
+        if ($responseIzin->getStatusCode() !== 200) {
+            return back()->withErrors(['message' => 'Gagal mengambil data pegawai.']);
+        }
+
+        // Buat permintaan GET ke API Status Izin
+        $responseStatus = $client->request('GET', $apiUrlStatus, [
+            'headers' => [
+                'Authorization' => 'Bearer ' . session('token'),
+                'Accept' => 'application/json',
+            ],
+            'timeout' => 10,
+        ]);
+
+        // Cek apakah respon berhasil (status 200)
+        if ($responseStatus->getStatusCode() !== 200) {
+            return back()->withErrors(['message' => 'Gagal mengambil status izin.']);
+        }
+
+        // Ambil isi dari kedua respons
+        $dataIzin = json_decode($responseIzin->getBody(), true);
+        $dataStatus = json_decode($responseStatus->getBody(), true);
+
+        // Data atasan dari data izin pegawai
+        $atasan = ['atasan' => $dataIzin['data'][0]['atasan'] ?? null];
+
         $response = $client->request('GET', 'http://localhost:5252/api/Master');
         $body = $response->getBody();
         $content = $body->getContents();
@@ -161,7 +314,7 @@ class TRNAssetController extends Controller
         $contentAsset = $responseAsset->getBody()->getContents();
         $assetData = json_decode($contentAsset, true);
 
-        return view('transaction.asset.index', [
+        return view('asset.transaction.asset.index', [
             'masterData' => $masterData,
             'assetData' => $assetData
         ]); // Keep the view name consistent

@@ -5,6 +5,31 @@
     <link rel="stylesheet" href="{{ asset('assets/dist/libs/dropzone/dist/min/dropzone.min.css') }}">
 
     <style>
+        .timeline {
+        border-left: 1px solid hsl(0, 0%, 0%);
+        position: relative;
+        list-style: none;
+        }
+
+        .timeline .timeline-item {
+        position: relative;
+        }
+
+        .timeline .timeline-item:after {
+        position: absolute;
+        display: block;
+        top: 0;
+        }
+
+        .timeline .timeline-item:after {
+        background-color: hsl(0, 0%, 0%);
+        left: -38px;
+        border-radius: 50%;
+        height: 11px;
+        width: 11px;
+        content: "";
+        }
+
         .esa-header {
             display: flex;
             justify-content: space-between;
@@ -294,6 +319,20 @@
             position: absolute;
             right: 10px;
         } */
+
+        #card-info {
+            padding: 32px 40px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.08);
+        }
+        .line {
+            position: relative;
+            width: 2px; /* Width of the line */
+            background-color: black; /* Color of the line */
+            flex-grow: 1;
+            z-index: -1; /* Ensure the line is behind the circles */
+        }
     </style>
 
 @endsection
@@ -305,286 +344,374 @@
     date_default_timezone_set('Asia/Jakarta');
     ?>
 
+    @php
+    // Asset Information
+    $assetbrand = isset($assetData['assetbrand']) ? $assetData['assetbrand'] : 'N/A';
+    $assetmodel = isset($assetData['assetmodel']) ? $assetData['assetmodel'] : 'N/A';
+    $assetseries = isset($assetData['assetseries']) ? $assetData['assetseries'] : 'N/A';
+    $assetbms = $assetbrand . ' ' . $assetmodel . ' ' . $assetseries;
+    $assettype = isset($assetData['assettype']) ? $assetData['assettype'] : 'N/A';
+    $assetcategory = isset($assetData['assetcategory']) ? $assetData['assetcategory'] : 'N/A';
+    $assetcode = isset($assetData['assetcode']) ? $assetData['assetcode'] : 'N/A';
+    $assetserialnumber = isset($assetData['assetserialnumber']) ? $assetData['assetserialnumber'] : 'N/A';
+
+    // Employee Information
+    $employeeNIPP = isset($assetData['employee']['nipp']) ? $assetData['employee']['nipp'] : 'N/A';
+    $employeeName = isset($assetData['employee']['name']) ? $assetData['employee']['name'] : 'N/A';
+    $employeePosition = isset($assetData['employee']['position']) ? $assetData['employee']['position'] : 'N/A';
+    $employeeUnit = isset($assetData['employee']['unit']) ? $assetData['employee']['unit'] : 'N/A';
+    $employeeDepartment = isset($assetData['employee']['department']) ? $assetData['employee']['department'] : 'N/A';
+    $employeeDirectorate = isset($assetData['employee']['directorate']) ? $assetData['employee']['directorate'] : 'N/A';
+    $employeeActive = isset($assetData['employee']['active']) ? $assetData['employee']['active'] : 'N/A';
+
+    @endphp 
+
     {{-- Breadcrumb --}}
     @include('kepegawaian.time-management.cuti.breadcrumb')
     {{-- End Breadcrumb --}}
 
     <!-- Header -->
+    <div class="card" id="card-info">
+        @if (empty($employeeNIPP) || $employeeNIPP === 'N/A')
+        <div class="card-body d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="fw-bolder" style="font-size: 32px;">
+                    This asset is available to assign
+                </h1>
+            </div>
+            <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Assign</button>
+        </div>
+        @else
+        <div class="card-body d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="fw-bolder" style="font-size: 32px;">
+                    {{$employeeNIPP}} {{$employeeName}} {{$employeePosition}}
+                </h1>
+            </div>
+            <button class="btn mb-1 waves-effect waves-light btn-outline-danger esa-btn">Unassign</button>
+        </div>
+        @endif
+    </div>
+
     <div class="py-3">
         <div class="esa-header">
-            <div class="esa-header-dark">Formulir Pengajuan Cuti</div>
+            <div class="esa-header-dark">Detail Asset</div>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-md-8">
-            <div class="card">
+        <div class="col-md-12" >
+            <div class="card" style="background:none">
                 <div class="card-body">
-
-                    <!-- List Validasi Form - Aktifkan Jika Diperlukan -->
-                    {{-- @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    @endif --}}
-
-                    <form action="{{ route('submit-cuti') }}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
-                    @csrf
                     <!-- Data Pegawai -->
-                    <h4 class="esa-title">Data Pegawai</h4>
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <div>
+                            <h4 class="esa-title">General Information and Hardware</h4>
+                        </div>
+                        <div>
+                            <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Print QR</button>
+                            <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Update Hardware</button>
+                        </div>
+                    </div>
+                    @if (!empty($assetSpecData))
+                    @foreach ($assetSpecData as $assetspecs)
+                        @php
+                        $idassetspec = $assetspecs['idassetspec'] ?? '0';
+                        $processorbrand = isset($assetspecs['processorbrand']) ? $assetspecs['processorbrand'] : 'N/A';
+                        $processormodel = isset($assetspecs['processormodel']) ? $assetspecs['processormodel'] : 'N/A';
+                        $processorseries = isset($assetspecs['processorseries']) ? $assetspecs['processorseries'] : 'N/A';
+                        $processor = $processorbrand . ' ' . $processormodel . ' ' . $processorseries;
+                        $memorytype = isset($assetspecs['memorytype']) ? $assetspecs['memorytype'] : 'N/A';
+                        $memorybrand = isset($assetspecs['memorybrand']) ? $assetspecs['memorybrand'] : 'N/A';
+                        $memorymodel = isset($assetspecs['memorymodel']) ? $assetspecs['memorymodel'] : 'N/A';
+                        $memoryseries = isset($assetspecs['memoryseries']) ? $assetspecs['memoryseries'] : 'N/A';
+                        $memorycapacity = isset($assetspecs['memorycapacity']) ? $assetspecs['memorycapacity'] : 'N/A';
+                        $memory = $memorytype . ' ' . $memorybrand . ' ' . $memorymodel . ' ' . $memoryseries . ' ' . $memorycapacity . ' GB';
+                        $storagetype = isset($assetspecs['storagetype']) ? $assetspecs['storagetype'] : 'N/A';
+                        $storagebrand = isset($assetspecs['storagebrand']) ? $assetspecs['storagebrand'] : 'N/A';
+                        $storagemodel = isset($assetspecs['storagemodel']) ? $assetspecs['storagemodel'] : 'N/A';
+                        $storagecapacity = isset($assetspecs['storagecapacity']) ? $assetspecs['storagecapacity'] : 'N/A';
+                        $storage = $storagetype . ' ' . $storagebrand . ' ' . $storagemodel . ' ' . $storagecapacity . ' GB';
+                        $graphicsbrand1 = isset($assetspecs['graphicsbranD1']) ? $assetspecs['graphicsbranD1'] : 'N/A';
+                        $graphicsmodel1 = isset($assetspecs['graphicsmodeL1']) ? $assetspecs['graphicsmodeL1'] : 'N/A';
+                        $graphicsseries1 = isset($assetspecs['graphicsserieS1']) ? $assetspecs['graphicsserieS1'] : 'N/A';
+                        $graphicscapacity1 = isset($assetspecs['graphicscapacitY1']) ? $assetspecs['graphicscapacitY1'] : 'N/A';
+                        $graphics1 = $graphicsbrand1 . ' ' . $graphicsmodel1 . ' ' . $graphicsseries1 . ' ' . $graphicscapacity1 . ' GB';
+                        $graphicstype1 = isset($assetspecs['graphicstypE1']) ? $assetspecs['graphicstypE1'] : 'N/A';
 
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <label for="nama" class="form-label esa-label">Nama</label>
-                            <input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama" value="{{ old('nama') }}" placeholder="Nama pegawai" required>
-                            @error('nama')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                        $graphicsbrand2 = isset($assetspecs['graphicsbranD2']) ? $assetspecs['graphicsbranD2'] : 'N/A';
+                        $graphicsmodel2 = isset($assetspecs['graphicsmodeL2']) ? $assetspecs['graphicsmodeL2'] : 'N/A';
+                        $graphicsseries2 = isset($assetspecs['graphicsserieS2']) ? $assetspecs['graphicsserieS2'] : 'N/A';
+                        $graphicscapacity2 = isset($assetspecs['graphicscapacitY2']) ? $assetspecs['graphicscapacitY2'] : 'N/A';
+                        $graphics2 = $graphicsbrand2 . ' ' . $graphicsmodel2 . ' ' . $graphicsseries2 . ' ' . $graphicscapacity2 . ' GB';
+                        $graphicstype2 = isset($assetspecs['graphicstypE2']) ? $assetspecs['graphicstypE2'] : 'N/A';
+
+                        $screenresolution = isset($assetspecs['screenresolution']) ? $assetspecs['screenresolution'] : 'N/A';
+                        $touchscreen = isset($assetspecs['touchscreen']) ? $assetspecs['touchscreen'] : 'N/A';
+                        $backlightkeyboard = isset($assetspecs['backlightkeyboard']) ? $assetspecs['backlightkeyboard'] : 'N/A';
+                        $convertible = isset($assetspecs['convertible']) ? $assetspecs['convertible'] : 'N/A';
+                        $webcamera = isset($assetspecs['webcamera']) ? $assetspecs['webcamera'] : 'N/A';
+                        $speaker = isset($assetspecs['speaker']) ? $assetspecs['speaker'] : 'N/A';
+                        $microphone = isset($assetspecs['microphone']) ? $assetspecs['microphone'] : 'N/A';
+                        $wifi = isset($assetspecs['wifi']) ? $assetspecs['wifi'] : 'N/A';
+                        $bluetooth = isset($assetspecs['bluetooth']) ? $assetspecs['bluetooth'] : 'N/A';
+                    @endphp
+                    @endforeach
+                    @else
+                        @php $idassetspec = 0  @endphp
+                @endif
+                {{-- <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300" onclick="window.location.href='{{ route('transaction.edit',[
+                    'assetcategory' => $assetcategory, 
+                    'assetcode' => $assetcode,
+                    'idassetspec' => $idassetspec
+                    ])}}'">
+                    Update Asset
+                </button> --}}
+
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <tbody>
+                            <!-- Table Head in the First Column -->
+                            <tr class="bg-white hidden" hidden>
+                                <th scope="row" class="px-6 py-4 font-medium text-b lack whitespace-nowrap ">Asset ID:</th>
+                                <td class="px-6 py-4">: {{$idassetspec}}</td>    
+                                @if (!empty($assetSpecData))
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">First Graphics Card Type</th>
+                                <td class="px-6 py-4">: {{$graphicstype1}}</td>
+                                @endif
+                            </tr>
+                            <tr class="bg-white">
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">Asset Type:</th>
+                                <td class="px-6 py-4">: {{$assettype}}</td>
+                                @if (!empty($assetSpecData))
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">First Graphics Card</th>
+                                <td class="px-6 py-4">: {{$graphics1}}</td>
+                                @endif
+                            </tr>
+                            <tr class="bg-white">
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">Device Type:</th>
+                                <td class="px-6 py-4">: {{$assetcategory}}</td>
+                                @if (!empty($assetSpecData))
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">Second Graphics Card Type</th>
+                                <td class="px-6 py-4">: {{$graphicstype2}}</td>
+                                @endif
+                            </tr>
+                            <tr class="bg-white">
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">Asset Code:</th>
+                                <td class="px-6 py-4">: {{$assetcode}}</td>
+                                @if (!empty($assetSpecData))
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">Second Graphics Card</th>
+                                <td class="px-6 py-4">: {{$graphics2}}</td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">Device:</th>
+                                <td class="px-6 py-4">: {{$assetbms}}</td>
+                                @if (!empty($assetSpecData))
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">Screen Resolution</th>
+                                <td class="px-6 py-4">: {{$screenresolution}}</td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">Asset SerialNumber:</th>
+                                <td class="px-6 py-4">: {{$assetserialnumber}}</td>
+                                @if (!empty($assetSpecData))
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">Touchscreen</th>
+                                <td class="px-6 py-4">: @if($touchscreen == 'true') yes @else no @endif</td>
+                                @endif
+                            </tr>
+                            @if (!empty($assetSpecData))
+                            <tr class="bg-white">
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">Processor:</th>
+                                <td class="px-6 py-4">: {{$processor}}</td>
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">Backlight Keyboard</th>
+                                <td class="px-6 py-4">: @if($backlightkeyboard == 'true') yes @else no @endif</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">Memory:</th>
+                                <td class="px-6 py-4">: {{$memory}}</td>
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">Convertible</th>
+                                <td class="px-6 py-4">: @if($convertible == 'true') yes @else no @endif</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">Storage:</th>
+                                <td class="px-6 py-4">: {{$storage}}</td>
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">Web Camera</th>
+                                <td class="px-6 py-4">: @if($webcamera == 'true') yes @else no @endif</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">Speaker</th>
+                                <td class="px-6 py-4">: @if($speaker == 'true') yes @else no @endif</td>
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">Wifi</th>
+                                <td class="px-6 py-4">: @if($wifi == 'true') yes @else no @endif</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">Microphone</th>
+                                <td class="px-6 py-4">: @if($microphone == 'true') yes @else no @endif</td>
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">Bluetooth</th>
+                                <td class="px-6 py-4">: @if($bluetooth == 'true') yes @else no @endif</td>
+                            </tr>
+                            @endif
+                            <!-- Add more rows as necessary -->
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+    </div>
+    <div class="py-3">
+        <div class="esa-header">
+            <div class="esa-header-dark">Software</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12" >
+            <div class="card" style="background:none">
+                <div class="card-body">
+                    <!-- Data Pegawai -->
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <div>
+                            <h4 class="esa-title">Software Installed</h4>
+                        </div>
+                        <div>
+                            <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Add Software</button>
                         </div>
                     </div>
 
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <label for="nipp" class="form-label esa-label">NIPP</label>
-                            <input type="text" class="form-control @error('nipp') is-invalid @enderror" id="nipp" name="nipp" value="{{ old('nipp') }}" placeholder="Nomor NIPP" required>
-                            @error('nipp')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                {{-- <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300" onclick="window.location.href='{{ route('transaction.edit',[
+                    'assetcategory' => $assetcategory, 
+                    'assetcode' => $assetcode,
+                    'idassetspec' => $idassetspec
+                    ])}}'">
+                    Update Asset
+                </button> --}}
+
+                <div class="card-datatable table-responsive">
+                    <table id="software" class="table table-striped display nowrap esa-table-light">
+                        <thead>
+                            <!-- start row -->
+                            <tr>
+                                <th>ID</th>
+                                <th>Kode Aset</th>
+                                <th>Tipe</th>
+                                <th>Kategori</th>
+                                <th>Nama</th>
+                                <th>Lisensi</th>
+                                <th>Aktif</th>
+                            </tr>
+                            <!-- end row -->
+                        </thead>
+                        <tbody id="table-master">
+                            @if(empty($detailSoftwareData))
+                                    <tr>
+                                        <td colspan="7" class="text-center"><h5>No data for this table</h5></td>
+                                    </tr>
+                            @else
+                            @foreach($detailSoftwareData as $software)
+                            <tr>
+                                <td>{{ $software['idassetsoftware'] }}</td>
+                                <td>{{  $software['assetcode'] }}</td>
+                                <td>{{  $software['softwaretype'] }}</td>
+                                <td>{{  $software['softwarecategory'] }}</td>
+                                <td>{{  $software['softwarename'] }}</td>
+                                <td>{{  $software['softwarelicense'] }}</td>
+                                <td>{{  $software['active'] }}</td>
+                                <td class="action-buttons">
+                                    <button class="btn mb-1 waves-effect waves-light btn-outline-danger esa-btn">Delete</button>
+                                    <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" style="height:36px" onclick="openEditModal({{ json_encode($software) }})">Update</button>
+                                </td>
+                            </tr>
+                            @endforeach
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!-- First Column (8/12) -->
+        <div class="col-md-8">
+            <div class="card" style="background:none">
+                <div class="card-body">
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <div>
+                            <h4 class="esa-title">Maintenance History</h4>
+                        </div>
+                        <div>
+                            <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Add History</button>
                         </div>
                     </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <label for="jabatan" class="form-label esa-label">Jabatan</label>
-                            <input type="text" class="form-control @error('jabatan') is-invalid @enderror" id="jabatan" name="jabatan" value="{{ old('jabatan') }}" placeholder="Jabatan anda" required>
-                            @error('jabatan')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+                    <div class="card-datatable table-responsive">
+                        <table id="software" class="table table-striped display nowrap esa-table-light">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Kode Aset</th>
+                                    <th>Suku Cadang</th>
+                                    <th>Catatan Perbaikan</th>
+                                    <th>Hasil Perbaikan</th>
+                                    <th>Tanggal Perbaikan</th>
+                                    <th>Nama</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-master">
+                                @if(empty($historyMaintenanceData))
+                                    <tr>
+                                        <td colspan="7" class="text-center"><h5>No data for this table</h5></td>
+                                    </tr>
+                                @else
+                                    @foreach($historyMaintenanceData as $maintenance)
+                                        <tr>
+                                            <td>{{ $maintenance['maintenanceid'] }}</td>
+                                            <td>{{ $maintenance['assetcode'] }}</td>
+                                            <td>{{ $maintenance['notessparepart'] }}</td>
+                                            <td>{{ $maintenance['notesaction'] }}</td>
+                                            <td>{{ $maintenance['notesresult'] }}</td>
+                                            <td>{{ $maintenance['dateadded'] }}</td>
+                                            <td>{{ $maintenance['picadded'] }}</td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+                            </tbody>
+                        </table>
                     </div>
+                </div>
+            </div>
+        </div>
 
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <label for="unit_kerja" class="form-label esa-label">Unit Kerja</label>
-                            <input type="text" class="form-control @error('unit_kerja') is-invalid @enderror" id="unit_kerja" name="unit_kerja" value="{{ old('unit_kerja') }}" placeholder="Unit kerja" required>
-                            @error('unit_kerja')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <label for="email" class="form-label esa-label">Email</label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" placeholder="Email" required>
-                            @error('email')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <!-- Data Cuti -->
-                    <h4 class="esa-title">Data Cuti</h4>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="jenis_cuti" class="form-label esa-label">Jenis Cuti</label>
-                            <select class="form-select @error('jenis_cuti') is-invalid @enderror" id="jenis_cuti" name="jenis_cuti" value="{{ old('jenis_cuti') }}" required>
-                                <option value="">Pilih Jenis Cuti</option>
-                                <option value="Tahunan" {{ ((old('jenis_cuti') == 'Tahunan') ? "selected" : '' ) }}>Cuti Tahunan</option>
-                                <option value="Sakit" {{ ((old('jenis_cuti') == 'Sakit') ? "selected" : '' ) }}>Cuti Sakit</option>
-                            </select>
-                            @error('jenis_cuti')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-
-
-                    <div class="mb-3" style="">
-                        <label for="lampiran" class="form-label esa-label">Lampiran</label>
-
-
-                        <div class="border p-3 rounded dz-esa" id="file-dropzone">
-                            <div class="dz-message" data-dz-message>
-                                <div class="ti ti-folder" style="background-color: #F7F7F7; font-size: 40px; radius:8px; padding:8px; margin-bottom:8px;"></div><br>
-                                <div class="text-primary-kai">Upload a document <span class="esa-sub-label">or drag and drop</span></div>
-                                <div class="esa-sub2-label">PDF, DOC, JPG, PNG up to 10MB</div>
-                            </div>
-
-                            <div class="card" id="dz-template" style="display: none; background-color: #F9F9F9;">
-                                <div class="dz-preview dz-file-preview dz-processing dz-error dz-complete">
-
-                                    <div class="mb-3">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="row">
-                                                <div class="col-sm-8">
-                                                    <div class="dz-details">
-                                                        <div class="dz-filename"><span data-dz-name></span></div>
-                                                        <div class="dz-size text-muted" data-dz-size></div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <div>
-                                                        <a href="#" class="btn dz-remove" data-dz-remove style="color: #818181;" >Hapus</a>
-                                                        <a href="#" class="btn text-primary-kai" >Edit</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
-                                        <div class="dz-success-message"><span data-dz-successmessage></span></div>
-                                        <div class="dz-error-message"><span data-dz-errormessage></span></div>
-                                    </div>
-
+        <!-- Second Column (4/12) -->
+        <div class="col-md-4">
+            <div class="card" style="background:none">
+                <div class="card-body">
+                    @if(empty($histData))
+                        <h4 class="esa-title">Asset History</h4>
+                        <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-900"> No data available</h3>
+                    @else
+                    <h4 class="esa-title">Asset History</h4>
+                    <ol class="timeline">
+                        @foreach ($histData as $data)
+                        <li class="timeline-item mb-4">
+                            <div class="d-flex align-items-start">
+                                <div class="me-3">
+                                </div>
+                                <div>
+                                    <time class="text-muted d-block mb-1">{{ $data['dateadded'] }}</time>
+                                    <p class="text-muted mb-2 fw-bold">{{ $data['assetcode'] }}</p>
+                                    @if(isset($data['nipp']) && !empty($data['nipp']))
+                                        <h5 class="fw-bold">Asset has been assigned to</h5>
+                                        <p class="fw-bold">{{ $data['employee']['name'] }}</p>
+                                    @else
+                                        <h5 class="fw-bold">Unassigned Asset</h5>
+                                        <p class="fw-bold">Asset returned to IT</p>
+                                    @endif
                                 </div>
                             </div>
-                        </div>
-
-                        {{-- <div class="card" style="background-color: #F9F9F9;">
-                            <div class="card-body">
-                                <!-- First file - successfully uploaded -->
-                                <div class="mb-3">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <span>Lampiran.pdf</span>
-                                            <br>
-                                            <span class="text-muted">Ukuran - 1.00MB</span>
-                                        </div>
-                                        <div>
-                                            <a href="#" class="btn" style="color: #818181;" onclick="hapusLampiran()">Hapus</a>
-                                            <a href="#" class="btn text-primary-kai" onclick="editLampiran()">Edit</a>
-                                        </div>
-                                    </div>
-                                    <div class="progress mt-2">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%; background-color:#42B243; " aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <small class="esa-sub-label text-success" style="font-weight:600; color:#42B243;">Berhasil mengunggah</small>
-                                </div>
-
-                                <!-- Second file - failed to upload -->
-                                <div class="mb-3">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <span>Lampiran.pdf</span>
-                                            <br>
-                                            <span class="text-muted">Ukuran - 1.00MB</span>
-                                        </div>
-                                        <div>
-                                            <a href="#" class="btn ti ti-refresh" style="color:#585858;" onclick="refreshLampiran()"></a>
-                                        </div>
-                                    </div>
-                                    <small class="esa-sub-label text-danger" style="font-weight:600; color: #E6251C;">Gagal mengunggah</small>
-                                </div>
-                            </div>
-                        </div> --}}
-
-                        @if ($errors->has('lampiran'))
-                            <div class="text-danger">{{ $errors->first('lampiran') }}</div>
+                        </li>
+                        @endforeach
                         @endif
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="tanggal_mulai" class="form-label esa-label">Tanggal Mulai Cuti</label>
-                            <input type="date" class="form-control @error('tanggal_mulai') is-invalid @enderror" id="tanggal_mulai" name="tanggal_mulai" value="{{ old('tanggal_mulai') }}" placeholder="Pilih tanggal" required onchange="hitungLamaCuti()" >
-                            @error('tanggal_mulai')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="col-md-6">
-                            <label for="tanggal_akhir" class="form-label esa-label">Tanggal Berakhir Cuti</label>
-                            <input type="date" class="form-control @error('tanggal_akhir') is-invalid @enderror" id="tanggal_akhir" name="tanggal_akhir" value="{{ old('tanggal_akhir') }}" placeholder="Pilih tanggal" required onchange="hitungLamaCuti()" >
-                            @error('tanggal_akhir')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="row mb-3" id="lama_cuti">
-                        <div class="col-md-6">
-                            <label for="lama_cuti" class="form-label esa-sub-label">Lama cuti <span class="form-label esa-sub-label" style="font-weight: 700; line-height: 16px;" id="lama_hari">2 hari</span></label>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <label for="alamat" class="form-label esa-label">Alamat Saat Cuti</label>
-                            <select class="form-select @error('alamat') is-invalid @enderror" id="alamat" name="alamat" required>
-                                <option value="">Masukan alamat lengkap</option>
-                                <option value="Jalan" {{ ((old('alamat') == 'Jalan') ? "selected" : '' ) }}>Jalan</option>
-                            </select>
-                            @error('alamat')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <label for="kontak" class="form-label esa-label">Kontak yang Dapat Dihubungi</label>
-                            <input type="text" class="form-control @error('kontak') is-invalid @enderror" id="kontak" name="kontak" value="{{ old('kontak') }}" placeholder="+62 000 000 000" required>
-                            @error('kontak')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <!-- Data Atasan -->
-                    <h4 class="esa-title">Data Atasan</h4>
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <label for="nama_atasan" class="form-label esa-label">Nama Atasan</label>
-                            <input type="text" class="form-control @error('nama_atasan') is-invalid @enderror" id="nama_atasan" name="nama_atasan" value="{{ old('nama_atasan') }}" placeholder="Nama Atasan" required>
-                            @error('nama_atasan')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <label for="nipp_atasan" class="form-label esa-label">NIPP</label>
-                            <input type="text" class="form-control @error('nipp_atasan') is-invalid @enderror" id="nipp_atasan" name="nipp_atasan" value="{{ old('nipp_atasan') }}" placeholder="Nomor NIPP" required>
-                            @error('nipp_atasan')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <label for="jabatan_atasan" class="form-label esa-label">Jabatan Atasan</label>
-                            <input type="text" class="form-control @error('jabatan_atasan') is-invalid @enderror" id="jabatan_atasan" name="jabatan_atasan" value="{{ old('jabatan_atasan') }}" placeholder="Jabatan Atasan" required>
-                            @error('jabatan_atasan')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <label for="email_atasan" class="form-label esa-label">Email Atasan</label>
-                            <input type="email" class="form-control @error('email_atasan') is-invalid @enderror" id="email_atasan" name="email_atasan" value="{{ old('email_atasan') }}" placeholder="Email" required>
-                            @error('email_atasan')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <!-- Tombol Aksi -->
-                    <div class="button-group">
-                        <button type="button" class="btn btn-outline-muted esa-btn-lg" onclick="window.location='{{ url('/kepegawaian/time-management/cuti') }}'">Kembali</button>
-                        <button type="submit" class="btn btn-primary esa-btn-lg">Ajukan</button>
-                    </div>
-
-                    </form>
+                    </ol>
+                </div>
             </div>
         </div>
     </div>

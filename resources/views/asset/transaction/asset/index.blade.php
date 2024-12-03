@@ -61,28 +61,31 @@
                                 <thead>
                                     <!-- start row -->
                                     <tr>
-                                        <th>Master ID</th>
-                                        <th>Kondisi</th>
-                                        <th>Nomor Serial</th>
-                                        <th>Deskripsi</th>
-                                        <th>Value</th>
+                                        <th>ID</th>
+                                        <th>Kode Aset</th>
+                                        <th>NIPP</th>
                                         <th>Tipe</th>
+                                        <th>Kategori</th>
+                                        <th>Merk</th>
+                                        <th>Nomor Serial</th>
+                                        <th>Kondisi</th>
                                         <th>Aksi</th>
                                     </tr>
                                     <!-- end row -->
                                 </thead>
                                 <tbody id="table-master">
-                                    @foreach($masterData as $master)
+                                    @foreach($assetData as $asset)
                                     <tr>
-                                        <td>{{ $master['masterid'] }}</td>
-                                        <td>{{  $master['condition'] }}</td>
-                                        <td>{{  $master['nosr'] }}</td>
-                                        <td>{{  $master['description'] }}</td>
-                                        <td>{{  $master['valuegcm'] }}</td>
-                                        <td>{{  $master['typegcm'] }}</td>
+                                        <td>{{ $asset['idasset'] }}</td>
+                                        <td>{{  $asset['assetcode'] }}</td>
+                                        <td>{{  $asset['nipp'] }}</td>
+                                        <td>{{  $asset['assettype'] }}</td>
+                                        <td>{{  $asset['assetcategory'] }}</td>
+                                        <td>{{  $asset['assetbrand'] }} {{  $asset['assetmodel'] }} {{  $asset['assetseries'] }}</td>
+                                        <td>{{  $asset['assetserialnumber'] }}</td>
+                                        <td>{{  $asset['condition'] }}</td>
                                         <td class="action-buttons">
-                                            <button class="btn mb-1 waves-effect waves-light btn-outline-danger esa-btn">Delete</button>
-                                            <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" style="height:36px" onclick="openEditModal({{ json_encode($master) }})">Update</button>
+                                            <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" style="height:36px"   onclick="window.location.href='{{ route('transaction.asset.laptop', ['assetcode' => $asset['assetcode'] ?? 'N/A']) }}'">Detail</button>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -92,7 +95,7 @@
                         <nav aria-label="Page navigation example">
                             <ul class="inline-flex -space-x-px text-sm">
                                 <!-- Previous Page Link -->
-                                @if ($masterData->onFirstPage())
+                                @if ($assetData->onFirstPage())
                                     <li>
                                         <span class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-700 bg-gray-200 border border-gray-300 rounded-s-lg cursor-not-allowed">
                                             Previous
@@ -100,15 +103,15 @@
                                     </li>
                                 @else
                                     <li>
-                                        <a href="{{ $masterData->previousPageUrl() }}" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-700 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-800">
+                                        <a href="{{ $assetData->previousPageUrl() }}" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-700 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-800">
                                             Previous
                                         </a>
                                     </li>
                                 @endif
                         
                                 <!-- Pagination Elements -->
-                                @foreach ($masterData->links()->elements[0] as $page => $url)
-                                    @if ($page == $masterData->currentPage())
+                                @foreach ($assetData->links()->elements[0] as $page => $url)
+                                    @if ($page == $assetData->currentPage())
                                         <li>
                                             <span class="flex items-center justify-center px-3 h-8 text-white border border-gray-300 bg-blue-600 hover:bg-blue-700 hover:text-white">
                                                 {{ $page }}
@@ -124,9 +127,9 @@
                                 @endforeach
                         
                                 <!-- Next Page Link -->
-                                @if ($masterData->hasMorePages())
+                                @if ($assetData->hasMorePages())
                                     <li>
-                                        <a href="{{ $masterData->nextPageUrl() }}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-800">
+                                        <a href="{{ $assetData->nextPageUrl() }}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-800">
                                             Next
                                         </a>
                                     </li>
@@ -139,60 +142,6 @@
                                 @endif
                             </ul>
                         </nav>  
-                        <div id="editModal" class="modal fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
-                            <div class="bg-white p-6 rounded-md w-96">
-                                <h2 class="text-xl font-bold mb-4">Edit Master</h2>
-                  
-                                <form action="{{ route('master.type.update', ['masterid' => $master['masterid']]) }}" method="POST">
-                                  @csrf
-                                  @method('PUT') <!-- Override to use PUT method -->
-                              
-                                  <!-- Input fields for master data -->
-                                  <div class="mb-4">
-                                      <label for="masterid" class="block text-sm font-semibold">Master ID</label>
-                                      <input type="number" id="masterid" name="masterid" class="w-full p-2 border rounded" readonly>
-                                  </div>
-                              
-                                  <div class="mb-4">
-                                      <label for="condition" class="block text-sm font-semibold">Condition</label>
-                                      <input type="text" id="condition" name="condition" class="w-full p-2 border rounded" required>
-                                  </div>
-                              
-                                  <div class="mb-4">
-                                      <label for="nosr" class="block text-sm font-semibold">NOSR</label>
-                                      <input type="text" id="nosr" name="nosr" class="w-full p-2 border rounded" required>
-                                  </div>
-                              
-                                  <div class="mb-4">
-                                      <label for="description" class="block text-sm font-semibold">Description</label>
-                                      <input type="text" id="description" name="description" class="w-full p-2 border rounded" required>
-                                  </div>
-                              
-                                  <div class="mb-4">
-                                      <label for="valuegcm" class="block text-sm font-semibold">Value</label>
-                                      <input type="number" id="valuegcm" name="valuegcm" class="w-full p-2 border rounded" required>
-                                  </div>
-                              
-                                  <div class="mb-4">
-                                      <label for="typegcm" class="block text-sm font-semibold">Type</label>
-                                      <input type="text" id="typegcm" name="typegcm" class="w-full p-2 border rounded">
-                                  </div>
-                              
-                                  <div class="mb-4">
-                                      <label for="active" class="block text-sm font-semibold">Active</label>
-                                      <select id="active" name="active" class="w-full p-2 border rounded" required>
-                                          <option value="Y">Y</option> <!-- Represents true -->
-                                          <option value="N">N</option> <!-- Represents false -->
-                                      </select>
-                                  </div>
-                              
-                                  <div class="flex justify-end">
-                                      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Save</button>
-                                      <button type="button" onclick="closeModal()" class="bg-gray-500 text-white px-4 py-2 rounded mr-2">Cancel</button>
-                                  </div>
-                              </form>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -201,15 +150,15 @@
 @endsection
 @section('scripts')
     <script>
-function openEditModal(masterData) {
-    console.log(masterData);
-    document.getElementById('masterid').value = masterData.masterid;
-    document.getElementById('condition').value = masterData.condition;
-    document.getElementById('nosr').value = masterData.nosr;
-    document.getElementById('description').value = masterData.description;
-    document.getElementById('valuegcm').value = masterData.valuegcm;
-    document.getElementById('typegcm').value = masterData.typegcm;
-    document.getElementById('active').value = masterData.active;
+function openEditModal(assetData) {
+    console.log(assetData);
+    document.getElementById('masterid').value = assetData.masterid;
+    document.getElementById('condition').value = assetData.condition;
+    document.getElementById('nosr').value = assetData.nosr;
+    document.getElementById('description').value = assetData.description;
+    document.getElementById('valuegcm').value = assetData.valuegcm;
+    document.getElementById('typegcm').value = assetData.typegcm;
+    document.getElementById('active').value = assetData.active;
 
       // Populate other form fields as necessary
       
