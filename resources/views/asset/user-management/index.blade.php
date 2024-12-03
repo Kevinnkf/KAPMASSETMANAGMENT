@@ -1,10 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    {{-- Breadcrumb --}}
-    @include('kepegawaian.asesmen-pekerja.asesmen-multirater-360.breadcrumb')
-    {{-- End Breadcrumb --}}
-
     {{-- Content --}}
     <div class="row align-items-center">
         <div class="col">
@@ -15,7 +11,7 @@
             <div class="col-auto">
                 <a href="{{ route('dinas.create') }}"
                     class="justify-content-center w-100 btn mb-1 btn-primary d-flex align-items-center">
-                    <i class="ti ti-plus fs-4 me-2 " style="margin-left: 1px;"></i>Pengajuan Form Dinas
+                    <i class="ti ti-plus fs-4 me-2 " style="margin-left: 1px;"></i>Add New User
                 </a>
             </div>
         </div>
@@ -45,11 +41,9 @@
                                     <!-- start row -->
                                     <tr>
                                         <th>No</th>
-                                        <th>Jenis Dinas</th>
-                                        <th>Tujuan Dinas</th>
-                                        <th>Tanggal Mulai</th>
-                                        <th>Tanggal Berakhir</th>
-                                        <th>Jam Mulai</th>
+                                        <th>NIPP</th>
+                                        <th>Name User</th>
+                                        <th>Roles</th>
                                         <th>Aksi</th>
                                     </tr>
                                     <!-- end row -->
@@ -86,8 +80,6 @@
                 <td>${index+1}</td>
                 <td>${item.jenis_dinas}</td>
                 <td>${item.tujuan_dinas}</td>
-                <td>${item.tanggal_mulai}</td>
-                <td>${item.tanggal_berakhir}</td>
                 <td>${item.jam_mulai}</td>
                 <td class="text-center">
                     <a href="${item.link_cetak}" class="fw-bolder ">Cetak</a>

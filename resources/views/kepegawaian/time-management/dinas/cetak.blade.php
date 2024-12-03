@@ -1,15 +1,18 @@
-@extends('layouts.print')
-@section('content')
 <!DOCTYPE html>
 <html>
 
 <head>
     <link id="themeColors" rel="stylesheet" href="{{ asset('assets/dist/css/style.min.css') }}" />
-    <title>Cetak Dinas</title>
+    <title>Cetak Presensi</title>
 </head>
 
 <body>
     <style>
+        body {
+            font-size: 13px;
+            /* Sesuaikan dengan ukuran yang diinginkan */
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -32,7 +35,7 @@
         }
 
         td {
-            vertical-align: top;
+            vertical-align: middle;
             border-bottom: 1px solid black;
             /* Border horizontal */
         }
@@ -81,28 +84,29 @@
         }
 
         .qr-code img {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
+            margin: 10px 0px 10px 0px;
         }
 
         .signature-table {
-            width: 90%;
+            width: 75%;
             margin-left: auto;
             margin-right: auto;
             border-collapse: collapse;
-            padding-bottom: 20px;
+            padding-bottom: 10px;
             /* Sesuaikan nilai padding sesuai kebutuhan */
         }
 
         .signature-table th,
         .signature-table td {
             border: 1px solid black;
-            padding: 10px;
+            padding: 5px;
             text-align: center;
         }
 
         .signature-table th {
-            background-color: #f2f2f2;
+            background-color: #ffffff;
         }
     </style>
     <div class="card w-100">
@@ -116,109 +120,117 @@
                 </tr>
                 <tr class="no-border-between">
                     <td>Nama</td>
-                    <td>DARUSSALAM</td>
+                    <td>{{ $data[0]['namaPegawai'] }}</td>
                 </tr>
                 <tr class="no-border-between">
                     <td>NIPP</td>
-                    <td>22222</td>
+                    <td>{{ $data[0]['nippPegawai'] }}</td>
                 </tr>
                 <tr class="no-border-between">
                     <td>Jabatan</td>
-                    <td>Staff</td>
+                    <td>{{ $data[0]['posisiPegawai'] }}</td>
                 </tr>
                 <tr class="no-border-between">
                     <td>Unit Kerja</td>
-                    <td>UPT Resor Jalan Rel 3.15 Ciledug</td>
+                    <td>{{ $data[0]['unitPegawai'] }}</td>
                 </tr>
                 <tr class="section-title">
-                    <td colspan="2">DATA IZIN</td>
+                    <td colspan="2">DATA DINAS</td>
                 </tr>
                 <tr class="no-border-between">
                     <td>Jenis Dinas</td>
-                    <td>Dinas Luar (jarak kurang dari 50KM)</td>
+                    <td>{{ $data[0]['jenisDinas'] }}</td>
                 </tr>
                 <tr class="no-border-between">
                     <td>Tanggal Mulai</td>
-                    <td>17/09/2024</td>
+                    <td>{{ \Carbon\Carbon::parse($data[0]['tanggalMulai'])->format('d/m/Y') }}</td>
                 </tr>
                 <tr class="no-border-between">
-                    <td>Tanggal Berakhir</td>
-                    <td>18/09/2024</td>
+                    <td>Tanggal Berakhr</td>
+                    <td>{{ \Carbon\Carbon::parse($data[0]['tanggalBerakhir'])->format('d/m/Y') }}</td>
                 </tr>
                 <tr class="no-border-between">
                     <td>Lama Dinas</td>
-                    <td>2 Hari</td>
+                    <td>{{ $data[0]['jumlahHari'] }} Hari</td>
                 </tr>
                 <tr class="no-border-between">
                     <td>Tujuan Dinas</td>
-                    <td>Bandung</td>
+                    <td>{{ $data[0]['alamat'] }}</td>
                 </tr>
-                <tr class="no-border-between"></tr>
+                <tr class="no-border-between">
                     <td>No Telepon</td>
-                    <td>082115500778</td>
+                    <td>{{ $data[0]['telepon'] }}</td>
                 </tr>
                 <tr class="section-title">
                     <td colspan="2">PERSETUJUAN DINAS</td>
                 </tr>
                 <tr class="no-border-between">
                     <td>NIPP Atasan</td>
-                    <td>11111</td>
+                    <td>{{ $data[0]['nippAtasan'] }}</td>
                 </tr>
                 <tr class="no-border-between">
                     <td>Nama Atasan</td>
-                    <td>DINDA FITRI SAFIRA</td>
+                    <td>{{ $data[0]['namaAtasan'] }}</td>
                 </tr>
                 <tr class="no-border-between">
                     <td>Jabatan</td>
-                    <td>Pjt. Specialist of Design</td>
+                    <td>{{ $data[0]['posisiAtasan'] }}</td>
                 </tr>
-                <tr class="no-border-between">
+                {{-- <tr class="no-border-between">
                     <td>Tanggal Disetujui</td>
-                    <td>16/09/2024</td>
-                </tr>
+                    <td>{{ \Carbon\Carbon::parse($data[0]['tglSetuju'])->format('d/m/Y') }}</td>
+                </tr> --}}
                 <tr>
-                    <td style="padding: 20px 0;" colspan="2" >
-                        <table class="signature-table">
-                            <tr style="margin-bottom: 1.5em;">
+                    <td style="padding: 30px 0 10px 0;" colspan="2">
+                        <table class="signature-table" style="table-layout: fixed; padding-left: 0;">
+                            <tr>
                                 <th>Pemohon</th>
-                                <th>Pjt yang memberikan izin</th>
-                                <th>Pjt yang menandatangani izin</th>
+                                <th>Pjbt yang memberikan izin</th>
+                                <th>Pjbt yg menandatangani izin</th>
                             </tr>
-                            <tr >
-                                <td style="text-align: left;">
-                                    Tgl, 11/09/2024
+                            <!-- Baris 1 -->
+                            <tr>
+                                <td style="text-align: left">
+                                    Tgl, {{ \Carbon\Carbon::parse($data[0]['createdAt'])->format('d/m/Y') }}
                                 </td>
-                                <td style="text-align: left;">
-                                    Tgl, 16/09/2024
+                                <td style="text-align: left">
+                                    Tgl, {{ \Carbon\Carbon::parse($data[0]['tglSetuju'])->format('d/m/Y') }}
+                                    <!-- Menambahkan default jika null -->
                                 </td>
-                                <td style="text-align: left;">
-                                    Tgl, 17/09/2024<br>
-                                </td>
-                            </tr>
-                            <tr >
-                                <td style="text-align: left;">
-                                </td>
-                                <td style="text-align: left;">
-                                    Jabatan : Pjt. Specialist of System Design<br><br>
-                                </td>
-                                <td style="text-align: left;">
-                                    Jabatan :
+                                <td style="text-align: left">
+                                    Tgl, {{ \Carbon\Carbon::parse($data[0]['tglSetuju'])->format('d/m/Y') }}
+                                    <!-- Tanggal penandatangan izin -->
                                 </td>
                             </tr>
+                            <!-- Baris 2 -->
+                            <tr>
+                                <td>
+                                </td>
+                                <td style="text-align: left">
+                                    Jabatan : {{ $data[0]['posisiAtasan'] }}
+                                </td>
+                                <td style="text-align: left">
+                                    Jabatan : {{ $data[0]['posisiAtasan'] }}
+                                </td>
+                            </tr>
+                            <!-- Baris 3 -->
                             <tr>
                                 <td>
                                     <div class="qr-code">
-                                        {!! QrCode::size(100)->generate('https://example.com?qrcode=1') !!}
+                                        <!-- QR Code untuk Bawahan -->
+                                        <img src="{{ $qrCodePribadiImage }}" alt="QR Code Bawahan">
                                     </div>
                                 </td>
                                 <td>
                                     <div class="qr-code">
-                                        {!! QrCode::size(100)->generate('https://example.com?qrcode=2') !!}
+                                        <!-- QR Code untuk Atasan -->
+                                        <img src="{{ $qrCodeAtasanImage }}" alt="QR Code Atasan">
                                     </div>
                                 </td>
                                 <td>
                                     <div class="qr-code">
-                                        {!! QrCode::size(100)->generate('https://example.com?qrcode=3') !!}
+                                        <!-- QR Code untuk Diri Sendiri -->
+                                        <img src="{{ $qrCodeAtasanImage }}" alt="QR Code Diri Sendiri">
                                     </div>
                                 </td>
                             </tr>
@@ -226,16 +238,9 @@
                     </td>
                 </tr>
             </table>
+
         </div>
     </div>
 </body>
 
 </html>
-@endsection
-<style>
-    .qrcode {
-        border: 1px solid #333;
-        padding: 5px;
-        align: center;
-    }
-</style>

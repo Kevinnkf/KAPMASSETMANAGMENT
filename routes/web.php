@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\API\MasterController;
+use App\Http\Controllers\Api\TRNAssetController;
 use App\Http\Controllers\Auth\{
     LoginFormController,
     ForgetPasswordController,
@@ -13,6 +15,10 @@ use App\Http\Controllers\Kepegawaian\TimeManagement\Dinas\{
 use App\Http\Controllers\Kepegawaian\TimeManagement\CutiController;
 use App\Http\Controllers\TimeManagement\izin\{
     IzinController
+};
+use App\Http\Controllers\Asset\{
+    ConfigurationController,
+    MasterController as AssetMasterController
 };
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -47,9 +53,9 @@ Route::middleware(['user-auth'])->group(function () {
     Route::prefix("kepegawaian")->group(function () {
         Route::prefix("time-management")->group(function () {
             Route::resource("/dinas", DinasController::class)->names([
-                'index' => 'dinas.index',
-                'create' => 'dinas.create',
-                'show' => 'dinas.show',
+                // 'index' => 'dinas.index',
+                // 'create' => 'dinas.create',
+                // 'show' => 'dinas.show',
                 // 'store' => 'dinas-dashboard.store',
                 // 'edit' => 'dinas-dashboard.edit',
                 // 'update' => 'dinas-dashboard.update',
@@ -64,6 +70,43 @@ Route::middleware(['user-auth'])->group(function () {
         });
     });
 
+    // Asset Management System
+    Route::prefix("configuration")->group(function () {
+        Route::prefix("/menu")->group(function () {
+            Route::get("/index", [ConfigurationController::class, 'index'])->name('configuration.menus.index');
+        });
+    });
+    Route::prefix("master")->group(function () {
+        Route::prefix("/type")->group(function () {
+            Route::get("/index", [AssetMasterController::class, 'index'])->name('master.type.index');
+            Route::get('/create/{condition}', [AssetMasterController::class, 'create'])->name('master.type.create'); // return master view with all of the master dataRoute::get("/create/{condition}")
+            Route::post('/store/{condition}', [AssetMasterController::class, 'store'])->name('master.type.store');//send a post request to the API for master_gcm table
+            Route::get('/show/{condition}', [AssetMasterController::class, 'show'])->name('master.type.show');//return master view with all of the master data
+            Route::put('/update/{masterid}', [AssetMasterController::class, 'update'])->name('master.type.update');//send a post request to the API for master_gcm table
+        });
+        Route::prefix("/user")->group(function () {
+            Route::get("/index", [IzinController::class, 'index'])->name('master.user.index');
+        });
+    });
+    Route::prefix("transaction")->group(function () {
+        Route::prefix("/asset")->group(function () {
+            Route::get("/index", [::class, 'index'])->name('transaction.asset.index');
+
+            Route::get('detail/laptop/{assetcode}', [TRNAssetController::class, 'show'])->name('laptop');
+        });        
+        Route::prefix("/assign")->group(function () {
+            Route::get("/index", [IzinController::class, 'index'])->name('transaction.assign.index');
+        });        
+        Route::prefix("/loan")->group(function () {
+            Route::get("/index", [IzinController::class, 'index'])->name('transaction.loan.index');
+        });
+        Route::prefix("/maintenance")->group(function () {
+            Route::get("/index", [IzinController::class, 'index'])->name('transaction.maintenance.index');
+        });
+    });
+
+    // End Asset Management System
+
     Route::prefix("time-management")->group(function () {
         Route::prefix("/izin")->group(function () {
             Route::get("/index", [IzinController::class, 'index'])->name('time-management.izin.index');
@@ -77,14 +120,30 @@ Route::middleware(['user-auth'])->group(function () {
             Route::get('/getHistoryIzinAtasan', [IzinController::class, 'getHistoryIzinAtasan'])->name('time-management.izin.getHistoryIzinAtasan');
             Route::get('/cetakIzin', [IzinController::class, 'cetakIzin'])->name('time-management.izin.cetakIzin');
             Route::get('/getStatusIzin', [IzinController::class, 'getStatusIzin'])->name('time-management.izin.getStatusIzin');
-            Route::get('/cetakIzin', [IzinController::class, 'cetakIzin'])->name('time-management.izin.cetakIzin');
-
             Route::get('/getPengajuanIzin', [IzinController::class, 'getPengajuanIzin'])->name('time-management.izin.getPengajuanIzin');
             Route::get('/show_tanggapi', [IzinController::class, 'show_tanggapi'])->name('time-management.izin.show_tanggapi');
             Route::post('/submit_tanggapi', [IzinController::class, 'submit_tanggapi'])->name('time-management.izin.submit_tanggapi');
             Route::get('/getApprovalIzin', [IzinController::class, 'getApprovalIzin'])->name('time-management.izin.getApprovalIzin');
             Route::get('/show_approvaldetail', [IzinController::class, 'show_approvaldetail'])->name('time-management.izin.show_approvaldetail');
             Route::post("/tolakPengajuanDinas", [IzinController::class, 'tolakPengajuanDinas'])->name('time-management.izin.tolakPengajuanDinas');
+        });
+
+        Route::prefix("/dinas")->group(function () {
+            Route::get("/create", [DinasController::class, 'create'])->name('time-management.dinas.create');
+            Route::get("/index", [DinasController::class, 'index'])->name('time-management.dinas.index');
+            Route::get('/getHistoryDinas', [DinasController::class, 'getHistoryDinas'])->name('time-management.dinas.getHistoryDinas');
+            Route::get('/getPengajuanDinas', [DinasController::class, 'getPengajuanDinas'])->name('time-management.izin.getPengajuanDinas');
+            Route::get('/show_tanggapi_dinas', [DinasController::class, 'show_tanggapi_dinas'])->name('time-management.dinas.show_tanggapi_dinas');
+            Route::post('/submit_tanggapi', [DinasController::class, 'submit_tanggapi'])->name('time-management.dinas.submit_tanggapi');
+            Route::get('/getHistoryDinasAtasan', [DinasController::class, 'getHistoryDinasAtasan'])->name('time-management.dinas.getHistoryDinasAtasan');
+            Route::get('/cetakDinas', [DinasController::class, 'cetakDinas'])->name('time-management.dinas.cetakDinas');
+
+
+
+
+
+
+
         });
     });
 

@@ -181,7 +181,7 @@ var table = $('#izin-datatables-atasan').DataTable({
 });
 // END SCRIPT DATATABLES ATASAN
 
-// SCRIPT START SHOW MODAL IZIN DETAIL
+// SCRIPT START SHOW MODAL IZIN DETAIL DI PEGAWAI
 $(document).on('click', '#btnShowModal', function () {
     var idIzinPulang = $(this).data('id'); // Ambil idIzinPulang dari data-id
     $('#input_id').val(idIzinPulang);
@@ -195,7 +195,26 @@ $(document).on('click', '#btnShowModal', function () {
             let content = '';
             function formatDate(dateString) {
                 let date = new Date(dateString);
-                return ('0' + date.getDate()).slice(-2) + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + date.getFullYear();
+                // Array untuk nama bulan singkat
+                const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+                let day = ('0' + date.getDate()).slice(-2);
+                let month = monthNames[date.getMonth()]; // Ambil nama bulan dari array
+                let year = date.getFullYear();
+
+                return day + '-' + month + '-' + year;
+            }
+
+            function formatDateString(dateString) {
+                let date = new Date(dateString);
+                // Array untuk nama bulan singkat
+                const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+
+                let day = ('0' + date.getDate()).slice(-2);
+                let month = monthNames[date.getMonth()]; // Ambil nama bulan dari array
+                let year = date.getFullYear();
+
+                return day + '-' + month + '-' + year;
             }
             // Looping data dan membuat elemen HTML untuk ditampilkan di modal
             items.forEach(item => {
@@ -237,8 +256,8 @@ $(document).on('click', '#btnShowModal', function () {
                 $('#jamIzin').html(formattedTime); // Tampilkan jam izin
                 $('#alasan').html(item.alasan); // Tampilkan alasan izin
                 $('#telepon').html(item.telepon); // Tampilkan telepon
-                let formattedCreatedAt = formatDate(item.createdAt);
-                $('#createIzin').html(formattedCreatedAt); // Tampilkan tanggal dibuat
+                let formattedString = formatDateString(item.createdAt);
+                $('#createIzin').html(formattedString); // Tampilkan tanggal
                 let statusPengajuan = '';
                 if (item.statusApprove == 0) {
                     statusPengajuan = `
@@ -286,9 +305,9 @@ $(document).on('click', '#btnShowModal', function () {
         }
     });
 });
-// SCRIPT END SHOW MODAL IZIN DETAIL
+// SCRIPT END SHOW MODAL IZIN DETAIL DI PEGAWAI
 
-// SCRIPT START BATAL PENGAJUAN DINAS
+// SCRIPT START BATAL PENGAJUAN DINAS PEGAWAI
 $(document).on('click', '#sa-tolak', function () {
     $('#modalSaTolak').modal('show');
     $('#alasanTolak').val(''); // Reset nilai textarea dengan id "alasanTolak"
@@ -402,17 +421,16 @@ $("#sa-tolak-yes").click(function () {
 $(document).ready(function () {
     // Inisialisasi datepicker
     $('#datepicker').datepicker({
-        format: "mm-yyyy",
+        format: "MM-yyyy", // Ubah format ke "MM-yyyy"
         startView: "months",
         minViewMode: "months",
         autoclose: true,
         orientation: "bottom" // Memaksa datepicker muncul di bawah input
-    }).datepicker('setDate', new Date()); // Set datepicker ke bulan dan tahun sekarang
+    }).datepicker('setDate', new Date(2024, 9, 1)); // Set datepicker ke Oktober 2024
 
     // Reset datepicker saat dibuka
     $('#datepicker').on('show', function () {
-        $(this).datepicker('setDate',
-            new Date()); // Set kembali ke bulan dan tahun sekarang saat dibuka
+        $(this).datepicker('setDate', new Date(2024, 9, 1)); // Set kembali ke Oktober 2024 saat dibuka
     });
 });
 // END FUNCTION DATEPICKER
@@ -481,8 +499,6 @@ $(document).ready(function () {
     });
 });
 // END FUNCTION CETAK
-
-// START SCRIPT YOGA
 
 // START LIST PENGAJUAN IZIN VIEW ATASAN
 if ($.fn.dataTable.isDataTable('#izin-pengajuan-datatables')) {
@@ -553,7 +569,6 @@ var table = $('#izin-pengajuan-datatables').DataTable({
     scrollX: false, // Mengaktifkan scroll horizontal
     autoWidth: false // Menonaktifkan auto lebar kolom
 });
-
 // END LIST PENGAJUAN IZIN VIEW ATASAN
 
 // START LIST PPROVAL IZIN VIEW ATASAN
@@ -639,7 +654,7 @@ function hitungJumlahRow() {
 $('#izin-pengajuan-datatables').on('draw.dt', function () {
     hitungJumlahRow();
 });
-// SCRIPT START SHOW MODAL IZIN DETAIL
+// SCRIPT START SHOW MODAL IZIN DETAIL DI ATASAN
 $(document).on('click', '#btnShowModalTanggapi', function () {
     var idIzinPulang = $(this).data('id'); // Ambil idIzinPulang dari data-id
     // idIzinPulang = idIzinPulang.replace(/\+/g, '%2B');
@@ -653,29 +668,29 @@ $(document).on('click', '#btnShowModalTanggapi', function () {
             // console.log(data); // Mencetak seluruh objek data ke konsol
             const items = data.data.data;
             let content = '';
-            function formatDate1(dateString) {
-                let date = new Date(dateString);
-                let monthName = [
-                    'Januari',
-                    'Februari',
-                    'Maret',
-                    'April',
-                    'Mei',
-                    'Juni',
-                    'Juli',
-                    'Agustus',
-                    'September',
-                    'Oktober',
-                    'November',
-                    'Desember'
-                ];
-                let month = monthName[date.getMonth()];
-                return ('0' + date.getDate()).slice(-2) + ' ' + month + ' ' + date.getFullYear();
-            }
             function formatDate(dateString) {
                 let date = new Date(dateString);
-                return ('0' + date.getDate()).slice(-2) + '-' + ('0' + (date.getMonth() + 2)).slice(-2) + '-' + date.getFullYear();
-            }             // Looping data dan membuat elemen HTML untuk ditampilkan di modal
+                // Array untuk nama bulan singkat
+                const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+                let day = ('0' + date.getDate()).slice(-2);
+                let month = monthNames[date.getMonth()]; // Ambil nama bulan dari array
+                let year = date.getFullYear();
+
+                return day + '-' + month + '-' + year;
+            }
+
+            function formatDateString(dateString) {
+                let date = new Date(dateString);
+                // Array untuk nama bulan singkat
+                const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+
+                let day = ('0' + date.getDate()).slice(-2);
+                let month = monthNames[date.getMonth()]; // Ambil nama bulan dari array
+                let year = date.getFullYear();
+
+                return day + '-' + month + '-' + year;
+            }        // Looping data dan membuat elemen HTML untuk ditampilkan di modal
             items.forEach(item => {
                 let timeParts = item.jam.split(':'); // Pisahkan berdasarkan ":"
                 let formattedTime = timeParts[0] + ':' + timeParts[1]; // Gabungkan kembali hanya jam dan menit
@@ -710,14 +725,14 @@ $(document).on('click', '#btnShowModalTanggapi', function () {
                 $('#ketIzinTanggapi').html(item.statusApproveDesc); // Tampilkan status persetujuan di modal
                 $('#tipeIzinTanggapi').html(item.tipeIzinDesc); // Tampilkan tipe izin
                 // Ubah format tanggal menjadi dd-mm-yyyy
-                let formattedTanggal = formatDate1(item.tanggal);
+                let formattedTanggal = formatDate(item.tanggal);
                 $('#tanggalTanggapi').html(formattedTanggal); // Tampilkan tanggal izin
                 $('#jumlahJamTanggapi').html(formattedHour + ' jam'); // Tampilkan jumlah jam izin
                 $('#jamTanggapi').html(item.jam); // Tampilkan jam izin
                 $('#jamIzinTanggapi').html(formattedTime); // Tampilkan jam izin
                 $('#alasanTanggapi').html(item.alasan); // Tampilkan alasan izin
                 $('#teleponTanggapi').html(item.telepon); // Tampilkan telepon
-                let formattedCreatedAt = formatDate(item.createdAt);
+                let formattedCreatedAt = formatDateString(item.createdAt);
                 $('#createIzinTanggapi').html(formattedCreatedAt); // Tampilkan tanggal dibuat                $('#idizin').html(idIzinPulang); // Tampilkan tanggal dibuat
                 $('#teleponTanggapi').html(item.telepon); // Tampilkan telepon
             });
@@ -729,7 +744,9 @@ $(document).on('click', '#btnShowModalTanggapi', function () {
         }
     });
 });
+// SCRIPT START SHOW MODAL IZIN DETAIL DI ATASAN
 
+// SCRIPT START DETAIL YANG UDAH DI SETUJUI
 $(document).on('click', '#btnShowModalDetail', function () {
     var idIzinPulang = $(this).data('id'); // Ambil idIzinPulang dari data-id
     // idIzinPulang = idIzinPulang.replace(/\+/g, '%2B');
@@ -743,28 +760,28 @@ $(document).on('click', '#btnShowModalDetail', function () {
             console.log(data); // Mencetak seluruh objek data ke konsol
             const items = data.data.data;
             let content = '';
-            function formatDate1(dateString) {
-                let date = new Date(dateString);
-                let monthName = [
-                    'Januari',
-                    'Februari',
-                    'Maret',
-                    'April',
-                    'Mei',
-                    'Juni',
-                    'Juli',
-                    'Agustus',
-                    'September',
-                    'Oktober',
-                    'November',
-                    'Desember'
-                ];
-                let month = monthName[date.getMonth()];
-                return ('0' + date.getDate()).slice(-2) + ' ' + month + ' ' + date.getFullYear();
-            }
             function formatDate(dateString) {
                 let date = new Date(dateString);
-                return ('0' + date.getDate()).slice(-2) + '-' + ('0' + (date.getMonth() + 2)).slice(-2) + '-' + date.getFullYear();
+                // Array untuk nama bulan singkat
+                const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+                let day = ('0' + date.getDate()).slice(-2);
+                let month = monthNames[date.getMonth()]; // Ambil nama bulan dari array
+                let year = date.getFullYear();
+
+                return day + '-' + month + '-' + year;
+            }
+
+            function formatDateString(dateString) {
+                let date = new Date(dateString);
+                // Array untuk nama bulan singkat
+                const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+
+                let day = ('0' + date.getDate()).slice(-2);
+                let month = monthNames[date.getMonth()]; // Ambil nama bulan dari array
+                let year = date.getFullYear();
+
+                return day + '-' + month + '-' + year;
             }             // Looping data dan membuat elemen HTML untuk ditampilkan di modal
             items.forEach(item => {
                 let timeParts = item.jam.split(':'); // Pisahkan berdasarkan ":"
@@ -800,14 +817,15 @@ $(document).on('click', '#btnShowModalDetail', function () {
                 $('#ketIzinn').html(item.statusApproveDesc); // Tampilkan status persetujuan di modal
                 $('#tipeIzinn').html(item.tipeIzinDesc); // Tampilkan tipe izin
                 // Ubah format tanggal menjadi dd-mm-yyyy
-                let formattedTanggal = formatDate1(item.tanggal);
+                let formattedTanggal = formatDate(item.tanggal);
                 $('#tanggall').html(formattedTanggal); // Tampilkan tanggal izin
                 $('#jumlahJamm').html(formattedHour + ' jam'); // Tampilkan jumlah jam izin
                 $('#jamm').html(item.jam); // Tampilkan jam izin
                 $('#jamIzinn').html(formattedTime); // Tampilkan jam izin
                 $('#alasann').html(item.alasan); // Tampilkan alasan izin
                 $('#teleponn').html(item.telepon); // Tampilkan telepon
-                let formattedCreatedAt = formatDate(item.createdAt);
+                let formattedCreatedAt = formatDateString(item.createdAt);
+                $('#createIzinn').html(formattedCreatedAt); // Tampilkan tanggal dibuat
                 $('#idizinn').html(idIzinPulang); // Tampilkan tanggal dibuat
                 $('#teleponn').html(item.telepon); // Tampilkan telepon
                 let statusIzinApprove = '';
@@ -845,15 +863,14 @@ $(document).on('click', '#btnShowModalDetail', function () {
         }
     });
 });
+// SCRIPT END DETAIL YANG UDAH DI SETUJUI
 
-// SCRIPT START BATAL PENGAJUAN DINAS
+// SCRIPT START TOLAK PENGAJUAN DINAS
 $(document).on('click', '#sa-tolakTanggapi', function () {
     $('#ModalTanggapi').modal('hide');
     $('#modalSaTolakAtasan').modal('show');
     $('#alasanTolakAtasan').val(''); // Reset nilai textarea dengan id "alasanTolak"
 });
-
-
 reConfirm: () => {
     const alasan = document.getElementById('alasanTolakAtasan').value.trim();
     if (!alasan) {
@@ -862,7 +879,6 @@ reConfirm: () => {
     }
     return alasan;
 }
-
 $("#atasan-tolak-yes").click(function () {
     var idIzinPulang = $('#inputId').val();
     var alasanDitolak = $('#alasanTolakAtasan').val().trim();
@@ -921,14 +937,16 @@ $("#atasan-tolak-yes").click(function () {
             });
 
             $('#modalDetailIzin').modal('hide');
-            $('#izin-datatables').DataTable().ajax.reload();
+            $('#izin-datatables-atasan').DataTable().ajax.reload();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert('Terjadi kesalahan: ' + errorThrown);
         }
     });
 });
+// SCRIPT END TOLAK PENGAJUAN DINAS
 
+// SCRIPT START SETUJU PENGAJUAN DINAS
 $("#sa-atasan-yes").click(function () {
     var idIzinPulang = $('#inputId').val();
     var statusApprove = 1;
@@ -969,12 +987,11 @@ $("#sa-atasan-yes").click(function () {
             });
 
             $('#modalDetailIzin').modal('hide');
-            $('#izin-datatables').DataTable().ajax.reload();
+            $('#izin-datatables-atasan').DataTable().ajax.reload();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert('Terjadi kesalahan: ' + errorThrown);
         }
     });
 });
-
-// END SCRIPT YOGA
+// SCRIPT END SETUJU PENGAJUAN DINAS

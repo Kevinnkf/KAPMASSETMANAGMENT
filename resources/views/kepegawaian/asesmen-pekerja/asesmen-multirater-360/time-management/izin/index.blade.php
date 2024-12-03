@@ -9,8 +9,8 @@
             <h4 class="fw-semibold mt-3 text-secondary-kai h2 ">{{ $title }}</h4>
         </div>
         <div class="row mb-4">
-            <div class="col-10 py-2 px-3" style="vertical-align: middle">{{ $subtitle }}</div>
-            <div class="col-2 py-2 d-flex justify-content-end">
+            <div class="col-9 py-2 px-3" style="vertical-align: middle">{{ $subtitle }}</div>
+            <div class="col-3 py-2 d-flex justify-content-end">
                 <a href="{{ route('time-management.izin.create') }}"
                     class="btn btn-primary d-flex align-items-center justify-content-center" style="width: 189px;">
                     <i class="ti ti-plus fs-4 me-2"></i>

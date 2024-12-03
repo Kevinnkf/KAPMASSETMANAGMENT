@@ -12,6 +12,7 @@
         content="{{ config('variables.appDescription') ? config('variables.appDescription') : '' }}" />
     <meta name="keywords" content="{{ config('variables.appKeyword') ? config('variables.appKeyword') : '' }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
 
 
     <!-- Favicon -->

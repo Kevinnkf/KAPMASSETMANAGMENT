@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use GuzzleHttp\Client;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,8 +22,20 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        View::composer('layouts.section.sidebar', function ($view) {
+            $client = new Client();
+            $response = $client->request('GET', 'http://localhost:5252/api/Master');
+            $body = $response->getBody();
+            $content = $body->getContents();
+            $data = json_decode($content, true);
+
+            // Share the master data with the sidebar
+            $view->with('sidebarData', $data);
+        });
+
         if (env('APP_ENV') == 'development' || env('APP_ENV') == 'production') {
             \Illuminate\Support\Facades\URL::forceScheme('https');
         }
+
     }
 }

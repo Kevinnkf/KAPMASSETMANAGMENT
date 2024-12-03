@@ -10,19 +10,20 @@
         <div class="col">
             <h4 class="fw-semibold mt-3 text-primary-kai">{{ $title }}</h4>
         </div>
-        <div class="row">
-            <div class="col-10">Berikut ini adalah daftar pengajuan dinas karyawan anda</div>
-            <div class="col-auto">
-                <a href="{{ route('dinas.create') }}" class="justify-content-between w-100 btn mb-1 btn-primary d-flex align-items-center">
-                    <i class="ti ti-plus fs-4 me-2 " style="margin-left: 1px;"></i>Pengajuan Form Dinas
+        <div class="row" style="padding-right: 0">
+            <div class="col-9">{{ $subtitle }}</div>
+            <div class="col-3 text-end p-0 py-2 d-flex justify-content-end">
+                <a href="{{ route('dinas.create') }}"
+                    class="btn btn-primary d-flex align-items-center justify-content-center m-0">
+                    <i class="ti ti-plus fs-4 me-1"></i>Pengajuan Form Dinas
                 </a>
             </div>
         </div>
     </div>
-    {{-- End Content --}}
-    <div class="card-body">
-        <section class="datatables">
-                    <!-- Nav tabs -->
+    @if ($atasan['atasan'] == 'X')
+        <div class="card-body">
+            <section class="datatables">
+                <!-- Nav tabs -->
                 <div class="row">
                     <div class="col-12">
                         <ul class="nav nav-pills nav-underline w-100" role="tablist">
@@ -57,79 +58,9 @@
                                 </div>
                             </div>
                             <div class="table-responsive">
-                                <table id="dinas" class="table border table-striped text-nowrap">
-                                    <thead>
-                                        <!-- start row -->
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Jenis Dinas</th>
-                                            <th>Tujuan Dinas</th>
-                                            <th>Tanggal Mulai</th>
-                                            <th>Tanggal Berakhir</th>
-                                            <th>Jam Mulai</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                        <!-- end row -->
-                                    </thead>
-                                    <tbody>
-                                        <!-- start row -->
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Dinas luar</td>
-                                            <td>Bandung</td>
-                                            <td>24 November 2022</td>
-                                            <td>24 November 2022</td>
-                                            <td>15:00</td>
-                                            <td class="text-center">
-                                                <a href="{{ route('dinas.cetak', 1) }}" class="fw-bolder" target="_blank">Cetak</a>
-                                                <button type="button" onclick="lihatdok('{{ 1 }}')">Lihat Dokumen</button>
-
-<script>
-    function lihatdok() {
-        var url = "{{ route('dinas.cetak', ':id') }}";
-        url = url.replace(':id');
-        window.open(url, '_blank');
-    }
-</script>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Dinas luar</td>
-                                            <td>Jakarta</td>
-                                            <td>27 November 2021</td>
-                                            <td>27 November 2021</td>
-                                            <td>15:00</td>
-                                            <td class="text-center">
-                                                <a href="{{ route('dinas.cetak', 1) }}" class="fw-bolder ">Cetak</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>Perjalanan Dinas</td>
-                                            <td>Jakarta</td>
-                                            <td>1 Desember 2022</td>
-                                            <td>1 Desember 2022</td>
-                                            <td>15:00</td>
-                                            <td class="text-center">
-                                                <a href="{{ route('dinas.cetak', 1) }}" class="fw-bolder ">Cetak</a>
-                                            </td>
-                                        </tr>
-                                        <!-- end row -->
-                                    </tbody>
+                                <table id="dinas-datatables-atasan" class="table border table-striped text-nowrap"
+                                    style="font-size: 12px">
                                 </table>
-                            </div>
-                            <div class="pagination-wrapper">
-                                <div class="d-flex justify-content-between align-items-center mt-3">
-                                    <span>Showing 1 to 3 of 3 data</span>
-                                    <nav aria-label="Page navigation">
-                                        <ul class="pagination">
-                                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
                             </div>
                         </section>
                     </div>
@@ -161,8 +92,10 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" placeholder="NIPP" style="padding-right: 2.5rem">
-                                                    <i class="ti ti-search position-absolute end-0 top-50 translate-middle-y me-3 text-primary"></i>
+                                                    <input type="text" class="form-control" placeholder="NIPP"
+                                                        style="padding-right: 2.5rem">
+                                                    <i
+                                                        class="ti ti-search position-absolute end-0 top-50 translate-middle-y me-3 text-primary"></i>
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
@@ -171,59 +104,10 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="table-responsive mt-3">
-                                            <table class="table table-hover">
-                                                <thead>
-                                                    <tr>
-                                                        <th>No</th>
-                                                        <th>NIPP</th>
-                                                        <th>Nama</th>
-                                                        <th>Posisi</th>
-                                                        <th>Jenis Dinas</th>
-                                                        <th>Tujuan</th>
-                                                        <th>Aksi</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>1</td>
-                                                        <td>122334444</td>
-                                                        <td>Falah Ocktafian Akbar Putera</td>
-                                                        <td>Staff</td>
-                                                        <td>Dinas Luar</td>
-                                                        <td>Bandung</td>
-                                                        <td><a class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-tanggapi">Tanggapi</a></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>2</td>
-                                                        <td>122334444</td>
-                                                        <td>Nadhifa Yudistirawan Sudankosli</td>
-                                                        <td>Staff</td>
-                                                        <td>Perjalanan Dinas</td>
-                                                        <td>Jakarta</td>
-                                                        <td><a class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-detail">Lihat Detail</a></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>3</td>
-                                                        <td>122334444</td>
-                                                        <td>Darussalam</td>
-                                                        <td>Staff</td>
-                                                        <td>Dinas Luar</td>
-                                                        <td>Bandung</td>
-                                                        <td><a class="text-primary" data-bs-toggle="modal" data-bs-target="#bs-example-modal-md">Lihat Detail</a></td>
-                                                    </tr>
-                                                </tbody>
+                                        <div class="table-responsive w-100 mt-3">
+                                            <table id="dinas-pengajuan-datatables"
+                                                class="table border table-striped text-nowrap" style="font-size: 12px;">
                                             </table>
-                                        </div>
-                                        <div class="d-flex justify-content-between align-items-center mt-3">
-                                            <span>Showing 1 to 3 of 3 data</span>
-                                            <nav aria-label="Page navigation">
-                                                <ul class="pagination">
-                                                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                                                </ul>
-                                            </nav>
                                         </div>
                                     </div>
                                     <div class="tab-pane" id="innerpill-2" role="tabpanel">
@@ -236,7 +120,8 @@
                                             <div class="col-md-3">
                                                 <div class="input-group">
                                                     <input type="text" class="form-control" placeholder="NIPP">
-                                                    <i class="ti ti-search position-absolute end-0 top-50 translate-middle-y me-3 text-primary"></i>
+                                                    <i
+                                                        class="ti ti-search position-absolute end-0 top-50 translate-middle-y me-3 text-primary"></i>
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
@@ -264,7 +149,8 @@
                                                         <td>Falah Ocktafian Akbar Putera</td>
                                                         <td>UPT Resort Jalan Rel 3,15 Ciledung</td>
                                                         <td>Daop III Cirebon</td>
-                                                        <td><a href="{{ route('dinas.listoperator') }}" class="text-primary">Lihat Detail</a></td>
+                                                        <td><a href="{{ route('dinas.listoperator') }}"
+                                                                class="text-primary">Lihat Detail</a></td>
                                                     </tr>
                                                     <tr>
                                                         <td>2</td>
@@ -281,9 +167,14 @@
                                             <span>Showing 1 to 3 of 3 data</span>
                                             <nav aria-label="Page navigation">
                                                 <ul class="pagination">
-                                                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                                    <li class="page-item"><a class="page-link"
+                                                            href="#">Previous</a>
+                                                    </li>
+                                                    <li class="page-item active"><a class="page-link"
+                                                            href="#">1</a>
+                                                    </li>
+                                                    <li class="page-item"><a class="page-link" href="#">Next</a>
+                                                    </li>
                                                 </ul>
                                             </nav>
                                         </div>
@@ -293,18 +184,51 @@
                         </div>
                     </div>
                 </div>
+            </section>
+        </div>
+    @else
+        <div class="card-body">
+            {{-- searching --}}
+            <div class="row mb-4 mx-0 gap-3 d-flex align-items-end">
+                <div class="col-sm-2 px-0">
+                    <div class="input-group">
+                        <input type="date" class="form-control" id="bs-datepicker-format" placeholder="Periode"
+                            onkeydown="search(this)">
+                    </div>
+                </div>
             </div>
-        </section>
-    </div>
+            {{-- End Searching --}}
 
-    <div id="modal-tanggapi" class="modal fade" aria-labelledby="bs-example-modal-md" style="display: none;" aria-hidden="true">
+            {{-- table --}}
+            <section class="datatables">
+                <!-- basic table -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card-body">
+                            <div class="table-responsive w-100">
+                                <table id="dinas-datatables" class="table border table-striped text-nowrap"
+                                    style="font-size: 12px;">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    @endif
+    {{-- End Content --}}
+
+
+    <div id="modal-tanggapi" class="modal fade" aria-labelledby="bs-example-modal-md" style="display: none;"
+        aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 @include('kepegawaian.time-management.dinas.modal_tanggapi')
             </div>
         </div>
     </div>
-    <div id="modal-detail" class="modal fade" tabindex="-1" aria-labelledby="bs-example-modal-md" style="display: none;" aria-hidden="true">
+    <div id="modal-detail" class="modal fade" tabindex="-1" aria-labelledby="bs-example-modal-md"
+        style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 @include('kepegawaian.time-management.dinas.modal_detail')
@@ -327,59 +251,62 @@
           </div>
         </div>
     </div> --}}
-    
 @endsection
 <style>
     .modal-body {
-  padding: 0;
-}
+        padding: 0;
+    }
 
-#pdfViewer {
-  width: 100%;
-  height: 600px;
-}
+    #pdfViewer {
+        width: 100%;
+        height: 600px;
+    }
 </style>
 @section('scripts')
-<script>
-    $(document).ready(function() {
-        $('#dinas').DataTable({
-            "lengthChange": false,
-            "searching": false
+    <script>
+        $(document).ready(function() {
+            $('#dinas').DataTable({
+                "lengthChange": false,
+                "searching": false
+            });
         });
-    });
 
-    import { pdfjs } from 'pdfjs-dist';
-pdfjs.GlobalWorkerOptions.workerSrc = 'path/to/pdf.worker.js';
+        import {
+            pdfjs
+        } from 'pdfjs-dist';
+        pdfjs.GlobalWorkerOptions.workerSrc = 'path/to/pdf.worker.js';
 
-document.addEventListener('DOMContentLoaded', function() {
-  const pdfViewer = document.getElementById('pdfViewer');
-  
-  // Fungsi untuk memuat PDF
-  function loadPDF(url) {
-    pdfjs.getDocument(url).promise.then(function(pdf) {
-      pdf.getPage(1).then(function(page) {
-        const scale = 1.5;
-        const viewport = page.getViewport({ scale: scale });
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
+        document.addEventListener('DOMContentLoaded', function() {
+            const pdfViewer = document.getElementById('pdfViewer');
 
-        const renderContext = {
-          canvasContext: context,
-          viewport: viewport
-        };
-        
-        page.render(renderContext);
-        pdfViewer.appendChild(canvas);
-      });
-    });
-  }
+            // Fungsi untuk memuat PDF
+            function loadPDF(url) {
+                pdfjs.getDocument(url).promise.then(function(pdf) {
+                    pdf.getPage(1).then(function(page) {
+                        const scale = 1.5;
+                        const viewport = page.getViewport({
+                            scale: scale
+                        });
+                        const canvas = document.createElement('canvas');
+                        const context = canvas.getContext('2d');
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
 
-  // Panggil fungsi loadPDF saat modal dibuka
-  $('#suratDinasModal').on('shown.bs.modal', function() {
-    loadPDF('path/to/your/surat-dinas.pdf');
-  });
-});
-</script>
+                        const renderContext = {
+                            canvasContext: context,
+                            viewport: viewport
+                        };
+
+                        page.render(renderContext);
+                        pdfViewer.appendChild(canvas);
+                    });
+                });
+            }
+
+            // Panggil fungsi loadPDF saat modal dibuka
+            $('#suratDinasModal').on('shown.bs.modal', function() {
+                loadPDF('path/to/your/surat-dinas.pdf');
+            });
+        });
+    </script>
 @endsection

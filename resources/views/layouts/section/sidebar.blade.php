@@ -49,7 +49,7 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="{{ route('dinas.index') }}" class="sidebar-link bg-primary-dark-kai">
+                        <a href="{{ route('time-management.dinas.index') }}" class="sidebar-link bg-primary-dark-kai">
                             <div class="round-16 d-flex align-items-center justify-content-center">
                                 <i class="ti ti-circle"></i>
                             </div>
@@ -60,8 +60,124 @@
             </li>
             <!-- End Time Management -->
 
+            <!-- ============================= -->
+            <!-- Asset Management System -->
+            <!-- ============================= -->
+            <li class="nav-small-cap mt-3 mb-1">
+                <span class="hide-menu text-white-kai">Asset Management</span>
+            </li>
+
+            <!-- Asset Management System -->
+            <li class="sidebar-item pb-2">
+                <a class="sidebar-link bg-primary-dark-kai px-3 has-arrow" href="#" aria-expanded="false">
+                    <i class="ti ti-settings"></i>
+                    <span class="hide-menu">Configuration</span>
+                </a>
+                <ul aria-expanded="false" class="collapse first-level">
+                    <li class="sidebar-item">
+                        <a href="{{ route('configuration.menus.index') }}" class="sidebar-link bg-primary-dark-kai">
+                            <div class="round-16 d-flex align-items-center justify-content-center">
+                                <i class="ti ti-circle"></i>
+                            </div>
+                            <span class="hide-menu">Menu</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="sidebar-item pb-2">
+                <a class="sidebar-link bg-primary-dark-kai px-3 has-arrow" href="#" aria-expanded="false">
+                    <i class="ti ti-settings"></i>
+                    <span class="hide-menu">Master</span>
+                </a>
+                <ul aria-expanded="false" class="collapse first-level">
+                    <li class="sidebar-item">
+                        <a href="{{ route('master.type.index') }}" class="sidebar-link bg-primary-dark-kai">
+                            <div class="round-16 d-flex align-items-center justify-content-center">
+                                <i class="ti ti-circle"></i>
+                            </div>
+                            <span class="hide-menu">Master Index</span>
+                        </a>
+                    </li>
+                    @foreach ($sidebarData as $masters)
+                    @if($masters['condition'] == 'FIELD')
+                        @php
+                            // Assign the description value
+                            $description = $masters['description'];
+                        @endphp                                  
+                            <a class="sidebar-link bg-primary-dark-kai px-3 has-arrow" href="#" aria-expanded="false">
+                                <i class="ti ti-settings"></i>
+                                <span class="hide-menu">{{$masters['description']}}</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                @foreach($sidebarData as $innerMasters)
+                                    @if($innerMasters['condition'] == 'FIELD_VALUE' && $innerMasters['typegcm'] == $description)
+                                        @php
+                                            // Assign the description value
+                                            $href = url('master/type/show/' . $innerMasters['description']);
+                                        @endphp
+                                        <li class="sidebar-item">
+                                            <a href="{{$href}}" class="sidebar-link bg-primary-dark-kai">
+                                                <div class="round-16 d-flex align-items-center justify-content-center">
+                                                    <i class="ti ti-circle"></i>
+                                                </div>
+                                                <span class="hide-menu">
+                                                    {{ $innerMasters['description'] }}
+                                                </span>
+                                            </a>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                    @endif
+                    @endforeach
+                </ul>
+            </li>
+
+            <li class="sidebar-item pb-2">
+                <a class="sidebar-link bg-primary-dark-kai px-3 has-arrow" href="#" aria-expanded="false">
+                    <i class="ti ti-settings"></i>
+                    <span class="hide-menu">Transaction</span>
+                </a>
+                <ul aria-expanded="false" class="collapse first-level">
+                    <li class="sidebar-item">
+                        <a href="{{ route('transaction.asset.index') }}" class="sidebar-link bg-primary-dark-kai">
+                            <div class="round-16 d-flex align-items-center justify-content-center">
+                                <i class="ti ti-circle"></i>
+                            </div>
+                            <span class="hide-menu">Asset</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="{{ route('transaction.assign.index') }}" class="sidebar-link bg-primary-dark-kai">
+                            <div class="round-16 d-flex align-items-center justify-content-center">
+                                <i class="ti ti-circle"></i>
+                            </div>
+                            <span class="hide-menu">Assign</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="{{ route('transaction.loan.index') }}" class="sidebar-link bg-primary-dark-kai">
+                            <div class="round-16 d-flex align-items-center justify-content-center">
+                                <i class="ti ti-circle"></i>
+                            </div>
+                            <span class="hide-menu">Loan</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="{{ route('transaction.maintenance.index') }}" class="sidebar-link bg-primary-dark-kai">
+                            <div class="round-16 d-flex align-items-center justify-content-center">
+                                <i class="ti ti-circle"></i>
+                            </div>
+                            <span class="hide-menu">Maintenance</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!-- End Asset Management System -->
+
             <!-- Time Asesmen Pekerja -->
-            @include('layouts.section.section-sidebar.asesmen-pekerja')
+            {{-- @include('layouts.section.section-sidebar.asesmen-pekerja') --}}
             <!-- End Asesmen Pekerja -->
 
             <!-- ============================= -->
