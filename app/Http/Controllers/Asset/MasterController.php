@@ -70,8 +70,8 @@ class MasterController extends Controller
         $atasan = ['atasan' => $dataIzin['data'][0]['atasan'] ?? null];
 
 
-        // $response = $client->request('GET', 'http://localhost:5252/api/Master');
-        $response = $client->request('GET', 'http://10.48.0.17:7252/api/Master');
+        // $response = $client->request('GET', 'http://10.48.1.3:7252/api/Master');
+        $response = $client->request('GET', 'http://10.48.1.3:7252/api/Master');
         $body = $response->getBody();
         $content = $body->getContents();
         $data = json_decode($content, true);
@@ -111,7 +111,7 @@ class MasterController extends Controller
         $client = new Client();
 
         // First API call to fetch asset data (TrnAsset)
-        $responseMaster = $client->request('GET', "http://localhost:5252/api/Master/{$condition}");
+        $responseMaster = $client->request('GET', "http://10.48.1.3:7252/api/Master/{$condition}");
         $contentMaster = $responseMaster->getBody()->getContents();
         $mastersData = json_decode($contentMaster, true);
 
@@ -148,7 +148,7 @@ class MasterController extends Controller
     {
         View::composer('layouts.sidebar', function ($view) {
             $client = new Client();
-            $response = $client->request('GET', 'http://localhost:5252/api/Master');
+            $response = $client->request('GET', 'http://10.48.1.3:7252/api/Master');
             $body = $response->getBody();
             $content = $body->getContents();
             $data = json_decode($content, true);
@@ -163,7 +163,7 @@ class MasterController extends Controller
         $client = new Client();
 
         // Fetch the condition data from the API
-        $response = $client->request('GET', "http://localhost:5252/api/Master");
+        $response = $client->request('GET', "http://10.48.1.3:7252/api/Master");
         $body = $response->getBody()->getContents();
         $masterData = json_decode($body, true);
 
@@ -188,7 +188,7 @@ class MasterController extends Controller
 
         try {
             // Correct the URL by using double quotes and properly interpolating $condition
-            $response = $client->post("http://localhost:5252/api/Master/{$condition}", [
+            $response = $client->post("http://10.48.1.3:7252/api/Master/{$condition}", [
                 'json' => [
                     'masterid' => '0',
                     'condition' => $validated['condition'],
@@ -256,7 +256,7 @@ class MasterController extends Controller
         
     //     try {
     //         // Send the PUT request to the API to update the master data
-    //         $response = $client->put("http://localhost:5252/api/Master/{$masterid}", [
+    //         $response = $client->put("http://10.48.1.3:7252/api/Master/{$masterid}", [
     //             'json' => $apiData // Send the validated data as JSON
     //         ]);                                 
     
@@ -295,12 +295,12 @@ class MasterController extends Controller
         
         try {
             // Send the PUT request to the API to update the master data
-            $response = $client->put("http://localhost:5252/api/Master/{$id}", [
+            $response = $client->put("http://10.48.1.3:7252/api/Master/{$id}", [
                 'json' => $validated // Send the validated data as JSON
             ]);                                 
     
             $data = json_decode($response->getBody()->getContents(), true);
-            // Ensure $data is logged as an array
+            // Ensure $data is logged as an arraygit 
             Log::info('API Response:', $data ?? []); // Use an empty array if $data is null 
         
             return redirect('/master')->with('success', 'Data submitted successfully!');

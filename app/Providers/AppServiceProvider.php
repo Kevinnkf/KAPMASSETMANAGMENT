@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
     {
         View::composer('layouts.section.sidebar', function ($view) {
             $client = new Client();
-            $response = $client->request('GET', 'http://localhost:5252/api/Master');
+            $response = $client->request('GET', 'http://10.48.1.3:7252/api/Master');
             $body = $response->getBody();
             $content = $body->getContents();
             $data = json_decode($content, true);
