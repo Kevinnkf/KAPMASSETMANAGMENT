@@ -8,10 +8,9 @@
     {{-- Content --}}
     <div class="row align-items-center">
         <div class="col">
-            <h4 class="fw-semibold mt-3 text-primary-kai">{{ $title }}</h4>
+            <h4 class="fw-semibold mt-3 text-primary-kai">Master Aset</h4>
         </div>
         <div class="row">
-            <div class="col-10">{{ $subtitle }}</div>
             <div class="col-auto">
                 @if (!empty($currentCondition))
                 <a href="{{ route('master.type.create', ['condition' => $condition]) }}"
@@ -29,10 +28,6 @@
         {{-- searching --}}
         <div class="row mb-4 mx-0 gap-3 d-flex align-items-end">
             <div class="col-sm-2 px-0">
-                <div class="input-group">
-                    <input type="date" class="form-control" id="bs-datepicker-format" placeholder="Periode"
-                        onkeydown="search(this)">
-                </div>
             </div>
         </div>
         {{-- End Searching --}}
@@ -53,6 +48,7 @@
                                         <option value="2020">Tahun 2020</option>
                                     </select>
                                 </div>
+                                <br>
                                 <button class="btn btn-outline-primary esa-btn-lg">Clear Filter</button>
                             </div>
                         </div>
