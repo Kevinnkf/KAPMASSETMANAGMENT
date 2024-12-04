@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Http\Controllers\Auth\{
     LoginFormController,
     ForgetPasswordController,
@@ -18,8 +17,8 @@ use App\Http\Controllers\TimeManagement\izin\{
 use App\Http\Controllers\Asset\{
     ConfigurationController,
     MasterController as MasterController,
-    TRNAssetController as TrnAssetController
-    
+    TRNAssetController as TrnAssetController,
+    SoftwareController
 };
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -91,9 +90,11 @@ Route::middleware(['user-auth'])->group(function () {
     });
     Route::prefix("transaction")->group(function () {
         Route::prefix("/asset")->group(function () {
-            Route::get("/index", [TrnAssetController::class, 'create'])->name('transaction.asset.index');
 
+            Route::get("/index", [TrnAssetController::class, 'create'])->name('transaction.asset.index');
             Route::get('detail/laptop/{assetcode}', [TrnAssetController::class, 'show'])->name('transaction.asset.laptop');
+            
+
         });        
         Route::prefix("/assign")->group(function () {
             Route::get("/index", [IzinController::class, 'index'])->name('transaction.assign.index');
@@ -101,9 +102,25 @@ Route::middleware(['user-auth'])->group(function () {
         Route::prefix("/loan")->group(function () {
             Route::get("/index", [IzinController::class, 'index'])->name('transaction.loan.index');
         });
-        Route::prefix("/maintenance")->group(function () {
-            Route::get("/index", [IzinController::class, 'index'])->name('transaction.maintenance.index');
+
+        //Routing for software
+        Route::prefix("/software")->group(function () {
+            Route::get("/create/{assetcode}", [SoftwareController::class, 'create'])->name('transaction.software.index');
+            Route::post("/store/{assetcode}", [SoftwareController::class, 'store'])->name('transaction.software.store');
         });
+
+        //Routing for image
+        Route::prefix("/image")->group(function () {
+            Route::get("/create", [IzinController::class, 'index'])->name('transaction.image.index');
+        });
+
+        //Routing for maintenance
+        Route::prefix("/maintenance")->group(function () {
+            Route::get("/create", [IzinController::class, 'index'])->name('transaction.maintenance.index');
+            Route::get("/store", [IzinController::class, 'index'])->name('transaction.maintenance.index');
+        });
+
+
     });
 
     // End Asset Management System

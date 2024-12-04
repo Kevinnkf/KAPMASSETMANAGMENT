@@ -100,6 +100,7 @@ class TRNAssetController extends Controller
         }));
         
         Log::info('Result', ['data' => $paginatedData]);
+        // Log::info('Result', ['data' => $paginatedData]);
         Log::info('Result', ['data' => $countAsset]);
         
         return view('asset.transaction.asset.index', [  
