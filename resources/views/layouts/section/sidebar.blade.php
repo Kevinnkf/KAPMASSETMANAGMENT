@@ -148,12 +148,14 @@
                             <span class="hide-menu">Asset</span>
                         </a>
                     </li>
+
+
                     <li class="sidebar-item">
                         <a href="{{ route('transaction.assign.index') }}" class="sidebar-link bg-primary-dark-kai">
                             <div class="round-16 d-flex align-items-center justify-content-center">
                                 <i class="ti ti-circle"></i>
                             </div>
-                            <span class="hide-menu">Assign</span>
+                            <span class="hide-menu">Add Asset</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
