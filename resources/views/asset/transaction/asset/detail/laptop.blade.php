@@ -379,6 +379,9 @@
                     This asset is available to assign
                 </h1>
             </div>
+            @if (session('success'))
+                        <h3 class="text-success">{{ session('success') }}</h3>
+            @endif
             <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Assign</button>
         </div>
         @else
@@ -388,7 +391,10 @@
                     {{$employeeNIPP}} {{$employeeName}} {{$employeePosition}}
                 </h1>
             </div>
-            <button class="btn mb-1 waves-effect waves-light btn-outline-danger esa-btn">Unassign</button>
+            <button class="btn mb-1 waves-effect waves-light btn-rounded btn-danger esa-btn unassign-asset"
+                    onclick="confirmUnassignAsset('{{ route('transaction.asset.unassign', ['assetcode' => $assetcode]) }}')">
+                Unassign
+            </button>
         </div>
         @endif
     </div>
@@ -573,7 +579,7 @@
                             <h4 class="esa-title">Software Installed</h4>
                         </div>
                         <div>
-                            <a href="{{ route('transaction.software.index', ['assetcode' => $assetcode]) }}" class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">
+                            <a href="{{ route('transaction.software.create', ['assetcode' => $assetcode]) }}" class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">
                                 Add Software
                             </a>
                         </div>
@@ -646,7 +652,9 @@
                             <h4 class="esa-title">Asset Image</h4>
                         </div>
                         <div>
-                            <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Add Image</button>
+                            <a href="{{ route('transaction.image.create', ['assetcode' => $assetcode]) }}" class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">
+                                Add Image
+                            </a>
                         </div>
                     </div>
                     <div class="card-datatable table-responsive">
@@ -687,11 +695,13 @@
                             <h4 class="esa-title">Maintenance History</h4>
                         </div>
                         <div>
-                            <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Add History</button>
+                            <a href="{{ route('transaction.maintenance.create', ['assetcode' => $assetcode]) }}" class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">
+                                Add History
+                            </a>
                         </div>
                     </div>
                     <div class="card-datatable table-responsive">
-                        <table id="software" class="table table-striped display nowrap esa-table-light">
+                        <table id="maintenance" class="table table-striped display nowrap esa-table-light">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -765,6 +775,44 @@
         </div>
     </div>
 </div>
+<script>
+function confirmUnassignAsset(url) {
+    // Show SweetAlert confirmation dialog
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, unassign it!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // If confirmed, call the unassignAsset function
+            unassignAsset(url);
+        }
+    });
+}
+
+function unassignAsset(url) {
+    fetch(url, {
+        method: 'PUT',
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            location.reload(); // Optional: reload page or redirect if needed
+        } else {
+            location.reload(); // Optional: reload page or redirect if needed
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+</script>
 
 @endsection
 

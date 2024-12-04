@@ -16,6 +16,8 @@ use App\Http\Controllers\TimeManagement\izin\{
 };
 use App\Http\Controllers\Asset\{
     ConfigurationController,
+    ImageController,
+    MaintenanceController,
     MasterController as MasterController,
     TRNAssetController as TrnAssetController,
     SoftwareController
@@ -92,35 +94,40 @@ Route::middleware(['user-auth'])->group(function () {
         Route::prefix("/asset")->group(function () {
 
             Route::get("/index", [TrnAssetController::class, 'create'])->name('transaction.asset.index');
+            Route::put("/unassign/{assetcode}", [TrnAssetController::class, 'unassignAsset'])->name('transaction.asset.unassign');
             Route::get('detail/laptop/{assetcode}', [TrnAssetController::class, 'show'])->name('transaction.asset.laptop');
             
 
-        });        
+        });
         Route::prefix("/assign")->group(function () {
             Route::get("/index", [IzinController::class, 'index'])->name('transaction.assign.index');
         });        
+
         Route::prefix("/loan")->group(function () {
             Route::get("/index", [IzinController::class, 'index'])->name('transaction.loan.index');
         });
 
         //Routing for software
         Route::prefix("/software")->group(function () {
-            Route::get("/create/{assetcode}", [SoftwareController::class, 'create'])->name('transaction.software.index');
+            Route::get("/laptop/{assetcode}", [SoftwareController::class, 'create'])->name('transaction.software.create');
+
+
+            Route::get("/create/{assetcode}", [SoftwareController::class, 'create'])->name('transaction.software.create');
             Route::post("/store/{assetcode}", [SoftwareController::class, 'store'])->name('transaction.software.store');
         });
 
         //Routing for image
         Route::prefix("/image")->group(function () {
-            Route::get("/create", [IzinController::class, 'index'])->name('transaction.image.index');
+            Route::get("/create/{assetcode}", [ImageController::class, 'create'])->name('transaction.image.create');
+            Route::post("/store/{assetcode}", [ImageController::class, 'store'])->name('transaction.image.store');       
         });
 
         //Routing for maintenance
         Route::prefix("/maintenance")->group(function () {
-            Route::get("/create", [IzinController::class, 'index'])->name('transaction.maintenance.index');
-            Route::get("/store", [IzinController::class, 'index'])->name('transaction.maintenance.index');
+            Route::get("/index", [MaintenanceController::class, 'index'])->name('transaction.maintenance.index');
+            Route::get("/create/{assetcode}", [MaintenanceController::class, 'create'])->name('transaction.maintenance.create');
+            Route::post("/store/{assetcode}", [MaintenanceController::class, 'store'])->name('transaction.maintenance.store');
         });
-
-
     });
 
     // End Asset Management System

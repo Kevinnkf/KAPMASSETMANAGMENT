@@ -312,7 +312,7 @@
     <!-- Header -->
     <div class="py-3">
         <div class="esa-header">
-            <div class="esa-header-dark">Add software</div>
+            <div class="esa-header-dark">Add Maintenance Data</div>
         </div>
     </div>
 
@@ -326,11 +326,8 @@
                     @endif
                     <form action="{{ route('transaction.maintenance.store', ['assetcode' => $assetcode]) }}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
                     @csrf
-
-                    <form action="{{ route('transaction.software.store', ['assetcode' => $assetcode]) }}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
-                    @csrf
                     <!-- Data Pegawai -->
-                    <h4 class="esa-title">Software Fields</h4>
+                    <h4 class="esa-title">Maintenance Fields</h4>
 
                     <div class="row mb-3">
                         <div class="col-md-12">
@@ -344,125 +341,40 @@
 
                     <div class="row mb-3">
                         <div class="col-md-12">
-                            <label for="softwaretype" class="form-label esa-label">Tipe</label>
-                            <select id="softwaretype" class="form-control" name="softwaretype"  @error('softwaretype') is-invalid @enderror" required>
-                                <option value="" disabled selected>Select Software Type</option>
-                                @foreach ($mstData as $mst)
-                                    @if ($mst['condition'] == 'SOFTWARE_TYPE')
-                                        <option value="{{ $mst['description'] }}" {{ old('softwaretype') == $mst['description'] ? 'selected' : '' }}>
-                                            {{ $mst['description'] }}
-                                        </option>
-                                    @endif
-                                @endforeach
-                            </select>
-                            
-                            @error('softwaretype')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <label for="softwarecategory" class="form-label esa-label">Kategori</label>
-                            <select id="softwarecategory" class="form-control" name="softwarecategory"  @error('softwarecategory') is-invalid @enderror" required>
-                                <option value="" disabled selected>Select Software Type</option>
-                                @foreach ($mstData as $mst)
-                                    @if ($mst['condition'] == 'SOFTWARE_CATEGORY')
-                                        <option value="{{ $mst['description'] }}" {{ old('softwarecategory') == $mst['description'] ? 'selected' : '' }}>
-                                            {{ $mst['description'] }}
-                                        </option>
-                                    @endif
-                                @endforeach
-                            </select>
-                            
-                            @error('softwarecategory')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <label for="softwarename" class="form-label esa-label">Nama</label>
-                            <select id="softwarename" class="form-control" name="softwarename"  @error('softwarename') is-invalid @enderror" required>
-                                <option value="" disabled selected>Select Software Type</option>
-                                @foreach ($mstData as $mst)
-                                    @if ($mst['condition'] == 'SOFTWARE_NAME')
-                                        <option value="{{ $mst['description'] }}" {{ old('softwarename') == $mst['description'] ? 'selected' : '' }}>
-                                            {{ $mst['description'] }}
-                                        </option>
-                                    @endif
-                                @endforeach
-                            </select>
-                            
-                            @error('softwarename')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <label for="softwarelicense" class="form-label esa-label">Lisensi</label>
-                            <select id="softwarelicense" class="form-control" name="softwarelicense"  @error('softwarelicense') is-invalid @enderror" required>
-                                <option value="" disabled selected>Select Software Type</option>
-                                @foreach ($mstData as $mst)
-                                    @if ($mst['condition'] == 'SOFTWARE_LICENSE')
-                                        <option value="{{ $mst['description'] }}" {{ old('softwarelicense') == $mst['description'] ? 'selected' : '' }}>
-                                            {{ $mst['description'] }}
-                                        </option>
-                                    @endif
-                                @endforeach
-                            </select>
-                            
-                            @error('softwarelicense')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <label for="softwareperiod" class="form-label esa-label">Periode</label>
-                            <select id="softwareperiod" class="form-control" name="softwareperiod"  @error('softwareperiod') is-invalid @enderror" required>
-                                <option value="" disabled selected>Select Software Type</option>
-                                @foreach ($mstData as $mst)
-                                    @if ($mst['condition'] == 'ASSET_BRAND')
-                                        <option value="{{ $mst['description'] }}" {{ old('softwareperiod') == $mst['description'] ? 'selected' : '' }}>
-                                            {{ $mst['description'] }}
-                                        </option>
-                                    @endif
-                                @endforeach
-                            </select>
-                            
-                            @error('softwareperiod')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="row mb-3" hidden>
-                        <div class="col-md-12">
-                            <label for="active" class="form-label esa-label">Active</label>
-                            <input type="text" class="form-control @error('active') is-invalid @enderror" id="active" name="active" value="y" placeholder="Lisensi Software" required>
-                            @error('active')
+                            <label for="picadded" class="form-label esa-label">picadded</label>
+                            <input type="text" class="form-control @error('picadded') is-invalid @enderror" id="picadded" name="picadded" value="{{ $data['nama'] }}" placeholder="Person In Charge" required readonly>
+                            @error('picadded')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
-                    <div class="row mb-3" hidden>
+                    <div class="row mb-3">
                         <div class="col-md-12">
-                            <label for="picadded" class="form-label esa-label">picadded</label>
-                            <input type="text" class="form-control @error('picadded') is-invalid @enderror" id="picadded" name="picadded" value="{{ $data['nama'] }}" placeholder="Lisensi Software" required>
-                            @error('picadded')
+                            <label for="notessparepart" class="form-label esa-label">Sparepart</label>
+                            <textarea class="form-control @error('notessparepart') is-invalid @enderror" id="notessparepart" name="notessparepart" placeholder="Sparepart yang ditangani" required>{{ old('notessparepart') }}</textarea>
+
+                            @error('notessparepart')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label for="notesaction" class="form-label esa-label">Aksi</label>
+                            <textarea class="form-control @error('notesaction') is-invalid @enderror" id="notesaction" name="notesaction" placeholder="Aksi yang dilakukan" required>{{ old('notesaction') }}</textarea>
+
+                            @error('notesaction')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label for="notesresult" class="form-label esa-label">Hasil</label>
+                            <textarea class="form-control @error('notesresult') is-invalid @enderror" id="notesresult" name="notesresult"  placeholder="Hasil perbaikan" required>{{ old('notesresult') }}</textarea>
+                            @error('notesresult')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
