@@ -174,7 +174,7 @@ class TRNAssetController extends Controller
         $content = $body->getContents();
         $data = json_decode($content, true);
 
-        return view('asset.transaction.asset.indexs', [
+        return view('asset.transaction.asset.create', [
             'optionData' => $data]); // Keep the view name consistent
     }
 
@@ -543,7 +543,4 @@ class TRNAssetController extends Controller
         
         return $pdf->inline("Label QRCode.pdf");
     }
-
-
-
 }

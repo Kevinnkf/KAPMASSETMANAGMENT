@@ -90,11 +90,10 @@ Route::middleware(['user-auth'])->group(function () {
     });
     Route::prefix("transaction")->group(function () {
         Route::prefix("/asset")->group(function () {
-
             Route::get("/index", [TrnAssetController::class, 'create'])->name('transaction.asset.index');
             Route::get('detail/laptop/{assetcode}', [TrnAssetController::class, 'show'])->name('transaction.asset.laptop');
-            
-
+            Route::get('/create{', [TrnAssetController::class, 'msttrnasset'])->name('transaction.asset.create');
+            Route::get('/store', [TrnAssetController::class, 'store'])->name('transaction.asset.store');
         });        
         Route::prefix("/assign")->group(function () {
             Route::get("/index", [IzinController::class, 'index'])->name('transaction.assign.index');
