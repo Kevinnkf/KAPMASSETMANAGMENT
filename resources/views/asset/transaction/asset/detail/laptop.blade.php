@@ -391,10 +391,17 @@
                     {{$employeeNIPP}} {{$employeeName}} {{$employeePosition}}
                 </h1>
             </div>
-            <button class="btn mb-1 waves-effect waves-light btn-rounded btn-danger esa-btn unassign-asset"
-                    onclick="confirmUnassignAsset('{{ route('transaction.asset.unassign', ['assetcode' => $assetcode]) }}')">
+            <div>
+                <button class="btn mb-1 waves-effect waves-light btn-rounded btn-danger esa-btn unassign-asset"
+                onclick="confirmUnassignAsset('{{ route('transaction.asset.unassign', ['assetcode' => $assetcode]) }}')">
                 Unassign
-            </button>
+                </button>
+                <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" 
+                    onclick="window.location.href='{{ route('transaction.asset.print', ['assetcode' => $assetcode]) }}'">
+                Print BAST
+                </button>
+            </div>
+        </button>
         </div>
         @endif
     </div>
@@ -415,7 +422,10 @@
                             <h4 class="esa-title">General Information and Hardware</h4>
                         </div>
                         <div>
-                            <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Print QR</button>
+                            <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" 
+                                onclick="openAndDownloadPDF('{{ route('transaction.asset.label', ['assetcode' => $assetcode]) }}')">
+                            Print Label
+                            </button>
                             <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Update Hardware</button>
                         </div>
                     </div>
@@ -711,6 +721,7 @@
                                     <th>Hasil Perbaikan</th>
                                     <th>Tanggal Perbaikan</th>
                                     <th>Nama</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody id="table-master">
@@ -728,6 +739,12 @@
                                             <td>{{ $maintenance['notesresult'] }}</td>
                                             <td>{{ $maintenance['dateadded'] }}</td>
                                             <td>{{ $maintenance['picadded'] }}</td>
+                                            <td>
+                                                <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" 
+                                                        onclick="window.location.href='{{ route('transaction.maintenance.print', ['assetcode' => $assetcode, 'idmtc' => $maintenance['maintenanceid']]) }}'">
+                                                    Print BAP
+                                                </button>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 @endif
@@ -964,6 +981,26 @@ function unassignAsset(url) {
                     }
 
                 }
+
+                function openAndDownloadPDF(url) {
+                // Open the PDF in a new tab
+                const printWindow = window.open(url, '_blank');
+
+                // Wait for the PDF to load and then trigger the print dialog
+                printWindow.onload = function() {
+                    printWindow.print();
+
+                    // Trigger the download after a short delay
+                    setTimeout(() => {
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.download = 'Label QRCode.pdf';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    }, 1000); // Adjust the delay as necessary
+                };
+            }
             </script>
 
 

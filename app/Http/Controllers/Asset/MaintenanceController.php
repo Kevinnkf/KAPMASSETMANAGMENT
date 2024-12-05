@@ -151,7 +151,7 @@ class MaintenanceController extends Controller{
         ];
 
         // Generate PDF
-        $pdf = SnappyPdf::loadView('maintenance.preview', $data);
+        $pdf = SnappyPdf::loadView('asset.transaction.asset.detail.maintenance.bap', $data);
         $pdf->setOption('enable-local-file-access', true);
         
         return $pdf->inline('Berita Acara Perbaikan.pdf');

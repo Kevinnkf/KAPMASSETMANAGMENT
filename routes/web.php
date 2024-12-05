@@ -96,6 +96,8 @@ Route::middleware(['user-auth'])->group(function () {
             Route::get("/index", [TrnAssetController::class, 'create'])->name('transaction.asset.index');
             Route::put("/unassign/{assetcode}", [TrnAssetController::class, 'unassignAsset'])->name('transaction.asset.unassign');
             Route::get('detail/laptop/{assetcode}', [TrnAssetController::class, 'show'])->name('transaction.asset.laptop');
+            Route::get('/print/{assetcode}', [TrnAssetController::class, 'print'])->name('transaction.asset.print');
+            Route::get('/print-label/{assetcode}', [TrnAssetController::class, 'printLabel'])->name('transaction.asset.label');
             
 
         });
@@ -126,6 +128,7 @@ Route::middleware(['user-auth'])->group(function () {
         Route::prefix("/maintenance")->group(function () {
             Route::get("/index", [MaintenanceController::class, 'index'])->name('transaction.maintenance.index');
             Route::get("/create/{assetcode}", [MaintenanceController::class, 'create'])->name('transaction.maintenance.create');
+            Route::get("/print/{assetcode}/{idmtc}", [MaintenanceController::class, 'print'])->name('transaction.maintenance.print');
             Route::post("/store/{assetcode}", [MaintenanceController::class, 'store'])->name('transaction.maintenance.store');
         });
     });
