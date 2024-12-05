@@ -124,7 +124,7 @@ class SoftwareController extends Controller
             $data = json_decode($response->getBody()->getContents(), true);
             Log::info('API Response:', $data);  // Log the API response for inspection
         
-            return redirect("/detail-asset/laptop/$assetCodes")->with("success", "Data has been added successfully");
+            return back()->with("success", "Data has been added successfully");
         } catch (\GuzzleHttp\Exception\RequestException $e) {
             $responseBody = $e->hasResponse() ? (string) $e->getResponse()->getBody() : null;
             Log::error('API Error: ' . $e->getMessage() . ' - Response Body: ' . $responseBody);

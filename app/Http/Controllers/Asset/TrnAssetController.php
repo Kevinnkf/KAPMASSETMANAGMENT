@@ -487,7 +487,7 @@ class TRNAssetController extends Controller
             'qrCode' => $qrCode,
         ];
     
-        $pdf = SnappyPdf::loadView('detailAsset.BAST', $data);
+        $pdf = SnappyPdf::loadView('asset.transaction.asset.bast', $data);
         $pdf->setOption('enable-local-file-access', true)->setPaper('a4');
         return $pdf->inline('Berita Acara Serah Terima.pdf');
     }
@@ -531,7 +531,7 @@ class TRNAssetController extends Controller
         ];
 
         // Generate PDF
-        $pdf = SnappyPdf::loadView('detailAsset.label', $data);
+        $pdf = SnappyPdf::loadView('asset.transaction.asset.label', $data);
         $pdf->setOption('enable-local-file-access', true);
 
         // Set margins
