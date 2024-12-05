@@ -366,6 +366,54 @@
 
     @endphp 
 
+@if (!empty($assetSpecData))
+@foreach ($assetSpecData as $assetspecs)
+    @php
+    $idassetspec = $assetspecs['idassetspec'] ?? '0';
+    $processorbrand = isset($assetspecs['processorbrand']) ? $assetspecs['processorbrand'] : 'N/A';
+    $processormodel = isset($assetspecs['processormodel']) ? $assetspecs['processormodel'] : 'N/A';
+    $processorseries = isset($assetspecs['processorseries']) ? $assetspecs['processorseries'] : 'N/A';
+    $processor = $processorbrand . ' ' . $processormodel . ' ' . $processorseries;
+    $memorytype = isset($assetspecs['memorytype']) ? $assetspecs['memorytype'] : 'N/A';
+    $memorybrand = isset($assetspecs['memorybrand']) ? $assetspecs['memorybrand'] : 'N/A';
+    $memorymodel = isset($assetspecs['memorymodel']) ? $assetspecs['memorymodel'] : 'N/A';
+    $memoryseries = isset($assetspecs['memoryseries']) ? $assetspecs['memoryseries'] : 'N/A';
+    $memorycapacity = isset($assetspecs['memorycapacity']) ? $assetspecs['memorycapacity'] : 'N/A';
+    $memory = $memorytype . ' ' . $memorybrand . ' ' . $memorymodel . ' ' . $memoryseries . ' ' . $memorycapacity . ' GB';
+    $storagetype = isset($assetspecs['storagetype']) ? $assetspecs['storagetype'] : 'N/A';
+    $storagebrand = isset($assetspecs['storagebrand']) ? $assetspecs['storagebrand'] : 'N/A';
+    $storagemodel = isset($assetspecs['storagemodel']) ? $assetspecs['storagemodel'] : 'N/A';
+    $storagecapacity = isset($assetspecs['storagecapacity']) ? $assetspecs['storagecapacity'] : 'N/A';
+    $storage = $storagetype . ' ' . $storagebrand . ' ' . $storagemodel . ' ' . $storagecapacity . ' GB';
+    $graphicsbrand1 = isset($assetspecs['graphicsbranD1']) ? $assetspecs['graphicsbranD1'] : 'N/A';
+    $graphicsmodel1 = isset($assetspecs['graphicsmodeL1']) ? $assetspecs['graphicsmodeL1'] : 'N/A';
+    $graphicsseries1 = isset($assetspecs['graphicsserieS1']) ? $assetspecs['graphicsserieS1'] : 'N/A';
+    $graphicscapacity1 = isset($assetspecs['graphicscapacitY1']) ? $assetspecs['graphicscapacitY1'] : 'N/A';
+    $graphics1 = $graphicsbrand1 . ' ' . $graphicsmodel1 . ' ' . $graphicsseries1 . ' ' . $graphicscapacity1 . ' GB';
+    $graphicstype1 = isset($assetspecs['graphicstypE1']) ? $assetspecs['graphicstypE1'] : 'N/A';
+
+    $graphicsbrand2 = isset($assetspecs['graphicsbranD2']) ? $assetspecs['graphicsbranD2'] : 'N/A';
+    $graphicsmodel2 = isset($assetspecs['graphicsmodeL2']) ? $assetspecs['graphicsmodeL2'] : 'N/A';
+    $graphicsseries2 = isset($assetspecs['graphicsserieS2']) ? $assetspecs['graphicsserieS2'] : 'N/A';
+    $graphicscapacity2 = isset($assetspecs['graphicscapacitY2']) ? $assetspecs['graphicscapacitY2'] : 'N/A';
+    $graphics2 = $graphicsbrand2 . ' ' . $graphicsmodel2 . ' ' . $graphicsseries2 . ' ' . $graphicscapacity2 . ' GB';
+    $graphicstype2 = isset($assetspecs['graphicstypE2']) ? $assetspecs['graphicstypE2'] : 'N/A';
+
+    $screenresolution = isset($assetspecs['screenresolution']) ? $assetspecs['screenresolution'] : 'N/A';
+    $touchscreen = isset($assetspecs['touchscreen']) ? $assetspecs['touchscreen'] : 'N/A';
+    $backlightkeyboard = isset($assetspecs['backlightkeyboard']) ? $assetspecs['backlightkeyboard'] : 'N/A';
+    $convertible = isset($assetspecs['convertible']) ? $assetspecs['convertible'] : 'N/A';
+    $webcamera = isset($assetspecs['webcamera']) ? $assetspecs['webcamera'] : 'N/A';
+    $speaker = isset($assetspecs['speaker']) ? $assetspecs['speaker'] : 'N/A';
+    $microphone = isset($assetspecs['microphone']) ? $assetspecs['microphone'] : 'N/A';
+    $wifi = isset($assetspecs['wifi']) ? $assetspecs['wifi'] : 'N/A';
+    $bluetooth = isset($assetspecs['bluetooth']) ? $assetspecs['bluetooth'] : 'N/A';
+@endphp
+@endforeach
+@else
+    @php $idassetspec = 0  @endphp
+@endif
+
     {{-- Breadcrumb --}}
     @include('kepegawaian.time-management.cuti.breadcrumb')
     {{-- End Breadcrumb --}}
@@ -393,7 +441,7 @@
             </div>
             <div>
                 <button class="btn mb-1 waves-effect waves-light btn-rounded btn-danger esa-btn unassign-asset"
-                onclick="confirmUnassignAsset('{{ route('transaction.asset.unassign', ['assetcode' => $assetcode]) }}')">
+                onclick="confirmUnassignAsset('{{ route('transaction.asset.unassign', ['assetcode' => $assetcode]) }}')"> 
                 Unassign
                 </button>
                 <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" 
@@ -426,56 +474,15 @@
                                 onclick="openAndDownloadPDF('{{ route('transaction.asset.label', ['assetcode' => $assetcode]) }}')">
                             Print Label
                             </button>
-                            <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Update Hardware</button>
+                            {{-- change the route accordingly --}}
+                            @if (is_null($idassetspec) || $idassetspec === 0 || $idassetspec === 'N/A')
+                                <a href="{{ route('transaction.asset.index') }}" class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Add Hardware</a>
+                            @else
+                                <a href="{{ route('transaction.asset.index', $idassetspec) }}" class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Update Hardware</a>
+                            @endif
                         </div>
                     </div>
-                    @if (!empty($assetSpecData))
-                    @foreach ($assetSpecData as $assetspecs)
-                        @php
-                        $idassetspec = $assetspecs['idassetspec'] ?? '0';
-                        $processorbrand = isset($assetspecs['processorbrand']) ? $assetspecs['processorbrand'] : 'N/A';
-                        $processormodel = isset($assetspecs['processormodel']) ? $assetspecs['processormodel'] : 'N/A';
-                        $processorseries = isset($assetspecs['processorseries']) ? $assetspecs['processorseries'] : 'N/A';
-                        $processor = $processorbrand . ' ' . $processormodel . ' ' . $processorseries;
-                        $memorytype = isset($assetspecs['memorytype']) ? $assetspecs['memorytype'] : 'N/A';
-                        $memorybrand = isset($assetspecs['memorybrand']) ? $assetspecs['memorybrand'] : 'N/A';
-                        $memorymodel = isset($assetspecs['memorymodel']) ? $assetspecs['memorymodel'] : 'N/A';
-                        $memoryseries = isset($assetspecs['memoryseries']) ? $assetspecs['memoryseries'] : 'N/A';
-                        $memorycapacity = isset($assetspecs['memorycapacity']) ? $assetspecs['memorycapacity'] : 'N/A';
-                        $memory = $memorytype . ' ' . $memorybrand . ' ' . $memorymodel . ' ' . $memoryseries . ' ' . $memorycapacity . ' GB';
-                        $storagetype = isset($assetspecs['storagetype']) ? $assetspecs['storagetype'] : 'N/A';
-                        $storagebrand = isset($assetspecs['storagebrand']) ? $assetspecs['storagebrand'] : 'N/A';
-                        $storagemodel = isset($assetspecs['storagemodel']) ? $assetspecs['storagemodel'] : 'N/A';
-                        $storagecapacity = isset($assetspecs['storagecapacity']) ? $assetspecs['storagecapacity'] : 'N/A';
-                        $storage = $storagetype . ' ' . $storagebrand . ' ' . $storagemodel . ' ' . $storagecapacity . ' GB';
-                        $graphicsbrand1 = isset($assetspecs['graphicsbranD1']) ? $assetspecs['graphicsbranD1'] : 'N/A';
-                        $graphicsmodel1 = isset($assetspecs['graphicsmodeL1']) ? $assetspecs['graphicsmodeL1'] : 'N/A';
-                        $graphicsseries1 = isset($assetspecs['graphicsserieS1']) ? $assetspecs['graphicsserieS1'] : 'N/A';
-                        $graphicscapacity1 = isset($assetspecs['graphicscapacitY1']) ? $assetspecs['graphicscapacitY1'] : 'N/A';
-                        $graphics1 = $graphicsbrand1 . ' ' . $graphicsmodel1 . ' ' . $graphicsseries1 . ' ' . $graphicscapacity1 . ' GB';
-                        $graphicstype1 = isset($assetspecs['graphicstypE1']) ? $assetspecs['graphicstypE1'] : 'N/A';
-
-                        $graphicsbrand2 = isset($assetspecs['graphicsbranD2']) ? $assetspecs['graphicsbranD2'] : 'N/A';
-                        $graphicsmodel2 = isset($assetspecs['graphicsmodeL2']) ? $assetspecs['graphicsmodeL2'] : 'N/A';
-                        $graphicsseries2 = isset($assetspecs['graphicsserieS2']) ? $assetspecs['graphicsserieS2'] : 'N/A';
-                        $graphicscapacity2 = isset($assetspecs['graphicscapacitY2']) ? $assetspecs['graphicscapacitY2'] : 'N/A';
-                        $graphics2 = $graphicsbrand2 . ' ' . $graphicsmodel2 . ' ' . $graphicsseries2 . ' ' . $graphicscapacity2 . ' GB';
-                        $graphicstype2 = isset($assetspecs['graphicstypE2']) ? $assetspecs['graphicstypE2'] : 'N/A';
-
-                        $screenresolution = isset($assetspecs['screenresolution']) ? $assetspecs['screenresolution'] : 'N/A';
-                        $touchscreen = isset($assetspecs['touchscreen']) ? $assetspecs['touchscreen'] : 'N/A';
-                        $backlightkeyboard = isset($assetspecs['backlightkeyboard']) ? $assetspecs['backlightkeyboard'] : 'N/A';
-                        $convertible = isset($assetspecs['convertible']) ? $assetspecs['convertible'] : 'N/A';
-                        $webcamera = isset($assetspecs['webcamera']) ? $assetspecs['webcamera'] : 'N/A';
-                        $speaker = isset($assetspecs['speaker']) ? $assetspecs['speaker'] : 'N/A';
-                        $microphone = isset($assetspecs['microphone']) ? $assetspecs['microphone'] : 'N/A';
-                        $wifi = isset($assetspecs['wifi']) ? $assetspecs['wifi'] : 'N/A';
-                        $bluetooth = isset($assetspecs['bluetooth']) ? $assetspecs['bluetooth'] : 'N/A';
-                    @endphp
-                    @endforeach
-                    @else
-                        @php $idassetspec = 0  @endphp
-                @endif
+                    
                 {{-- <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300" onclick="window.location.href='{{ route('transaction.edit',[
                     'assetcategory' => $assetcategory, 
                     'assetcode' => $assetcode,
