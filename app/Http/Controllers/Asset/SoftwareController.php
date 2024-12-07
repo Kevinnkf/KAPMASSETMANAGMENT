@@ -22,12 +22,12 @@ class SoftwareController extends Controller
         return view('detailAsset.Laptop', ['softwareData' => $data]); // Keep the view name consistent
     }
 
-    public function edit($assetcode){
+    public function edit($assetcode, $idassetsoftware){
          // Create a new HTTP client instance
          $client = new Client();
 
          // First API call to fetch asset data (TrnAsset)
-         $responseAsset = $client->request('GET', "http://localhost:5252/api/TrnAsset/{$assetcode}");
+         $responseAsset = $client->request('GET', "http://localhost:5252/api/TrnSoftware/{$idassetsoftware}");
          $contentAsset = $responseAsset->getBody()->getContents();
          $assetData = json_decode($contentAsset, true);
  
@@ -47,11 +47,14 @@ class SoftwareController extends Controller
         //  $softwareData = json_decode($contentSoftware, true);
  
          // Pass both assetData and assetSpecData to the view
-         return view('software.edit', [
+         return view('asset.transaction.asset.detail.software.edit', [
+            'idassetsoftware' => $idassetsoftware,
              'assetcode' => $assetcode,
              'assetData' => $assetData,
              'userData' => $userData,
              'mstData' => $mstData,
+             "data" => session('userdata'),
+             
             //  'softwareData' => $softwareData
          ]);
 
@@ -133,41 +136,48 @@ class SoftwareController extends Controller
     }   
 
     public function update(Request $request, $assetcode, $idassetsoftware){
+        try {
+            $client = new Client();
             Log::info('Update method called with assetcode: ' . $assetcode . ' and idassetsoftware: ' . $idassetsoftware);
             Log::info('Request Data:', $request->all());
+            
+            $validated = $request -> validate([
+                'idassetsoftware' => 'required',
+                'assetcode' => 'required',
+                'softwaretype' => 'required',   
+                'softwarecategory' => 'required',
+                'softwarename' => 'required',   
+                'softwarelicense' => 'required',
+                'softwareperiod' => 'required',
+                'active' => 'required',
+                'picadded' => 'required',
+                'dateadded' => 'nullable',
+                'picupdated' => 'nullable',
+                'dateupdated' => 'nullable',
+                ]);
 
-        $validated = $request -> validate([
-            'idassetsoftware' => 'required',
-            'assetcode' => 'required',
-            'softwaretype' => 'required',   
-            'softwarecategory' => 'required',
-            'softwarename' => 'required',   
-            'softwarelicense' => 'required',
-            'softwareperiod' => 'required',
-            'active' => 'required',
-            'picadded' => 'required',
-            'dateadded' => 'nullable',
-            'picupdated' => 'nullable',
-            'dateupdated' => 'nullable',
-            ]);
-
-        $client = new Client();
-        $assetCodes = $validated['assetcode'];
+            Log::info('validated:', $validated);  // Log the API response for inspection
+            
         
-        try {
             $response = $client->put("http://localhost:5252/api/TrnSoftware/{$idassetsoftware}", [
                 'json' => $validated,  // Use the validated data
             ]);
         
             $data = json_decode($response->getBody()->getContents(),  true);
+            // Log::info('API raw Response:', $response->getStatusCode()); 
             Log::info('API Response:', $data);  // Log the API response for inspection
-        
-            return redirect()->back()->with("success", "Data has been updated successfully");
+    
+            return redirect()->route('transaction.asset.laptop', ['assetcode' => $assetcode])
+                             ->with('success', 'Data submitted successfully!');
+            
         } catch (\GuzzleHttp\Exception\RequestException $e) {
             $responseBody = $e->hasResponse() ? (string) $e->getResponse()->getBody() : null;
             Log::error('API Error: ' . $e->getMessage() . ' - Response Body: ' . $responseBody);
-        
-            return redirect()->back()->withErrors(['error' => 'An error occurred while updating the data.']);
+            
+            // return redirect()->route('transaction.asset.index')
+            //                  ->with('error', 'Data submitted unsuccessfully!');
+            return redirect()->back()
+                             ->with('error', 'Data submitted unsuccessfully!');
         }   
     }
 

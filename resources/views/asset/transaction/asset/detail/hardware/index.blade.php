@@ -26,7 +26,7 @@
                                     data-bs-target="#showModalPortalSistem" data-bs-toggle="modal" style="cursor: pointer">
                             </div> --}}
                         @else
-                            <a href="#showModalPortalSistem" data-bs-toggle="modal" class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Update Hardware</a>
+                            <a href="#modalHardware" data-bs-toggle="modal" class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Update Hardware</a>
                         @endif
                     </div>
                 </div>

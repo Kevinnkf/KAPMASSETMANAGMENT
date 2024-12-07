@@ -29,14 +29,18 @@
                                 <div class="card-body p-3 d-flex flex-column align-items-center justify-content-center">
                                     <div class="row g-5">
                                         <div class="col-sm-4 d-none d-sm-block text-center">
-                                            <button onclick="openImgModal({{ json_encode($img) }})">
+                                            <a href="#modalImage" data-bs-toggle="modal"  onclick="openImgModal({{ json_encode($img) }})">
                                                 <img class="h-auto max-w-full rounded-lg" src="{{ $img['assetpic'] }}" alt="Asset Image">
-                                            </button>
+                                            </a>
+                                            <a href="{{ route('transaction.image.edit', ['assetcode' => $assetcode, $img['idassetpic']]) }}" class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">
+                                                Edit
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        @include('asset.transaction.asset.detail.image.modal')
                         @endforeach
                         @else
                             <p class="font-semibold leading-tight text-xl border-gray-300 mb-2">No images available</p> <!-- Display Condition -->

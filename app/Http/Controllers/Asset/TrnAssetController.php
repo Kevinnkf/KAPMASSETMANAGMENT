@@ -257,6 +257,7 @@ class TRNAssetController extends Controller
             'userData' => $userData,
             'histData' => $histData,
             'imgData' => $imgData,
+            "data" => session('userdata')
         ]);
     }
     public function index($assetcode) {

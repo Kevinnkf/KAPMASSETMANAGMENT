@@ -59,9 +59,22 @@
                             <td>{{  $software['softwarelicense'] }}</td>
                             <td>{{  $software['active'] }}</td>
                             <td class="action-buttons">
-                                <button class="btn mb-1 waves-effect waves-light btn-outline-danger esa-btn">Delete</button>
-                                <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" style="height:36px" onclick="openEditModal({{ json_encode($software) }})">Update</button>
+                                <a href="#modalSoftware" 
+                                    data-bs-toggle="modal" 
+                                    class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" 
+                                    onclick="openSoftwareModal({{ json_encode($software) }})">
+                                    Update
+                                </a>
+                                {{-- <a href="javascript:void(0);" class="text-blue-500 text-sm font-bold mr-2" onclick="openSoftwareModal({{ json_encode($software) }})">
+                                    <i class="fas fa-edit"></i>
+                                 </a> --}}
+                                 {{-- <div>
+                                    <a href="{{ route('transaction.software.edit', ['assetcode' => $assetcode, $software['idassetsoftware']]) }}" class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">
+                                        Edit
+                                    </a>
+                                </div> --}}
                             </td>
+                            @include('asset.transaction.asset.detail.software.modal')
                         </tr>
                         @endforeach
                         @endif

@@ -110,18 +110,22 @@ Route::middleware(['user-auth'])->group(function () {
         });
 
         //Routing for software
-        Route::prefix("/software")->group(function () {
-            Route::get("/laptop/{assetcode}", [SoftwareController::class, 'create'])->name('transaction.software.create');
-
-
+        Route::prefix("/software")->group(function () {            
             Route::get("/create/{assetcode}", [SoftwareController::class, 'create'])->name('transaction.software.create');
             Route::post("/store/{assetcode}", [SoftwareController::class, 'store'])->name('transaction.software.store');
+
+            Route::get("/edit/{assetcode}/{idassetsoftware}", [SoftwareController::class, 'edit'])->name('transaction.software.edit');
+            Route::put("/update/{assetcode}/{idassetsoftware}", [SoftwareController::class, 'update'])->name('transaction.software.update');
+
+            
         });
 
         //Routing for image
         Route::prefix("/image")->group(function () {
             Route::get("/create/{assetcode}", [ImageController::class, 'create'])->name('transaction.image.create');
             Route::post("/store/{assetcode}", [ImageController::class, 'store'])->name('transaction.image.store');       
+            Route::get('/edit/{assetcode}/{idassetpic}', [ImageController::class, 'edit'])->name('transaction.image.edit');
+            Route::put("/update/{assetcode}/{idassetpic}", [ImageController::class, 'update'])->name('transaction.image.update');
         });
 
         //Routing for maintenance
