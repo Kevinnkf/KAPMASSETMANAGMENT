@@ -43,7 +43,12 @@
                         @include('asset.transaction.asset.detail.image.modal')
                         @endforeach
                         @else
-                            <p class="font-semibold leading-tight text-xl border-gray-300 mb-2">No images available</p> <!-- Display Condition -->
+
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <h4 class="font-semibold leading-tight text-xl border-gray-300 mb-2">No images available</h4>
+                            </div>
+                        </div>
                         @endif
                     </div>
                 </div>
