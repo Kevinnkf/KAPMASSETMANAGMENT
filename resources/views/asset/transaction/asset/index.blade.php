@@ -93,55 +93,43 @@
                             </table>
                         </div>
                         <nav aria-label="Page navigation example">
-                            <ul class="inline-flex -space-x-px text-sm">
+                            <ul class="pagination">
                                 <!-- Previous Page Link -->
-                                @if ($assetData->onFirstPage())
-                                    <li>
-                                        <span class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-700 bg-gray-200 border border-gray-300 rounded-s-lg cursor-not-allowed">
-                                            Previous
-                                        </span>
+                                @if ($masterData->onFirstPage())
+                                    <li class="page-item disabled">
+                                        <span class="page-link">Previous</span>
                                     </li>
                                 @else
-                                    <li>
-                                        <a href="{{ $assetData->previousPageUrl() }}" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-700 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-800">
-                                            Previous
-                                        </a>
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ $masterData->previousPageUrl() }}">Previous</a>
                                     </li>
                                 @endif
                         
                                 <!-- Pagination Elements -->
-                                @foreach ($assetData->links()->elements[0] as $page => $url)
-                                    @if ($page == $assetData->currentPage())
-                                        <li>
-                                            <span class="flex items-center justify-center px-3 h-8 text-white border border-gray-300 bg-blue-600 hover:bg-blue-700 hover:text-white">
-                                                {{ $page }}
-                                            </span>
+                                @foreach ($masterData->links()->elements[0] as $page => $url)
+                                    @if ($page == $masterData->currentPage())
+                                        <li class="page-item active">
+                                            <span class="page-link">{{ $page }}</span>
                                         </li>
                                     @else
-                                        <li>
-                                            <a href="{{ $url }}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-800">
-                                                {{ $page }}
-                                            </a>
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $url }}">{{ $page }}</a>
                                         </li>
                                     @endif
                                 @endforeach
                         
                                 <!-- Next Page Link -->
-                                @if ($assetData->hasMorePages())
-                                    <li>
-                                        <a href="{{ $assetData->nextPageUrl() }}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-800">
-                                            Next
-                                        </a>
+                                @if ($masterData->hasMorePages())
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ $masterData->nextPageUrl() }}">Next</a>
                                     </li>
                                 @else
-                                    <li>
-                                        <span class="flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-gray-200 border border-gray-300 rounded-e-lg cursor-not-allowed">
-                                            Next
-                                        </span>
+                                    <li class="page-item disabled">
+                                        <span class="page-link">Next</span>
                                     </li>
                                 @endif
                             </ul>
-                        </nav>  
+                        </nav>                        
                     </div>
                 </div>
             </div>
