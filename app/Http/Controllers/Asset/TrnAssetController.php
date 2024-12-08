@@ -494,22 +494,117 @@ class TRNAssetController extends Controller
     }
 
     public function search(Request $request) {
-        $request->validate([
-            'searchTerm' => 'required|string|max:255',
+        $validated = $request->validate([
+            'search' => 'required|string|max:255',
         ]);
+
+        Log::info('Result', ['data' => $validated]);
     
         $client = new Client();
-        $searchTerm = $request->input('searchTerm'); 
     
         try {
-            $response = $client->request("GET", "http://localhost:5252/api/TrnAsset", [
-                'query' => ['term' => $searchTerm] 
+
+            // Ambil data dari session
+            $userData = session('userdata');
+            $getNipp = $userData['nipp'];
+
+            // Inisiasi Guzzle client
+            $client = new Client();
+
+            // URL API
+            $apiUrlIzin = config('constants.GET_DATA_IZIN_PEGAWAI') . "?nipp=" . $getNipp;
+            $apiUrlStatus = config('constants.GET_STATUS_IZIN');
+            
+            // Buat permintaan GET ke API Izin Pegawai
+            $responseIzin = $client->request('GET', $apiUrlIzin, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . session('token'),
+                    'Accept' => 'application/json',
+                ],
+                'timeout' => 10,
             ]);
+
+            // Cek apakah respon berhasil (status 200)
+            if ($responseIzin->getStatusCode() !== 200) {
+                return back()->withErrors(['message' => 'Gagal mengambil data pegawai.']);
+            }
+
+            // Buat permintaan GET ke API Status Izin
+            $responseStatus = $client->request('GET', $apiUrlStatus, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . session('token'),
+                    'Accept' => 'application/json',
+                ],
+                'timeout' => 10,
+            ]);
+
+            // Cek apakah respon berhasil (status 200)
+            if ($responseStatus->getStatusCode() !== 200) {
+                return back()->withErrors(['message' => 'Gagal mengambil status izin.']);
+            }
+
+            // Ambil isi dari kedua respons
+            $dataIzin = json_decode($responseIzin->getBody(), true);
+            $dataStatus = json_decode($responseStatus->getBody(), true);
+
+            // Data atasan dari data izin pegawai
+            $atasan = ['atasan' => $dataIzin['data'][0]['atasan'] ?? null];
+            $response = $client->request('GET', 'http://localhost:5252/api/Master');
+            $body = $response->getBody();
+            $content = $body->getContents();
+            $masterData = json_decode($content, true);
+
+            // Fetch asset data based on search term
+            $response = $client->request("GET", "http://localhost:5252/api/TrnAsset/search", [
+                'query' => $validated 
+            ]);
+
             $content = $response->getBody()->getContents();
-            $assetData = json_decode($content, true);
+            $responseData = json_decode($content, true); // Decoding JSON to associative array
+
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+            $perPage = 10;  
+            $currentItems = array_slice($responseData, ($currentPage-1)*$perPage, $perPage);
+
+            $paginatedData = new LengthAwarePaginator(
+                $currentItems,
+                count($responseData), // Total items
+                $perPage, // Items per page
+                $currentPage, // Current page
+                ['path' => request()->url(), 'query' => request()->query()] // Maintain query parameters
+            );
     
-            return view('dashboard', [
-                'assetData' => $assetData,
+            // Count assets based on conditions
+            $countAsset = count(array_filter($responseData, function ($item) {
+                return is_array($item) && (!array_key_exists('nipp', $item) || is_null($item['nipp']));
+            }));
+    
+            $destroyedAsset = count(array_filter($responseData, function ($item) {
+                return is_array($item) && array_key_exists('condition', $item) && $item['condition'] == "DESTROYED";
+            }));
+    
+            $inMtc = count(array_filter($responseData, function ($item) {
+                return is_array($item) && array_key_exists('condition', $item) && $item['condition'] == "MAINTENANCE";
+            }));
+
+            Log::info('Result', ['data' => $paginatedData]);
+            Log::info('Result', ['data' => $countAsset]);
+    
+            return view('asset.master.type.show', [
+                'masterData' => $masterData,
+                'assetData' => $paginatedData,
+                'countAsset' => $countAsset,
+                'destroyedAsset' => $destroyedAsset,
+                'inMtc' => $inMtc,
+                "breadcrumb" => [
+                    "group-1" => $this->parent,
+                    "group-2" => $this->modul,
+                    "time-management.izin.index" => "Izin ",
+                ],
+                "title" => "Daftar Aset",
+                "subtitle" => "Berikut ini adalah daftar aset",
+                "atasan" => $atasan,
+                
             ]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Unable to fetch asset data: ' . $e->getMessage()], 500);

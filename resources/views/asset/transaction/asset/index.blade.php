@@ -30,8 +30,7 @@
         <div class="row mb-4 mx-0 gap-3 d-flex align-items-end">
             <div class="col-sm-2 px-0">
                 <div class="input-group">
-                    <input type="date" class="form-control" id="bs-datepicker-format" placeholder="Periode"
-                        onkeydown="search(this)">
+                    
                 </div>
             </div>
         </div>
@@ -46,14 +45,12 @@
                         <!-- Filter Table -->
                         <div class="py-4">
                             <div class="esa-filter-container">
-                                <div>
-                                    <select class="form-select" style="width: 9.5rem; stroke: red;" id="year-select">
-                                        <option value="2022">Tahun 2022</option>
-                                        <option value="2021">Tahun 2021</option>
-                                        <option value="2020">Tahun 2020</option>
-                                    </select>
-                                </div>
-                                <button class="btn btn-outline-primary esa-btn-lg">Clear Filter</button>
+                                <form action="{{ route('searchAssets') }}" method="GET" class="mb-4">
+                                    <div class="flex items-center">
+                                        <input type="text" name="search" placeholder="Search name, brand, model, series, category, serial number, type, condition" class="p-2 border rounded w-[50%]">
+                                        <button type="submit" class="ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">Search</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                         <div class="card-datatable table-responsive">

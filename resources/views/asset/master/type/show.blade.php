@@ -27,14 +27,7 @@
     {{-- End Content --}}
     <div class="card-body">
         {{-- searching --}}
-        <div class="row mb-4 mx-0 gap-3 d-flex align-items-end">
-            <div class="col-sm-2 px-0">
-                <div class="input-group">
-                    <input type="date" class="form-control" id="bs-datepicker-format" placeholder="Periode"
-                        onkeydown="search(this)">
-                </div>
-            </div>
-        </div>
+        
         {{-- End Searching --}}
 
         {{-- table --}}
@@ -47,13 +40,11 @@
                         <div class="py-4">
                             <div class="esa-filter-container">
                                 <div>
-                                    <select class="form-select" style="width: 9.5rem; stroke: red;" id="year-select">
-                                        <option value="2022">Tahun 2022</option>
-                                        <option value="2021">Tahun 2021</option>
-                                        <option value="2020">Tahun 2020</option>
-                                    </select>
+                                    @if (session('success'))
+                                    <h3 class="text-success">{{ session('success') }}</h3>
+                                    @endif
+                                    
                                 </div>
-                                <button class="btn btn-outline-primary esa-btn-lg">Clear Filter</button>
                             </div>
                         </div>
                         <div class="card-datatable table-responsive">
@@ -82,8 +73,15 @@
                                         <td>{{  $master['typegcm'] }}</td>
                                         <td class="action-buttons">
                                             <button class="btn mb-1 waves-effect waves-light btn-outline-danger esa-btn">Delete</button>
-                                            <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" style="height:36px">Update</button>
+                                            <a href="#modalMaster" 
+                                                data-bs-toggle="modal" 
+                                                class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" 
+                                                onclick="openMasterModal({{ json_encode($master) }})">
+                                                Update
+                                            </a>
+                                            
                                         </td>
+                                        @include('asset.master.type.modal')
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -135,6 +133,23 @@
 @endsection
 @section('scripts')
     <script>
+        function openMasterModal(master) {
+        // Populate the modal fields with the software data
+        document.getElementById('modalMasterId').value = master.masterid;
+        document.getElementById('modalCondition').value = master.condition;
+        document.getElementById('modalNoSr').value = master.nosr;
+        document.getElementById('modalDescription').value = master.description;
+        document.getElementById('modalValue').value = master.valuegcm;
+        document.getElementById('modalType').value = master.typegcm;
+        document.getElementById('active').value = master.active; 
+
+        // Update the form action
+        var form = document.getElementById('modalUpdateMasterForm');
+        form.action = "{{ route('master.type.update', ['masterid' => ':masterid']) }}".replace(':masterid', master.masterid);
+    }
+
+
+
         $(document).ready(function() {
             $('#dinas').DataTable({
                 "lengthChange": false,
