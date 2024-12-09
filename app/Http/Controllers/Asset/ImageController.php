@@ -117,14 +117,14 @@ class ImageController extends Controller
        $validated = $request->validate([
         'assetimage' => 'required|file|image|mimes:jpg,png,jpeg,gif,svg|max:2048', // Ensure it's a valid image file
         'active' => 'required',
-    ]);
+    ]); 
 
         $client = new Client();
     }
 
-    public function update(Request $request, $assetcode){
-        Log::info('Request Data:', $request->all());
-
+    public function update(Request $request, $assetcode, $idassetpic){
+        Log::info('Request Data Image:', $request->all());
+        
         // Validate the input
         $validated = $request->validate([
             'idassetpic' => 'required',
@@ -132,54 +132,101 @@ class ImageController extends Controller
             'assetpic' => 'nullable|file|image|mimes:jpg,png,jpeg,gif,svg|max:2048', 
             'active' => 'required',
             'picadded' => 'required',
+            'picupdated' => 'required',
         ]);
+        
+        Log::info('Request Data Validated:', $validated);
 
         $client = new Client();
 
         try {
             // Prepare the multipart form data
             $queryParams = [
-                'ASSETCODE' => $validated['assetcode'],
+                'ASSETCODE' => $assetcode,
                 'ACTIVE' => $validated['active'],
                 'PICADDED' => $validated['picadded'],
-                'year' => now(), // or set this based on your logic
-                'month' => now(), // or set this based on your logic
-                'day' => now(), // or set this based on your logic
-                'dayOfWeek' => now(), // or set this based on your logic
+                'PICUPDATED' => $validated['picupdated'],
+                'year' => now(), 
+                'month' => now(), 
+                'day' => now(), 
+                'dayOfWeek' => now(), 
             ];
+
+            Log::info('Request Data Query:', $queryParams);
 
             // If a new file is uploaded, add it to the multipart data
             if ($request->hasFile('assetpic')) {
                 $file = $request->file('assetpic');
-                // Assuming you need to upload the file first, handle it accordingly
-                // This part may depend on how your API is set up to handle file uploads
+                // Assuming need to upload the file first, handle it accordingly
+                // This part may depend on how API is set up to handle file uploads
                 $queryParams['ASSETPIC'] = $file->getClientOriginalName(); // or the file path if needed
-                // You might need to upload the file separately if the API expects it to be stored first
+                // might need to upload the file separately if the API expects it to be stored first
             } else {
                 // Handle the case where no file is uploaded
                 return back()->withErrors(['message' => 'No image file provided.']);
             }
 
+            // Log::info('Request Data Query Image:', $queryParams['ASSETPIC']);
+
             // Make the PUT request
-            $response = $client->put("http://localhost:5252/api/TrnAssetDtlPicture/{$validated['idassetpic']}", [
+            $response = $client->put("http://localhost:5252/api/TrnAssetDtlPicture/{$idassetpic}", [
                 'query' => $queryParams,
             ]);
 
             $data = json_decode($response->getBody()->getContents(), true);
             Log::info("Success", $data ? $data : []);
 
-            // Redirect to the detail page
-            return redirect("/detail-asset/laptop/$assetcode")
-                ->with("success", "Data has been added successfully");
+            return redirect()->route('transaction.asset.laptop', ['assetcode' => $assetcode])
+                             ->with('success', 'Data submitted successfully!');
         } catch (RequestException $e) {
             Log::error('API Error: ' . $e->getMessage());
             if ($e->hasResponse()) {
                 Log::error('API Response: ' . $e->getResponse()->getBody());
             }
-            return back()->withErrors(['message' => 'Failed to update picture.']);
+            return redirect()->back()
+                             ->with('error', 'Data submitted unsuccessfully!');
         } catch (\Throwable $th) {
             Log::error('API Error: ' . $th->getMessage());
-            return back()->withErrors(['message' => 'An unexpected error occurred.']);
+            return redirect()->back()
+                             ->with('error', 'Data submitted unsuccessfully!');
         }
     }
+
+    public function edit($assetcode, $idassetpic){
+        // Create a new HTTP client instance
+        $client = new Client();
+
+        // First API call to fetch asset data (TrnAsset)
+        $responseAsset = $client->request('GET', "http://localhost:5252/api/TrnAssetDtlPicture/{$idassetpic}");
+        $contentAsset = $responseAsset->getBody()->getContents();
+        $img = json_decode($contentAsset, true);
+
+        //Fetch PIC
+        $responsePic = $client->request('GET', "http://localhost:5252/api/User");
+        $contentPic = $responsePic->getBody()->getContents();
+        $userData = json_decode($contentPic, true);  
+
+        //Fetch Master
+        $responseMst = $client->get("http://localhost:5252/api/master");
+        $contentMst = $responseMst->getBody()->getContents();
+        $mstData = json_decode($contentMst, true);
+
+        //Fetch software
+       //  $responseSoftware = $client -> request('GET', 'http://localhost:5252/api/TrnSoftware/{$assetcode}');
+       //  $contentSoftware = $responseSoftware ->getBody()->getContents();
+       //  $softwareData = json_decode($contentSoftware, true);
+
+        // Pass both img and assetSpecData to the view
+        return view('asset.transaction.asset.detail.image.edit', [
+           'idassetpic' => $idassetpic,
+            'assetcode' => $assetcode,
+            'img' => $img,
+            'userData' => $userData,
+            'mstData' => $mstData,
+            "data" => session('userdata'),
+            
+           //  'softwareData' => $softwareData
+        ]);
+
+   }
 }

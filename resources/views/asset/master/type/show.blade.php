@@ -27,14 +27,7 @@
     {{-- End Content --}}
     <div class="card-body">
         {{-- searching --}}
-        <div class="row mb-4 mx-0 gap-3 d-flex align-items-end">
-            <div class="col-sm-2 px-0">
-                <div class="input-group">
-                    <input type="date" class="form-control" id="bs-datepicker-format" placeholder="Periode"
-                        onkeydown="search(this)">
-                </div>
-            </div>
-        </div>
+        
         {{-- End Searching --}}
 
         {{-- table --}}
@@ -47,13 +40,11 @@
                         <div class="py-4">
                             <div class="esa-filter-container">
                                 <div>
-                                    <select class="form-select" style="width: 9.5rem; stroke: red;" id="year-select">
-                                        <option value="2022">Tahun 2022</option>
-                                        <option value="2021">Tahun 2021</option>
-                                        <option value="2020">Tahun 2020</option>
-                                    </select>
+                                    @if (session('success'))
+                                    <h3 class="text-success">{{ session('success') }}</h3>
+                                    @endif
+                                    
                                 </div>
-                                <button class="btn btn-outline-primary esa-btn-lg">Clear Filter</button>
                             </div>
                         </div>
                         <div class="card-datatable table-responsive">
@@ -82,63 +73,58 @@
                                         <td>{{  $master['typegcm'] }}</td>
                                         <td class="action-buttons">
                                             <button class="btn mb-1 waves-effect waves-light btn-outline-danger esa-btn">Delete</button>
-                                            <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" style="height:36px">Update</button>
+                                            <a href="#modalMaster" 
+                                                data-bs-toggle="modal" 
+                                                class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" 
+                                                onclick="openMasterModal({{ json_encode($master) }})">
+                                                Update
+                                            </a>
+                                            
                                         </td>
+                                        @include('asset.master.type.modal')
                                     </tr>
                                     @endforeach
                                 </tbody>
                             </table>
                         </div>
                         <nav aria-label="Page navigation example">
-                            <ul class="inline-flex -space-x-px text-sm">
+                            <ul class="pagination">
                                 <!-- Previous Page Link -->
                                 @if ($masterData->onFirstPage())
-                                    <li>
-                                        <span class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-700 bg-gray-200 border border-gray-300 rounded-s-lg cursor-not-allowed">
-                                            Previous
-                                        </span>
+                                    <li class="page-item disabled">
+                                        <span class="page-link">Previous</span>
                                     </li>
                                 @else
-                                    <li>
-                                        <a href="{{ $masterData->previousPageUrl() }}" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-700 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-800">
-                                            Previous
-                                        </a>
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ $masterData->previousPageUrl() }}">Previous</a>
                                     </li>
                                 @endif
                         
                                 <!-- Pagination Elements -->
                                 @foreach ($masterData->links()->elements[0] as $page => $url)
                                     @if ($page == $masterData->currentPage())
-                                        <li>
-                                            <span class="flex items-center justify-center px-3 h-8 text-white border border-gray-300 bg-blue-600 hover:bg-blue-700 hover:text-white">
-                                                {{ $page }}
-                                            </span>
+                                        <li class="page-item active">
+                                            <span class="page-link">{{ $page }}</span>
                                         </li>
                                     @else
-                                        <li>
-                                            <a href="{{ $url }}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-800">
-                                                {{ $page }}
-                                            </a>
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $url }}">{{ $page }}</a>
                                         </li>
                                     @endif
                                 @endforeach
                         
                                 <!-- Next Page Link -->
                                 @if ($masterData->hasMorePages())
-                                    <li>
-                                        <a href="{{ $masterData->nextPageUrl() }}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-800">
-                                            Next
-                                        </a>
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ $masterData->nextPageUrl() }}">Next</a>
                                     </li>
                                 @else
-                                    <li>
-                                        <span class="flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-gray-200 border border-gray-300 rounded-e-lg cursor-not-allowed">
-                                            Next
-                                        </span>
+                                    <li class="page-item disabled">
+                                        <span class="page-link">Next</span>
                                     </li>
                                 @endif
                             </ul>
-                        </nav>  
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -147,6 +133,23 @@
 @endsection
 @section('scripts')
     <script>
+        function openMasterModal(master) {
+        // Populate the modal fields with the software data
+        document.getElementById('modalMasterId').value = master.masterid;
+        document.getElementById('modalCondition').value = master.condition;
+        document.getElementById('modalNoSr').value = master.nosr;
+        document.getElementById('modalDescription').value = master.description;
+        document.getElementById('modalValue').value = master.valuegcm;
+        document.getElementById('modalType').value = master.typegcm;
+        document.getElementById('active').value = master.active; 
+
+        // Update the form action
+        var form = document.getElementById('modalUpdateMasterForm');
+        form.action = "{{ route('master.type.update', ['masterid' => ':masterid']) }}".replace(':masterid', master.masterid);
+    }
+
+
+
         $(document).ready(function() {
             $('#dinas').DataTable({
                 "lengthChange": false,

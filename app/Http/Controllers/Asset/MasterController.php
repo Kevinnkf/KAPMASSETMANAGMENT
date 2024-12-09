@@ -303,12 +303,12 @@ class MasterController extends Controller
             // Ensure $data is logged as an arraygit 
             Log::info('API Response:', $data ?? []); // Use an empty array if $data is null 
         
-            return redirect('/master')->with('success', 'Data submitted successfully!');
+            return back()->with('success', 'Data submitted successfully!');
         } catch (\GuzzleHttp\Exception\RequestException $e) {
             $responseBody = $e->hasResponse() ? (string) $e->getResponse()->getBody() : null;
             Log::error('API Error: ' . $e->getMessage() . ' - Response Body: ' . $responseBody);
         
-            return redirect('/master')->withErrors(['error' => 'An error occurred while submitting the data.']);
+            return back()->withErrors(['error' => 'An error occurred while submitting the data.']);
         }    
     }   
 }
