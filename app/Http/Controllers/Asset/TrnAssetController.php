@@ -570,6 +570,7 @@ class TRNAssetController extends Controller
         $data = [
             'assetData' => $assetData,
             'qrCode' => $qrCode,
+            "data" => session('userdata')
         ];
     
         $pdf = SnappyPdf::loadView('asset.transaction.asset.bast', $data);
@@ -707,7 +708,8 @@ class TRNAssetController extends Controller
         // Prepare data for PDF
         $data = [
             'assetData' => $assetData,
-            'qrCode' => $qrCode
+            'qrCode' => $qrCode,
+            "data" => session('userdata')
         ];
 
         // Generate PDF

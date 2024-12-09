@@ -213,15 +213,15 @@
         </tr>
         <tr>
             <td style="width: 30%; white-space: normal;"><p class="ft16">Nama</p></td>
-            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $assetData['picadded'] ?? 'N/A' }}</p></td>
+            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $data['nama'] ?? 'N/A' }}</p></td>
         </tr>
         <tr>
             <td style="width: 30%; white-space: normal;"><p class="ft16">Nippm</p></td>
-            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $nippm }}</p></td>
+            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $data['nipp'] }}</p></td>
         </tr>
         <tr>
             <td style="width: 30%; white-space: normal;"><p class="ft16">Jabatan</p></td>
-            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{$jabatan}}</p></td>
+            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{$data['jabatan']}}</p></td>
         </tr>
         <tr>
             <td style="width: 30%; white-space: normal;"><p class="ft16">Tempat Kedudukan</p></td>
