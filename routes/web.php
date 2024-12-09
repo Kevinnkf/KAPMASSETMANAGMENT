@@ -98,7 +98,7 @@ Route::middleware(['user-auth'])->group(function () {
             Route::get('detail/laptop/{assetcode}', [TrnAssetController::class, 'show'])->name('transaction.asset.laptop');
             Route::get('/print/{assetcode}', [TrnAssetController::class, 'print'])->name('transaction.asset.print');
             Route::get('/print-label/{assetcode}', [TrnAssetController::class, 'printLabel'])->name('transaction.asset.label');
-            // Route::get('/dashboard/search', [TrnAssetController::class, 'search'])->name('searchAssets');
+            Route::get('/index/search', [TrnAssetController::class, 'search'])->name('searchAssets');
             
 
         });
