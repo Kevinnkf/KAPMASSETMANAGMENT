@@ -17,7 +17,7 @@ class TRNAssetController extends Controller
     private $modul = "Time Management";
     private $title = "Halaman Izin";
     
-    public function create(){
+    public function index(){
         // Ambil data dari session
         $userData = session('userdata');
         $getNipp = $userData['nipp'];
@@ -63,12 +63,12 @@ class TRNAssetController extends Controller
 
         // Data atasan dari data izin pegawai
         $atasan = ['atasan' => $dataIzin['data'][0]['atasan'] ?? null];
-        $response = $client->request('GET', 'http://localhost:5252/api/Master');
+        $response = $client->request('GET', 'http://10.48.1.3:7252/api/Master');
         $body = $response->getBody();
         $content = $body->getContents();
         $masterData = json_decode($content, true);
 
-        $response = $client->request('GET', 'http://localhost:5252/api/TrnAsset');
+        $response = $client->request('GET', 'http://10.48.1.3:7252/api/TrnAsset');
         $body = $response->getBody()->getContents();
         $assetData = json_decode($body, true);
 
@@ -126,22 +126,22 @@ class TRNAssetController extends Controller
         $client = new Client();
 
         // First API call to fetch asset data (TrnAsset)
-        $responseAsset = $client->request('GET', "http://localhost:5252/api/TrnAsset/{ $assetCode}");
+        $responseAsset = $client->request('GET', "http://10.48.1.3:7252/api/TrnAsset/{ $assetCode}");
         $contentAsset = $responseAsset->getBody()->getContents();
         $assetData = json_decode($contentAsset, true);
 
         // Second API call to fetch asset spec data (TrnAssetSpec)
-        $responseAssetSpec = $client->request('GET', "http://localhost:5252/api/TrnAssetSpec/{$assetCode}");
+        $responseAssetSpec = $client->request('GET', "http://10.48.1.3:7252/api/TrnAssetSpec/{$assetCode}");
         $contentAssetSpec = $responseAssetSpec->getBody()->getContents();
         $assetSpecData = json_decode($contentAssetSpec, true);
 
         //Third API call to fetch sidebar data (master)
-        $responseMaster = $client->request('GET', "http://localhost:5252/api/master");
+        $responseMaster = $client->request('GET', "http://10.48.1.3:7252/api/master");
         $contentMaster = $responseMaster->getBody()->getContents();
         $masterData = json_decode($contentMaster, true);
 
         //Fourth API call to fetch employee data
-        $responseEmployee = $client->request('GET', "http://localhost:5252/api/Employee");
+        $responseEmployee = $client->request('GET', "http://10.48.1.3:7252/api/Employee");
         $contentEmployee = $responseEmployee->getBody()->getContents();
         $employeeData = json_decode($contentEmployee, true);
 
@@ -158,7 +158,7 @@ class TRNAssetController extends Controller
     //Create new asset view
     // public function newAssetView(){
     //     $client = new Client();
-    //     $response = $client->request('GET', 'http://localhost:5252/api/Master');
+    //     $response = $client->request('GET', 'http://10.48.1.3:7252/api/Master');
     //     $body = $response->getBody();
     //     $content = $body->getContents();
     //     $data = json_decode($content, true);
@@ -167,14 +167,14 @@ class TRNAssetController extends Controller
     //     return view('Transaction.create', ['sidebarData' => $data]);
     // }
 
-    public function msttrnasset() {
+    public function create() {
         $client = new Client();
-        $response = $client->request('GET', 'http://localhost:5252/api/Master');
+        $response = $client->request('GET', 'http://10.48.1.3:7252/api/Master');
         $body = $response->getBody();
         $content = $body->getContents();
         $data = json_decode($content, true);
 
-        return view('asset.transaction.asset.indexs', [
+        return view('asset.transaction.asset.create', [
             'optionData' => $data]); // Keep the view name consistent
     }
 
@@ -202,44 +202,44 @@ class TRNAssetController extends Controller
         // Create a new HTTP client instance
         $client = new Client();
 
-        $responseMaster = $client->request('GET', "http://localhost:5252/api/master");
+        $responseMaster = $client->request('GET', "http://10.48.1.3:7252/api/master");
         $contentMaster = $responseMaster->getBody()->getContents();
         $assetMaster = json_decode($contentMaster, true);
         
 
         // First API call to fetch asset data (TrnAsset)
-        $responseAsset = $client->request('GET', "http://localhost:5252/api/TrnAsset/{$assetcode}");
+        $responseAsset = $client->request('GET', "http://10.48.1.3:7252/api/TrnAsset/{$assetcode}");
         $contentAsset = $responseAsset->getBody()->getContents();
         $assetData = json_decode($contentAsset, true);
         
 
         // Second API call to fetch asset spec data (TrnAssetSpec)
-        $responseAssetSpec = $client->request('GET', "http://localhost:5252/api/TrnAssetSpec/{$assetcode}");
+        $responseAssetSpec = $client->request('GET', "http://10.48.1.3:7252/api/TrnAssetSpec/{$assetcode}");
         $contentAssetSpec = $responseAssetSpec->getBody()->getContents();
         $assetSpecData = json_decode($contentAssetSpec, true);
 
         // Fetch History Maintenance
-        $resposeHistoryMaintenance = $client->request('GET', "http://localhost:5252/api/TrnHistMaintenance/{$assetcode}");
+        $resposeHistoryMaintenance = $client->request('GET', "http://10.48.1.3:7252/api/TrnHistMaintenance/{$assetcode}");
         $contentHistoryMaintenance = $resposeHistoryMaintenance->getBody()->getContents();
         $historyMaintenanceData = json_decode($contentHistoryMaintenance, true);
 
         // Fetch Software Installed
-        $responseDetailSoftware = $client->request('GET', "http://localhost:5252/api/TrnSoftware/{$assetcode}");
+        $responseDetailSoftware = $client->request('GET', "http://10.48.1.3:7252/api/TrnSoftware/{$assetcode}");
         $contentDetailSoftware = $responseDetailSoftware->getBody()->getContents();
         $detailSoftwareData = json_decode($contentDetailSoftware, true);
 
         //Fetch PIC
-        $responsePic = $client->request('GET', "http://localhost:5252/api/User");
+        $responsePic = $client->request('GET', "http://10.48.1.3:7252/api/User");
         $contentPic = $responsePic->getBody()->getContents();
         $userData = json_decode($contentPic, true);  
 
         //Fetch History Asset
-        $responseHist = $client->request('GET', "http://localhost:5252/api/AssetHistory/{$assetcode}");
+        $responseHist = $client->request('GET', "http://10.48.1.3:7252/api/AssetHistory/{$assetcode}");
         $contentHist = $responseHist->getBody()->getContents();
         $histData = json_decode($contentHist, true);  
 
         //fetch image
-        $responseImg = $client->request('GET', "http://localhost:5252/api/TrnAssetDtlPicture/{$assetcode}");
+        $responseImg = $client->request('GET', "http://10.48.1.3:7252/api/TrnAssetDtlPicture/{$assetcode}");
         $contentImg = $responseImg->getBody()->getContents();
         $imgData = json_decode($contentImg, true);  
         // Ensure $imgData is an array
@@ -260,70 +260,92 @@ class TRNAssetController extends Controller
             "data" => session('userdata')
         ]);
     }
-    public function index($assetcode) {
-        // Ambil data dari session
-        $userData = session('userdata');
-        $getNipp = $userData['nipp'];
+    // public function index($assetcode) {
+    //     // Ambil data dari session
+    //     $userData = session('userdata');
+    //     $getNipp = $userData['nipp'];
 
-        // Inisiasi Guzzle client
-        $client = new Client();
+    //     // Inisiasi Guzzle client
+    //     $client = new Client();
 
-        // URL API
-        $apiUrlIzin = config('constants.GET_DATA_IZIN_PEGAWAI') . "?nipp=" . $getNipp;
-        $apiUrlStatus = config('constants.GET_STATUS_IZIN');
+    //     // URL API
+    //     $apiUrlIzin = config('constants.GET_DATA_IZIN_PEGAWAI') . "?nipp=" . $getNipp;
+    //     $apiUrlStatus = config('constants.GET_STATUS_IZIN');
         
-        // Buat permintaan GET ke API Izin Pegawai
-        $responseIzin = $client->request('GET', $apiUrlIzin, [
-            'headers' => [
-                'Authorization' => 'Bearer ' . session('token'),
-                'Accept' => 'application/json',
-            ],
-            'timeout' => 10,
-        ]);
+    //     // Buat permintaan GET ke API Izin Pegawai
+    //     $responseIzin = $client->request('GET', $apiUrlIzin, [
+    //         'headers' => [
+    //             'Authorization' => 'Bearer ' . session('token'),
+    //             'Accept' => 'application/json',
+    //         ],
+    //         'timeout' => 10,
+    //     ]);
 
-        // Cek apakah respon berhasil (status 200)
-        if ($responseIzin->getStatusCode() !== 200) {
-            return back()->withErrors(['message' => 'Gagal mengambil data pegawai.']);
-        }
+    //     // Cek apakah respon berhasil (status 200)
+    //     if ($responseIzin->getStatusCode() !== 200) {
+    //         return back()->withErrors(['message' => 'Gagal mengambil data pegawai.']);
+    //     }
 
-        // Buat permintaan GET ke API Status Izin
-        $responseStatus = $client->request('GET', $apiUrlStatus, [
-            'headers' => [
-                'Authorization' => 'Bearer ' . session('token'),
-                'Accept' => 'application/json',
-            ],
-            'timeout' => 10,
-        ]);
+    //     // Buat permintaan GET ke API Status Izin
+    //     $responseStatus = $client->request('GET', $apiUrlStatus, [
+    //         'headers' => [
+    //             'Authorization' => 'Bearer ' . session('token'),
+    //             'Accept' => 'application/json',
+    //         ],
+    //         'timeout' => 10,
+    //     ]);
 
-        // Cek apakah respon berhasil (status 200)
-        if ($responseStatus->getStatusCode() !== 200) {
-            return back()->withErrors(['message' => 'Gagal mengambil status izin.']);
-        }
+    //     // Cek apakah respon berhasil (status 200)
+    //     if ($responseStatus->getStatusCode() !== 200) {
+    //         return back()->withErrors(['message' => 'Gagal mengambil status izin.']);
+    //     }
 
-        // Ambil isi dari kedua respons
-        $dataIzin = json_decode($responseIzin->getBody(), true);
-        $dataStatus = json_decode($responseStatus->getBody(), true);
+    //     // Ambil isi dari kedua respons
+    //     $dataIzin = json_decode($responseIzin->getBody(), true);
+    //     $dataStatus = json_decode($responseStatus->getBody(), true);
 
-        // Data atasan dari data izin pegawai
-        $atasan = ['atasan' => $dataIzin['data'][0]['atasan'] ?? null];
+    //     // Data atasan dari data izin pegawai
+    //     $atasan = ['atasan' => $dataIzin['data'][0]['atasan'] ?? null];
 
-        $response = $client->request('GET', 'http://localhost:5252/api/Master');
+    //     $response = $client->request('GET', 'http://10.48.1.3:7252/api/Master');
+    //     $body = $response->getBody();
+    //     $content = $body->getContents();
+    //     $masterData = json_decode($content, true);
+
+    //     $responseAsset = $client->request('GET', "http://10.48.1.3:7252/api/TrnAssetSpec/{$assetcode}");
+    //     $contentAsset = $responseAsset->getBody()->getContents();
+    //     $assetData = json_decode($contentAsset, true);
+
+    //     return view('asset.transaction.asset.index', [
+    //         'masterData' => $masterData,
+    //         'assetData' => $assetData
+    //     ]); // Keep the view name consistent
+    // }
+
+    public function edit($assettype ,$assetcategory, $assetcode) {
+        $client = new Client();
+        $response = $client->request('GET', 'http://10.48.1.3:7252/api/Master');
         $body = $response->getBody();
         $content = $body->getContents();
-        $masterData = json_decode($content, true);
+        $data = json_decode($content, true);
 
-        $responseAsset = $client->request('GET', "http://localhost:5252/api/TrnAssetSpec/{$assetcode}");
+        $responseAsset = $client->request('GET', "http://10.48.1.3:7252/api/TrnAsset/{$assetcode}");
         $contentAsset = $responseAsset->getBody()->getContents();
         $assetData = json_decode($contentAsset, true);
+        // dd($assetData);
 
-        return view('asset.transaction.asset.index', [
-            'masterData' => $masterData,
-            'assetData' => $assetData
-        ]); // Keep the view name consistent
+        return view('asset.transaction.asset.detail.edit', [
+            'assetcode' => $assetcode,
+            'assettype' => $assettype,
+            'assetcategory' => $assetcategory,
+            'optionData' => $data,
+            'assetData' => $assetData]); // Keep the view name consistent
     }
 
     public function store(Request $request)
     {
+        $userData = session('userdata');
+        $userName = $userData['nama'];
         // Validate the incoming request data
         $validated = $request->validate([
             'assettype' => 'required|string|max:255',
@@ -331,8 +353,7 @@ class TRNAssetController extends Controller
             'assetbrand' => 'required|string|max:255',
             'assetmodel' => 'required|string|max:255',
             'assetseries' => 'required|string|max:255',
-            'assetserialnumber' => 'required|string|max:255',
-            'picadded' => 'required|string|max:255',
+            'assetserialnumber' => 'required|string|max:255'
         ]);
 
         // Initialize the HTTP client for making requests
@@ -340,7 +361,7 @@ class TRNAssetController extends Controller
 
         try {
             // Send POST request directly using the validated data
-            $response = $client->post("http://localhost:5252/api/TrnAsset", [
+            $response = $client->post("http://10.48.1.3:7252/api/TrnAsset", [
                 'json' => [
                     'idasset' => '0',
                     'assetcode' => 'assetcode',
@@ -350,7 +371,7 @@ class TRNAssetController extends Controller
                     'assetmodel' => $validated['assetmodel'],
                     'assetseries' => $validated['assetseries'],
                     'assetserialnumber' => $validated['assetserialnumber'],
-                    'picadded' => $validated['picadded'],
+                    'picadded' => $userName,
                     'condition' => 'GREAT',
                     'active' => 'Y',
                     'nipp' => null,
@@ -368,15 +389,78 @@ class TRNAssetController extends Controller
 
             // Check if the API response was successful and redirect accordingly
             if ($category == 'LAPTOP') {
-                return redirect()->route('transaction.trnlaptop', ['assetcategory' => $category, 'assetcode' => $assetcode])
-                                 ->with('success', 'Asset created successfully!');
+                return redirect()->route('transaction.hardware.laptop.create', ['assetcategory' => $category, 'assetcode' => $assetcode])
+                                 ->with('success', 'Asset created successfully!');  
             } else if ($category == 'MOBILE') {
-                return redirect()->route('transaction.mobile', ['assetcategory' => $category, 'assetcode' => $assetcode])
+                return redirect()->route('transaction.hardware.mobile.create', ['assetcategory' => $category, 'assetcode' => $assetcode])
                                  ->with('success', 'Asset created successfully!');
             } else {
-                return redirect()->route('transaction.others', ['assetcategory' => $category, 'assetcode' => $assetcode])
+                return redirect()->route('transaction.hardware.others.create', ['assetcategory' => $category, 'assetcode' => $assetcode])
                                  ->with('success', 'Asset created successfully!');
             }
+            
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+            // Handle error response, log the error message, and show the error to the user
+            $responseBody = $e->hasResponse() ? (string) $e->getResponse()->getBody() : null;
+            Log::error('API Error: ' . $e->getMessage() . ' - Response Body: ' . $responseBody);
+
+            return back()->withErrors(['error' => 'Failed to create asset. Please try again.'])->withInput();
+        }
+    }
+
+    public function update(Request $request, $assetcode)
+    {
+        $userData = session('userdata');
+        $userName = $userData['nama'];
+        // Validate the incoming request data
+        $validated = $request->validate([
+            'assetcategory' => 'required|string|max:255',
+            'assetbrand' => 'required|string|max:255',
+            'assetmodel' => 'required|string|max:255',
+            'assetseries' => 'required|string|max:255',
+            'assetserialnumber' => 'required|string|max:255',
+            'condition' => 'required|string|max:255',
+            'status' => 'required|string|max:255',
+        ]);
+
+        // Initialize the HTTP client for making requests
+        $client = new \GuzzleHttp\Client();
+
+        try {
+            // Send POST request directly using the validated data
+            $response = $client->put("http://10.48.1.3:7252/api/TrnAsset/{$assetcode}", [
+                'json' => [
+                    'idasset' => '0',
+                    'assetcode' => 'assetcode',
+                    'assettype' => 'assettype',
+                    'assetcategory' => 'assetcategory',
+                    'assetbrand' => $validated['assetbrand'],
+                    'assetmodel' => $validated['assetmodel'],
+                    'assetseries' => $validated['assetseries'],
+                    'assetserialnumber' => $validated['assetserialnumber'],
+                    'picadded' => 'picadded',
+                    'picupdated' => $userName,
+                    'condition' => $validated['condition'],
+                    'active' => $validated['status'],
+                ]
+            ]);
+
+            // Retrieve the response data and log for debugging
+            $responseData = json_decode($response->getBody()->getContents(), true);
+            Log::info('API Response:', $responseData);
+
+            // Get the assetcode from the response
+            $category = $validated['assetcategory'];
+            // Check if the API response was successful and redirect accordingly
+            if ($category == 'LAPTOP') {
+                return redirect()->route('transaction.asset.laptop', ['assetcode' => $assetcode])
+                                 ->with('success');
+            } else if ($category == 'MOBILE') {
+                return redirect()->route('detailAsset.mobile', ['assetcode' => $assetcode])
+                                 ->with('success', 'Asset created successfully!');
+            } else {
+                return redirect()->route('detailAsset.laptop', ['assetcode' => $assetcode])
+                                ->with('success');}
             
         } catch (\GuzzleHttp\Exception\RequestException $e) {
             // Handle error response, log the error message, and show the error to the user
@@ -394,11 +478,11 @@ class TRNAssetController extends Controller
             'nipp' => 'required|integer',
         ]);
 
-        $response = Http::put("http://localhost:5252/api/TrnAsset/update-nipp/{$assetcode}", (int) $validatedData['nipp']);
+        $response = Http::put("http://10.48.1.3:7252/api/TrnAsset/update-nipp/{$assetcode}", (int) $validatedData['nipp']);
         Log::info('Data sent for assignment:', ['assetcode' => $assetcode, 'nipp' => (int) $validatedData['nipp']]);
 
         if ($response->successful()) {
-            $historyResponse = Http::post('http://localhost:5252/api/AssetHistory', [
+            $historyResponse = Http::post('http://10.48.1.3:7252/api/AssetHistory', [
                 'assetcode' => $assetcode,
                 'nipp' => $validatedData['nipp'],
                 'picadded' => 'dava'
@@ -423,7 +507,7 @@ class TRNAssetController extends Controller
         ];
 
         // Send PUT request to unassign the asset (set NIPP to null)
-        $response = Http::put("http://localhost:5252/api/TrnAsset/update-nipp/{$assetcode}", null);
+        $response = Http::put("http://10.48.1.3:7252/api/TrnAsset/update-nipp/{$assetcode}", null);
         Log::info('Data sent for unassignment:', ['data' => $data['nipp']]);
 
         // Check if the unassignment was successful before logging history
@@ -435,7 +519,7 @@ class TRNAssetController extends Controller
                 'picadded' => 'dava'
             ];
 
-            $historyResponse = Http::post('http://localhost:5252/api/AssetHistory', $historyData);
+            $historyResponse = Http::post('http://10.48.1.3:7252/api/AssetHistory', $historyData);
             Log::info('Data sent to history log:', $historyData);
 
             if ($historyResponse->successful()) {
@@ -461,7 +545,7 @@ class TRNAssetController extends Controller
         $client = new Client();
     
         try {
-            $responseAsset = $client->request('GET', "http://localhost:5252/api/TrnAsset/{$assetCode}");
+            $responseAsset = $client->request('GET', "http://10.48.1.3:7252/api/TrnAsset/{$assetCode}");
     
             
             if ($responseAsset->getStatusCode() !== 200) {
@@ -639,7 +723,4 @@ class TRNAssetController extends Controller
         
         return $pdf->inline("Label QRCode.pdf");
     }
-
-
-
 }

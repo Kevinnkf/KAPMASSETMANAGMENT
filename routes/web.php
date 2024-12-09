@@ -20,7 +20,8 @@ use App\Http\Controllers\Asset\{
     MaintenanceController,
     MasterController as MasterController,
     TRNAssetController as TrnAssetController,
-    SoftwareController
+    SoftwareController,
+    TRNAssetSpecController as TrnAssetSpecController
 };
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -92,10 +93,15 @@ Route::middleware(['user-auth'])->group(function () {
     });
     Route::prefix("transaction")->group(function () {
         Route::prefix("/asset")->group(function () {
-
-            Route::get("/index", [TrnAssetController::class, 'create'])->name('transaction.asset.index');
+            Route::get("/index", [TrnAssetController::class, 'index'])->name('transaction.asset.index');
             Route::put("/unassign/{assetcode}", [TrnAssetController::class, 'unassignAsset'])->name('transaction.asset.unassign');
             Route::get('detail/laptop/{assetcode}', [TrnAssetController::class, 'show'])->name('transaction.asset.laptop');
+            Route::get('/create{', [TrnAssetController::class, 'create'])->name('transaction.asset.create');
+            Route::post('/store', [TrnAssetController::class, 'store'])->name('transaction.asset.store');
+
+            Route::get('/edit/{assettype}/{assetcategory}/{assetcode}', [TrnAssetController::class, 'edit'])->name('transaction.asset.edit');
+            Route::put('/update/{assetcode}', [TrnAssetController::class, 'update'])->name('transaction.asset.update');
+        });        
             Route::get('/print/{assetcode}', [TrnAssetController::class, 'print'])->name('transaction.asset.print');
             Route::get('/print-label/{assetcode}', [TrnAssetController::class, 'printLabel'])->name('transaction.asset.label');
             Route::get('/index/search', [TrnAssetController::class, 'search'])->name('searchAssets');
@@ -108,6 +114,16 @@ Route::middleware(['user-auth'])->group(function () {
 
         Route::prefix("/loan")->group(function () {
             Route::get("/index", [IzinController::class, 'index'])->name('transaction.loan.index');
+        });
+
+        Route::prefix("/hardware")->group(function () {
+            // Create hardware laptop or pc
+            Route::get("/laptop/create/{assetcategory}/{assetcode}", [TrnAssetSpecController::class, 'create'])->name('transaction.hardware.laptop.create');
+            Route::post('/laptop/store/{assetcode}', [TrnAssetSpecController::class, 'store'])->name('transaction.hardware.laptop.store');
+
+            // Edit hardware laptop or pc
+            Route::get('/laptop/edit/{assetcategory}/{assetcode}/{idassetspec}', [TrnAssetSpecController::class, 'edit'])-> name('transaction.hardware.laptop.edit');
+            Route::put('/laptop/update/{assetcode}/{idassetspec}', [TrnAssetSpecController::class, 'update'])-> name('transaction.hardware.laptop.update');
         });
 
         //Routing for software
@@ -183,4 +199,3 @@ Route::middleware(['user-auth'])->group(function () {
     Route::get('logout', [LogoutController::class, 'logout']);
 
     // Route::get('/cetak', [IzinController::class, 'cetakPresensi'])->name('time-management.izin.cetakPresensi');
-});
