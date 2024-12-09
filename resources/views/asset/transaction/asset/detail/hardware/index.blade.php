@@ -20,14 +20,23 @@
                         </button>
                         {{-- change the route accordingly --}}
                         @if (is_null($idassetspec) || $idassetspec === 0 || $idassetspec === 'N/A')
-                            <a href="{{ route('transaction.asset.index') }}" class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Add Hardware</a>
-                            {{-- <div class="col">
-                                <img src="{{ asset('assets/dist/images/portal-menu/img-lihat-semua.svg') }}" alt="image-lihat-semua"
-                                    data-bs-target="#showModalPortalSistem" data-bs-toggle="modal" style="cursor: pointer">
-                            </div> --}}
+                            <a href="{{ route('transaction.hardware.laptop.create', [
+                                'assetcategory' => $assetcategory, 
+                                'assetcode' => $assetcode]) }}" class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Add Hardware</a>
                         @else
-                            <a href="#modalHardware" data-bs-toggle="modal" class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Update Hardware</a>
+                            <a href="{{ route('transaction.hardware.laptop.edit',[
+                                'assetcategory' => $assetcategory, 
+                                'assetcode' => $assetcode,
+                                'idassetspec' => $idassetspec
+                                ]) }}" class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Update Hardware</a>
                         @endif
+                        <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" onclick="window.location.href='{{ route('transaction.asset.edit',[
+                                'assettype' => $assettype,
+                                'assetcategory' => $assetcategory, 
+                                'assetcode' => $assetcode,
+                                ])}}'">
+                                Update Asset
+                        </button>
                     </div>
                 </div>
             </div>
