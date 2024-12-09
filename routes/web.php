@@ -96,6 +96,8 @@ Route::middleware(['user-auth'])->group(function () {
             Route::get("/index", [TrnAssetController::class, 'index'])->name('transaction.asset.index');
             Route::put("/unassign/{assetcode}", [TrnAssetController::class, 'unassignAsset'])->name('transaction.asset.unassign');
             Route::get('detail/laptop/{assetcode}', [TrnAssetController::class, 'show'])->name('transaction.asset.laptop');
+            Route::get('detail/mobile/{assetcode}', [TrnAssetController::class, 'show'])->name('transaction.asset.mobile');
+            Route::get('detail/others/{assetcode}', [TrnAssetController::class, 'show'])->name('transaction.asset.others');
             Route::get('/create{', [TrnAssetController::class, 'create'])->name('transaction.asset.create');
             Route::post('/store', [TrnAssetController::class, 'store'])->name('transaction.asset.store');
 
@@ -124,6 +126,8 @@ Route::middleware(['user-auth'])->group(function () {
             // Edit hardware laptop or pc
             Route::get('/laptop/edit/{assetcategory}/{assetcode}/{idassetspec}', [TrnAssetSpecController::class, 'edit'])-> name('transaction.hardware.laptop.edit');
             Route::put('/laptop/update/{assetcode}/{idassetspec}', [TrnAssetSpecController::class, 'update'])-> name('transaction.hardware.laptop.update');
+
+            // Edit 
         });
 
         //Routing for software
