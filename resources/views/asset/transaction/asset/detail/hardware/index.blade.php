@@ -66,7 +66,7 @@
                             <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">Asset Type:</th>
                             <td class="px-6 py-4">: {{$assettype}}</td>
                             @if (!empty($assetSpecData))
-                            <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">First Graphics Card</th>
+                            <th scope="row" class=g"px-6 py-4 font-medium text-black whitespace-nowrap ">First Graphics Card</th>
                             <td class="px-6 py-4">: {{$graphics1}}</td>
                             @endif
                         </tr>
