@@ -14,7 +14,7 @@ class SoftwareController extends Controller
     // Get all software records
     public function index() {
         $client = new Client();
-        $response = $client->request('GET', 'http://localhost:5252/api/Master');
+        $response = $client->request('GET', 'http://10.48.1.3:7252/api/Master');
         $body = $response->getBody();
         $content = $body->getContents();
         $data = json_decode($content, true);
@@ -27,22 +27,22 @@ class SoftwareController extends Controller
          $client = new Client();
 
          // First API call to fetch asset data (TrnAsset)
-         $responseAsset = $client->request('GET', "http://localhost:5252/api/TrnSoftware/{$idassetsoftware}");
+         $responseAsset = $client->request('GET', "http://10.48.1.3:7252/api/TrnSoftware/{$idassetsoftware}");
          $contentAsset = $responseAsset->getBody()->getContents();
          $assetData = json_decode($contentAsset, true);
  
          //Fetch PIC
-         $responsePic = $client->request('GET', "http://localhost:5252/api/User");
+         $responsePic = $client->request('GET', "http://10.48.1.3:7252/api/User");
          $contentPic = $responsePic->getBody()->getContents();
          $userData = json_decode($contentPic, true);  
 
          //Fetch Master
-         $responseMst = $client->get("http://localhost:5252/api/master");
+         $responseMst = $client->get("http://10.48.1.3:7252/api/master");
          $contentMst = $responseMst->getBody()->getContents();
          $mstData = json_decode($contentMst, true);
 
          //Fetch software
-        //  $responseSoftware = $client -> request('GET', 'http://localhost:5252/api/TrnSoftware/{$assetcode}');
+        //  $responseSoftware = $client -> request('GET', 'http://10.48.1.3:7252/api/TrnSoftware/{$assetcode}');
         //  $contentSoftware = $responseSoftware ->getBody()->getContents();
         //  $softwareData = json_decode($contentSoftware, true);
  
@@ -65,22 +65,22 @@ class SoftwareController extends Controller
          $client = new Client();
 
          // First API call to fetch asset data (TrnAsset)
-         $responseAsset = $client->request('GET', "http://localhost:5252/api/TrnAsset/{$assetcode}");
+         $responseAsset = $client->request('GET', "http://10.48.1.3:7252/api/TrnAsset/{$assetcode}");
          $contentAsset = $responseAsset->getBody()->getContents();
          $assetData = json_decode($contentAsset, true);
  
          //Fetch PIC
-         $responsePic = $client->request('GET', "http://localhost:5252/api/User");
+         $responsePic = $client->request('GET', "http://10.48.1.3:7252/api/User");
          $contentPic = $responsePic->getBody()->getContents();
          $userData = json_decode($contentPic, true);  
 
          //Fetch Master
-         $responseMst = $client->get("http://localhost:5252/api/master");
+         $responseMst = $client->get("http://10.48.1.3:7252/api/master");
          $contentMst = $responseMst->getBody()->getContents();
          $mstData = json_decode($contentMst, true);
 
          //Fetch software
-        //  $responseSoftware = $client -> request('GET', 'http://localhost:5252/api/TrnSoftware/{$assetcode}');
+        //  $responseSoftware = $client -> request('GET', 'http://10.48.1.3:7252/api/TrnSoftware/{$assetcode}');
         //  $contentSoftware = $responseSoftware ->getBody()->getContents();
         //  $softwareData = json_decode($contentSoftware, true);
 
@@ -120,7 +120,7 @@ class SoftwareController extends Controller
             $client = new Client();
             $assetCodes = $validated['assetcode'];
         
-            $response = $client->post("http://localhost:5252/api/TrnSoftware", [
+            $response = $client->post("http://10.48.1.3:7252/api/TrnSoftware", [
                 'json' => $validated,  // Use the validated data
             ]);
 
@@ -159,7 +159,7 @@ class SoftwareController extends Controller
             Log::info('validated:', $validated);  // Log the API response for inspection
             
         
-            $response = $client->put("http://localhost:5252/api/TrnSoftware/{$idassetsoftware}", [
+            $response = $client->put("http://10.48.1.3:7252/api/TrnSoftware/{$idassetsoftware}", [
                 'json' => $validated,  // Use the validated data
             ]);
         
@@ -189,7 +189,7 @@ class SoftwareController extends Controller
         $client = new Client();
 
         try {
-            $response = $client->put("http://localhost:5252/api/TrnSoftware/{$id}", [
+            $response = $client->put("http://10.48.1.3:7252/api/TrnSoftware/{$id}", [
                 'json' => $validated,
             ]);
 

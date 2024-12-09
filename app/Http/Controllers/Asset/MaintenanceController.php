@@ -18,17 +18,17 @@ class MaintenanceController extends Controller{
     // Get all maintenance records
     public function indexz() {
         $client = new Client();
-        $response = $client->request('GET', 'http://localhost:5252/api/TrnHistMaintenance');
+        $response = $client->request('GET', 'http://10.48.1.3:7252/api/TrnHistMaintenance');
         $body = $response->getBody();
         $content = $body->getContents();
         $data = json_decode($content, true);
 
-        $assetResponse = $client->request('GET', 'http://localhost:5252/api/TrnAsset');
+        $assetResponse = $client->request('GET', 'http://10.48.1.3:7252/api/TrnAsset');
         $assetBody = $assetResponse->getBody();
         $assetContent = $assetBody->getContents();
         $assetData = json_decode($assetContent, true);
 
-        $userResponse = $client->request('GET', 'http://localhost:5252/api/user');
+        $userResponse = $client->request('GET', 'http://10.48.1.3:7252/api/user');
         $userBody = $userResponse->getBody();
         $userContent = $userBody->getContents();
         $userData = json_decode($userContent, true);
@@ -57,17 +57,17 @@ class MaintenanceController extends Controller{
         $client = new Client();
 
         // First API call to fetch asset data (TrnAsset)
-        $responseAsset = $client->request('GET', "http://localhost:5252/api/TrnHistMaintenance/{$assetcode}");
+        $responseAsset = $client->request('GET', "http://10.48.1.3:7252/api/TrnHistMaintenance/{$assetcode}");
         $contentAsset = $responseAsset->getBody()->getContents();
         $mtc = json_decode($contentAsset, true);
 
         // Second API call to fetch asset spec data (TrnAssetSpec)
-        $responseAssetSpec = $client->request('GET', "http://localhost:5252/api/user");
+        $responseAssetSpec = $client->request('GET', "http://10.48.1.3:7252/api/user");
         $contentAssetSpec = $responseAssetSpec->getBody()->getContents();
         $user = json_decode($contentAssetSpec, true);
 
         //Third API call to fetch sidebar data (master)
-        $responseMaster = $client->request('GET', "http://localhost:5252/api/master");
+        $responseMaster = $client->request('GET', "http://10.48.1.3:7252/api/master");
         $contentMaster = $responseMaster->getBody()->getContents();
         $mstData = json_decode($contentMaster, true);
 
@@ -95,7 +95,7 @@ class MaintenanceController extends Controller{
         $client = new Client();
 
         try {
-            $response = $client->post("http://localhost:5252/api/TrnHistMaintenance/{$assetcode}", [
+            $response = $client->post("http://10.48.1.3:7252/api/TrnHistMaintenance/{$assetcode}", [
                 'query' => $validatedData,
             ]);
 
@@ -115,7 +115,7 @@ class MaintenanceController extends Controller{
         $client = new Client();
         
         // Fetch maintenance data for the specific asset code
-        $response = $client->request('GET', "http://localhost:5252/api/TrnHistMaintenance/{$assetcode}");
+        $response = $client->request('GET', "http://10.48.1.3:7252/api/TrnHistMaintenance/{$assetcode}");
         $mtcData = json_decode($response->getBody()->getContents(), true);
         
         // Filter to find the specific maintenance record by maintenanceid
@@ -133,11 +133,11 @@ class MaintenanceController extends Controller{
         }
         
         // Fetch asset data
-        $assetResponse = $client->request('GET', 'http://localhost:5252/api/TrnAsset');
+        $assetResponse = $client->request('GET', 'http://10.48.1.3:7252/api/TrnAsset');
         $assetData = json_decode($assetResponse->getBody()->getContents(), true);
         
         // Fetch user data
-        $userResponse = $client->request('GET', 'http://localhost:5252/api/user');
+        $userResponse = $client->request('GET', 'http://10.48.1.3:7252/api/user');
         $userData = json_decode($userResponse->getBody()->getContents(), true);
 
         $qrCode = DNS2DFacade::getBarcodePNG($assetcode, 'QRCODE', 3, 3); // Generate QR code
