@@ -1,8 +1,141 @@
 @extends('layouts.app')
 
+@section('styles')
+
+    <!--  Aos -->
+    <link rel="stylesheet" href="{{ asset('assets/landing-page/dist/libs/aos/dist/aos.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/landing-page/dist/libs/owl.carousel/dist/assets/owl.carousel.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/landing-page/dist/libs/owl.carousel/dist/assets/owl.theme.default.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}" />
+
+    <style>
+        .esa-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .esa-header-dark {
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 600;
+            font-size: 28px;
+            line-height: 32px;
+            letter-spacing: -0.019em;
+            text-align: left;
+            color: #202020;
+        }
+
+        .esa-subheader-dark-grey {
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 20px;
+            letter-spacing: -0.011em;
+            text-align: left;
+            padding-top: 1rem;
+            color: #818181;
+        }
+    </style>
+
+    <style>
+        .esa-card-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .esa-card {
+            background-color: #F2F8FF;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            width: 33%;
+            /* box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1); */
+        }
+
+        .esa-card h3 {
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 20px;
+            letter-spacing: -0.011em;
+            text-align: left;
+            color: #202020;
+            margin: 0;
+        }
+
+        .esa-card h2 {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 20px;
+            letter-spacing: -0.014em;
+            text-align: left;
+            color: #0B56A7;
+            margin: 12px 0;
+        }
+
+        .esa-card-content {
+            background-color: #fff;
+            border-radius: 0.5rem;
+            padding: 1rem 0rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.625rem;
+        }
+
+        .esa-card-content-box {
+            width:33.3%;
+            display: flex;
+            justify-content: center; /* Horizontally centers the content */
+            align-items: center;     /* Vertically centers the content */
+        }
+
+        .esa-card-content div {
+            text-align: center;
+        }
+
+        .esa-card-content div p {
+            margin: 5px 0;
+        }
+
+        .esa-card-value {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 28px;
+            letter-spacing: -0.019em;
+            padding: 0.5rem;
+        }
+
+        .esa-card-sub-value {
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 16px;
+            letter-spacing: -0.006em;
+            color: #202020;
+        }
+
+        .esa-sisa-cuti-primary {
+            color: #0b56a7;
+        }
+
+        .esa-sisa-cuti-danger {
+            color: #E6251C;
+        }
+
+        .esa-divider {
+            width: 0.125rem;
+            background-color: #ddd;
+            height: 4rem;
+        }
+    </style>
+
 @section('content')
     {{-- Breadcrumb --}}
-    @include('kepegawaian.asesmen-pekerja.asesmen-multirater-360.breadcrumb')
+    
     {{-- End Breadcrumb --}}
 
     {{-- Content --}}
@@ -24,17 +157,37 @@
             </div>
         </div>
     </div>
+
     {{-- End Content --}}
     <div class="card-body">
-        {{-- searching --}}
-        <div class="row mb-4 mx-0 gap-3 d-flex align-items-end">
-            <div class="col-sm-2 px-0">
-                <div class="input-group">
-                    
+        <div class="esa-card-container w-100">
+            <div class="esa-card w-100">
+                <h3>Data Asset</h3>
+                <h2></h2>
+                <div class="esa-card-content">
+                    <div class="esa-card-content-box">
+                        <div>
+                            <div class="esa-card-value esa-sisa-cuti-primary">{{$countAsset}}</div>
+                            <p class="esa-card-sub-value">Asset tersedia</p>
+                        </div>
+                    </div>
+                    <div class="esa-divider"></div>
+                    <div class="esa-card-content-box">
+                        <div>
+                            <div class="esa-card-value esa-sisa-cuti-danger">{{$destroyedAsset}}</div>
+                            <p class="esa-card-sub-value">Asset dihapus</p>
+                        </div>
+                    </div>
+                    <div class="esa-divider"></div>
+                    <div class="esa-card-content-box">
+                        <div>
+                            <div class="esa-card-value esa-sisa-cuti-primary">{{$inMtc}}</div>
+                            <p class="esa-card-sub-value">Asset dalam perbaikan</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        {{-- End Searching --}}
 
         {{-- table --}}
         <section class="datatables">
@@ -47,8 +200,8 @@
                             <div class="esa-filter-container">
                                 <form action="{{ route('searchAssets') }}" method="GET" class="mb-4">
                                     <div class="flex items-center">
-                                        <input type="text" name="search" placeholder="Search name, brand, model, series, category, serial number, type, condition" class="p-2 border rounded w-[50%]">
-                                        <button type="submit" class="ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">Search</button>
+                                        <input type="text" name="search" placeholder="Search name, brand, model, series, category, serial number, type, condition" style="width: 50%" class="p-2 border rounded w-[100%]">
+                                        <button type="submit" class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Search</button>
                                     </div>
                                 </form>
                             </div>
@@ -92,19 +245,19 @@
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <!-- Previous Page Link -->
-                                @if ($masterData->onFirstPage())
+                                @if ($assetData->onFirstPage())
                                     <li class="page-item disabled">
                                         <span class="page-link">Previous</span>
                                     </li>
                                 @else
                                     <li class="page-item">
-                                        <a class="page-link" href="{{ $masterData->previousPageUrl() }}">Previous</a>
+                                        <a class="page-link" href="{{ $assetData->previousPageUrl() }}">Previous</a>
                                     </li>
                                 @endif
                         
                                 <!-- Pagination Elements -->
-                                @foreach ($masterData->links()->elements[0] as $page => $url)
-                                    @if ($page == $masterData->currentPage())
+                                @foreach ($assetData->links()->elements[0] as $page => $url)
+                                    @if ($page == $assetData->currentPage())
                                         <li class="page-item active">
                                             <span class="page-link">{{ $page }}</span>
                                         </li>
@@ -116,9 +269,9 @@
                                 @endforeach
                         
                                 <!-- Next Page Link -->
-                                @if ($masterData->hasMorePages())
+                                @if ($assetData->hasMorePages())
                                     <li class="page-item">
-                                        <a class="page-link" href="{{ $masterData->nextPageUrl() }}">Next</a>
+                                        <a class="page-link" href="{{ $assetData->nextPageUrl() }}">Next</a>
                                     </li>
                                 @else
                                     <li class="page-item disabled">

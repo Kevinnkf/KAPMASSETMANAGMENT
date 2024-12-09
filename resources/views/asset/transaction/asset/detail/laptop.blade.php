@@ -453,7 +453,7 @@
         </div>
         @endif
     </div>
-
+    
     @include('asset.transaction.asset.detail.hardware.index')
 
     @include('asset.transaction.asset.detail.software.index')

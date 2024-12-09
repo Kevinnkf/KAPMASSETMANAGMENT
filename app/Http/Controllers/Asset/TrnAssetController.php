@@ -674,7 +674,7 @@ class TRNAssetController extends Controller
             Log::info('Result', ['data' => $paginatedData]);
             Log::info('Result', ['data' => $countAsset]);
     
-            return view('asset.master.type.show', [
+            return view('asset.transaction.asset.index', [
                 'masterData' => $masterData,
                 'assetData' => $paginatedData,
                 'countAsset' => $countAsset,
