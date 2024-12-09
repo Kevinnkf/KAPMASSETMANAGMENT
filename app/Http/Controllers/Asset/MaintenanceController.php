@@ -147,7 +147,8 @@ class MaintenanceController extends Controller{
             'assetData' => $assetData,
             'userData' => $userData,
             'selectedRecord' => $selectedRecord, // Pass the selected maintenance record
-            'qrCode' => $qrCode
+            'qrCode' => $qrCode,
+            'data' => session('userdata')
         ];
 
         // Generate PDF

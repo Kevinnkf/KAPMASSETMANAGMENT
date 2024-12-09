@@ -290,7 +290,7 @@
             <td style="text-align: center; border: 1px black; padding-bottom: 80px;">
                 <p class="ft13">yang Menyerahkan</p><br><br><br><br><br><br><br>
                 <p class="ft13" style="text-decoration: underline"><b>{{ $data['nama'] }}&#160;</b></p>
-                <p class="ft13"><b>Nippm.&#160;{{$data['nama']}}&#160;</b></p>
+                <p class="ft13"><b>Nippm.&#160;{{$data['nipp']}}&#160;</b></p>
             </td>
             <td style="text-align: center; border: 1px black; padding-bottom: 80px;">
                 <p class="ft13"> Mengetahui</p><br><br><br><br><br><br><br>
