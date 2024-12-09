@@ -476,10 +476,23 @@
                             </button>
                             {{-- change the route accordingly --}}
                             @if (is_null($idassetspec) || $idassetspec === 0 || $idassetspec === 'N/A')
-                                <a href="{{ route('transaction.asset.index') }}" class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Add Hardware</a>
+                                <a href="{{ route('transaction.hardware.laptop.create', [
+                                    'assetcategory' => $assetcategory, 
+                                    'assetcode' => $assetcode]) }}" class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Add Hardware</a>
                             @else
-                                <a href="{{ route('transaction.asset.index', $idassetspec) }}" class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Update Hardware</a>
+                                <a href="{{ route('transaction.hardware.laptop.edit',[
+                                    'assetcategory' => $assetcategory, 
+                                    'assetcode' => $assetcode,
+                                    'idassetspec' => $idassetspec
+                                    ]) }}" class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Update Hardware</a>
                             @endif
+                            <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" onclick="window.location.href='{{ route('transaction.asset.edit',[
+                                    'assettype' => $assettype,
+                                    'assetcategory' => $assetcategory, 
+                                    'assetcode' => $assetcode,
+                                    ])}}'">
+                                    Update Asset
+                            </button>
                         </div>
                     </div>
                     

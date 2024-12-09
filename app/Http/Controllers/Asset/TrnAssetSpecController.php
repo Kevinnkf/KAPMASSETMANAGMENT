@@ -11,7 +11,7 @@ class  TRNAssetSpecController extends Controller
 
     public function show($assetcode) {
         $client = new Client();
-        $response = $client->request('GET', "http://localhost:5252/api/TrnAssetSpec/{$assetcode}");
+        $response = $client->request('GET', "http://10.48.1.3:7252/api/TrnAssetSpec/{$assetcode}");
         $body = $response->getBody();
         $content = $body->getContents();
         $data = json_decode($content, true);
@@ -20,32 +20,32 @@ class  TRNAssetSpecController extends Controller
         return view('detailAsset.Laptop', ['assetSpecData' => $data]); // Directly pass the asset data
     }
 
-    public function msttrnassetspec($assetcategory, $assetcode) {
+    public function create($assetcategory, $assetcode) {
         $client = new Client();
-        $response = $client->request('GET', 'http://localhost:5252/api/Master');
+        $response = $client->request('GET', 'http://10.48.1.3:7252/api/Master');
         $body = $response->getBody();
         $content = $body->getContents();
         $data = json_decode($content, true);
 
-        return view('transaction.trnlaptop', [
-            'assetcode' => $assetcode,  
+        return view('asset.transaction.asset.detail.hardware.laptop.create', [
+            'assetcode' => $assetcode,
             'assetcategory' => $assetcategory,
             'optionData' => $data]); // Keep the view name consistent
     }
 
     public function edit($assetcategory, $assetcode, $idassetspec) {
         $client = new Client();
-        $response = $client->request('GET', 'http://localhost:5252/api/Master');
+        $response = $client->request('GET', 'http://10.48.1.3:7252/api/Master');
         $body = $response->getBody();
         $content = $body->getContents();
         $data = json_decode($content, true);
 
-        $responseAssetSpec = $client->request('GET', "http://localhost:5252/api/TrnAssetSpec/{$idassetspec}");
+        $responseAssetSpec = $client->request('GET', "http://10.48.1.3:7252/api/TrnAssetSpec/{$idassetspec}");
         $contentAssetSpec = $responseAssetSpec->getBody()->getContents();
         $assetSpecData = json_decode($contentAssetSpec, true);
         // dd($assetSpecData);
 
-        return view('transaction.update', [
+        return view('asset.transaction.asset.detail.hardware.laptop.edit', [
             'assetcode' => $assetcode,  
             'assetcategory' => $assetcategory,
             'idassetspec' => $idassetspec,
@@ -54,7 +54,9 @@ class  TRNAssetSpecController extends Controller
     }
     
     public function store(Request $request, $assetcode)
-    {
+    {   
+        $userData = session('userdata');
+        $userName = $userData['nama'];
         // Validate the incoming request data
         $validated = $request->validate([
             'assetcode' => 'nullable|string|max:255',
@@ -106,7 +108,7 @@ class  TRNAssetSpecController extends Controller
         
         try {
             // Send POST request directly using the validated data
-            $response = $client->post("http://localhost:5252/api/TrnAssetSpec/{$assetcode}", [
+            $response = $client->post("http://10.48.1.3:7252/api/TrnAssetSpec/{$assetcode}", [
                 'json' => [
                     'idassetspec' => '0',
                     'assetcode' => $validated['assetcode'],
@@ -141,8 +143,8 @@ class  TRNAssetSpecController extends Controller
                     'microphone' => $microphone,
                     'wifi' => $wifi,
                     'bluetooth' => $bluetooth,
-                    'picadded' => 'Dava',
-                    'active' => 'Y',
+                    'picadded' => $userName,
+                    'active' => 'Y'
                 ]
             ]);
 
@@ -156,7 +158,7 @@ class  TRNAssetSpecController extends Controller
 
             // Check if the API response was successful and redirect accordingly
             if ($category == 'LAPTOP') {
-                return redirect()->route('detailAsset.laptop', ['assetcode' => $assetcode])
+                return redirect()->route('transaction.asset.laptop', ['assetcode' => $assetcode])
                                  ->with('success', 'Asset created successfully!');
             } else if ($category == 'MOBILE') {
                 return redirect()->route('detailAsset.mobile', ['assetcode' => $assetcode])
@@ -175,6 +177,10 @@ class  TRNAssetSpecController extends Controller
     }
     
     public function update(Request $request, $assetcode, $idassetspec){
+        
+        $userData = session('userdata');
+        $userName = $userData['nama'];
+
         Log::info('Update method called with assetcode: ' . $assetcode . ' and idassetsoftware: ' . $idassetspec);
         Log::info('Request Data:', $request->all());
 
@@ -214,6 +220,7 @@ class  TRNAssetSpecController extends Controller
             'microphone' => 'nullable|boolean',
             'wifi' => 'nullable|boolean',
             'bluetooth' => 'nullable|boolean',
+            'picadded' => 'nullable|string|max:255',
         ]);
 
         // Initialize the HTTP client for making requests
@@ -230,7 +237,7 @@ class  TRNAssetSpecController extends Controller
         
         try {
             // Send POST request directly using the validated data
-            $response = $client->put("http://localhost:5252/api/TrnAssetSpec/{$idassetspec}", [
+            $response = $client->put("http://10.48.1.3:7252/api/TrnAssetSpec/{$idassetspec}", [
                 'json' => [
                     'idassetspec' => $validated['idassetspec'],
                     'assetcode' => $validated['assetcode'],
@@ -265,7 +272,8 @@ class  TRNAssetSpecController extends Controller
                     'microphone' => $microphone,
                     'wifi' => $wifi,
                     'bluetooth' => $bluetooth,
-                    'picadded' => 'Kevin',
+                    'picupdated' => $userName,
+                    'picadded' => $validated['picadded'],
                     'active' => 'Y',
                 ]
             ]);
@@ -280,7 +288,7 @@ class  TRNAssetSpecController extends Controller
 
             // Check if the API response was successful and redirect accordingly
             if ($category == 'LAPTOP') {
-                return redirect()->route('detailAsset.laptop', ['assetcode' => $assetcode])
+                return redirect()->route('transaction.asset.laptop', ['assetcode' => $assetcode])
                                  ->with('success', 'Asset created successfully!');
             } else if ($category == 'MOBILE') {
                 return redirect()->route('detailAsset.mobile', ['assetcode' => $assetcode])

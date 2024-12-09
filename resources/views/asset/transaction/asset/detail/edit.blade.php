@@ -311,93 +311,98 @@
 <div id="createAsset" class="inset-0 bg-white flex justify-center items-center p-4">
     <div class="bg-white p-6 rounded-md w-96">
         <h2 class="text-xl font-bold mb-4">Add new asset here</h2>
-        <form id="editForm" action="{{ route('transaction.asset.store') }}" method="POST">
+        <form id="editForm" action="{{ route('transaction.asset.update', [
+                                    'assettype' => $assettype,
+                                    'assetcategory' => $assetcategory, 
+                                    'assetcode' => $assetcode]) }}" method="POST">
             @csrf <!-- CSRF protection -->
+            @method('PUT')
             <div class="mb-4">
-                <div class="mb-4">
-                    <label for="assettype" class="form-label esa-label">Asset Type</label>
-                    <select id="assettype" name="assettype" class="form-control" @error('assettype') is-invalid @enderror>
-                        <option value="">Select Type</option>
-                        @foreach ($optionData as $optionvalue)
-                            @if ($optionvalue['condition'] == 'ASSET_TYPE')
-                                <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
-                            @endif
-                        @endforeach
-                    </select>
-                    @error('assettype')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
+                <label for="assetcode" class="form-label esa-label"> Type </label>
+                <input type="text" id="assetcode" class="form-control" name="assetcode" value="{{ $assetcode }}" readonly>
+            </div>
+            <div class="mb-4">
+                <label for="assettype" class="form-label esa-label"> Type </label>
+                <input type="text" id="assettype" class="form-control" name="assettype" value="{{ $assettype }}" readonly>
+            </div>
+            <div class="mb-4">
+                <label for="assetcategory" class="form-label esa-label"> Category </label>
+                <input type="text" id="assetcategory" class="form-control" name="assetcategory" value="{{ $assetcategory }}" readonly>
+            </div>
 
-                <div class="mb-4">
-                    <label for="assetcategory" class="form-label esa-label">Asset Category</label>
-                    <select id="assetcategory" name="assetcategory" class="form-control" @error('assetcategory') is-invalid @enderror>
-                        <option value="">Select Category</option>
-                    </select>
-                    @error('assetcategory')
+            <div class="mb-4">
+                <label for="assetbrand" class="form-label esa-label"> Brand </label>
+                <select id="assetbrand" name="assetbrand" class="form-select" @error('assetbrand') is-invalid @enderror>
+                    <option value="{{ $assetData['assetbrand'] }}">{{ $assetData['assetbrand'] }}</option>
+                    @foreach ($optionData as $optionvalue)
+                        @if ($optionvalue['condition'] == 'ASSET_BRAND' )
+                            <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
+                        @endif
+                    @endforeach
+                </select>
+                @error('assetbrand')
                         <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div class="mb-4">
-                    <label for="assetbrand" class="form-label esa-label">Asset Brand</label>
-                    <select id="assetbrand" name="assetbrand" class="form-control" @error('assetbrand') is-invalid @enderror>
-                        <option value="">Select Brand</option>
-                        @foreach ($optionData as $optionvalue)
-                            @if ($optionvalue['condition'] == 'ASSET_BRAND')
-                                <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
-                            @endif
-                        @endforeach
-                    </select>
-                    @error('assetbrand')
+                @enderror
+            </div>
+            
+            {{-- Asset Model Selection --}}
+            <div class="mb-4">
+                <label for="assetmodel" class="form-label esa-label"> Model </label>
+                <select id="assetmodel" name="assetmodel" class="form-select" @error('assetmodel') is-invalid @enderror>
+                    <option value="{{ $assetData['assetmodel'] }}">{{ $assetData['assetmodel'] }}</option>
+                </select>
+                @error('assetmodel')
                         <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div class="mb-4">
-                    <label for="assetmodel" class="form-label esa-label">Asset Model</label>
-                    <select id="assetmodel" name="assetmodel" class="form-control" @error('assetmodel') is-invalid @enderror>
-                        <option value="">Select Model</option>
-                    </select>
-                    @error('assetmodel')
+                @enderror
+            </div>
+            
+            {{-- Asset Series Selection --}}
+            <div class="mb-4">
+                <label for="assetseries" class="form-label esa-label"> Series </label>
+                <select id="assetseries" name="assetseries" class="form-select" @error('assetseries') is-invalid @enderror>
+                    <option value="{{ $assetData['assetseries'] }}">{{ $assetData['assetseries'] }}</option>
+                </select>
+                @error('assetseries')
                         <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div class="mb-4">
-                    <label for="assetseries" class="form-label esa-label">Asset Series</label>
-                    <select id="assetseries" name="assetseries" class="form-control" @error('assetseries') is-invalid @enderror>
-                        <option value="">Select Series</option>
-                    </select>
-                    @error('assetseries')
+                @enderror
+            </div>
+            {{-- Serial Number Input --}}
+            <div class="mb-4">
+                <label for="assetserialnumber" class="form-label esa-label"> Serial Number </label>
+                <input type="text" id="assetserialnumber" name="assetserialnumber" class="form-control" value="{{ $assetData['assetserialnumber'] }}" required>
+            </div>
+        
+            <div class="mb-4">
+                <label for="condition" class="form-label esa-label"> Condition </label>
+                <select id="condition" name="condition" class="form-select" @error('condition') is-invalid @enderror>
+                    <option value="{{ $assetData['condition'] }}">4</option>
+                    <option value="GREAT">GREAT</option>
+                    <option value="MAINTENANCE">MAINTENANCE</option>
+                    <option value="REPAIRED">REPAIRED</option>
+                    <option value="DESTROYED">DESTROYED</option>
+                </select>
+                @error('condition')
                         <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div class="mb-4">
-                    <label for="assetserialnumber" class="form-label esa-label">Serial Number</label>
-                    <input type="text" id="assetserialnumber" name="assetserialnumber" class="w-full p-2 border rounded @error('assetserialnumber') is-invalid @enderror" required>
-                    @error('assetserialnumber')
+                @enderror
+            </div>
+            <div class="mb-4">
+                <label for="status" class="form-label esa-label"> Asset Status </label>
+                <select id="status" name="status" class="form-select" @error('status') is-invalid @enderror>
+                    <option value="{{ $assetData['active'] }}">
+                        {{ $assetData['active'] == 'y' ? 'Active' : 'Not Active' }}
+                    </option>
+                    <option value="y">Active</option>
+                    <option value="n">Not Active</option>
+                </select>
+                @error('status')
                         <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div class="mb-4">
-                    <label for="picadded" class="form-label esa-label">PIC Added</label>
-                    <select id="picadded" name="picadded" class="form-control" @error('picadded') is-invalid @enderror>
-                        <option value="">Select PIC</option>
-                        <option value="TOMMY WISNU WARDHANA">TOMMY WISNU WARDHANA</option>
-                        <option value="MUHAMAD FAUZAN">MUHAMAD FAUZAN</option>
-                    </select>
-                    @error('picadded')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
+                @enderror
+            </div>
 
         
             <!-- Buttons -->
             <div class="flex justify-end">
-                <button type="button" onclick="window.location.href='{{ route('transaction.asset.index') }}'" class="btn btn-outline-muted esa-btn-lg">Back to Master</button>
+                <button type="button" onclick="window.history.back()" class="btn btn-outline-muted esa-btn-lg">Back to detail</button>
                 <button type="submit" class="btn btn-primary esa-btn-lg">Save</button>
             </div>
         </form>        
@@ -431,7 +436,7 @@
         var optionData = @json($optionData); // Get the option data from the server-side
 
         // Clear existing options
-        assetDropdown.innerHTML = '<option value="">Select Series</option>';
+        assetDropdown.innerHTML = '<option value="">Select Model</option>';
 
         // Filter and add options based on selected Asset Type and condition = 'ASSET_CATEGORY'
         optionData.forEach(function(option) {
@@ -440,26 +445,6 @@
                 newOption.value = option.description;
                 newOption.text = option.description;
                 assetDropdown.appendChild(newOption);
-            }
-        });
-    });
-
-    // JavaScript to handle dynamic population of Asset Category based on selected Asset Type
-    document.getElementById('assettype').addEventListener('change', function() {
-        var selectedType = this.value;
-        var assetCategoryDropdown = document.getElementById('assetcategory');
-        var optionData = @json($optionData); // Get the option data from the server-side
-
-        // Clear existing options
-        assetCategoryDropdown.innerHTML = '<option value="">Select Category</option>';
-
-        // Filter and add options based on selected Asset Type and condition = 'ASSET_CATEGORY'
-        optionData.forEach(function(option) {
-            if (option.condition === 'ASSET_CATEGORY' && option.typegcm === selectedType) {
-                var newOption = document.createElement('option');
-                newOption.value = option.description;
-                newOption.text = option.description;
-                assetCategoryDropdown.appendChild(newOption);
             }
         });
     });

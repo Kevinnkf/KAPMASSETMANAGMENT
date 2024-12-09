@@ -310,18 +310,34 @@
 <div id="createAsset" class="inset-0 bg-white flex justify-center items-center p-4">
     <div class="bg-white p-6 rounded-md w-96">
         <h2 class="esa-header-dark">Adding {{ $assetcode }} Specification Detail </h2>
-        <form id="editForm" action="{{ route('transaction.hardware.laptop.store', ['assetcode' => $assetcode]) }}" method="POST">
+        <form id="editForm" action="{{ route('transaction.hardware.laptop.update', [
+                                    'assetcategory' => $assetcategory, 
+                                    'assetcode' => $assetcode,
+                                    'idassetspec' => $idassetspec]) }}" method="POST">
             @csrf <!-- CSRF protection -->
+            @method('PUT')
             <div class="row mt-4">
                 {{-- Field 1 -> 11 --}}
                 <div class="col-12 col-md-6 col-lg-4">
+                    {{-- show idassetspec --}}
+                    <div class="mb-4">
+                        <label for="idassetspec" class="form-label esa-label">ID</label>
+                        <input type="text" id="idassetspec" class="form-control" name="idassetspec" value="{{ $idassetspec }}" readonly> <!-- Hidden input for the condition -->
+                    </div>
+
                     {{-- show assetcode --}}
                     <div class="mb-4">
                         <label for="assetcodeModal" class="form-label esa-label">Asset Code</label>
                         <input type="text" id="assetcodeModal" class="form-control" name="assetcode" value="{{ $assetcode }}" readonly> <!-- Hidden input for the condition -->
                     </div>
+
+                    {{-- show assetcode --}}
+                    <div class="mb-4">
+                        <label for="picadded" class="form-label esa-label">PIC Added</label>
+                        <input type="text" id="picadded" class="form-control" name="picadded" value="{{ $specData['picadded'] }}" readonly> <!-- Hidden input for the condition -->
+                    </div>
                     
-                    {{-- show categoru --}}
+                    {{-- show category --}}
                     <div class="mb-4">
                         <label for="assetcategoryModal" class="form-label esa-label">Asset Category</label>
                         <input type="text" id="assetcategoryModal" class="form-control" name="assetcategory" value="{{ $assetcategory }}" readonly> <!-- Hidden input for the condition -->
@@ -331,7 +347,7 @@
                     <div class="mb-4">
                         <label for="processorbrand" class="form-label esa-label"> Processor Brand </label>
                         <select id="processorbrand" name="processorbrand" class="form-control">
-                            <option value="">Select Processor Brand</option>
+                            <option value="{{ $specData['processorbrand'] }}">{{ $specData['processorbrand'] }}</option>
                             @foreach ($optionData as $optionvalue)
                                 @if ($optionvalue['condition'] == 'PROC_BRAND' )
                                     <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
@@ -344,7 +360,7 @@
                     <div class="mb-4">
                         <label for="processormodel" class="form-label esa-label"> Processor Model </label>
                         <select id="processormodel" name="processormodel" class="form-control">
-                            <option value="">Select Processor Model</option>
+                            <option value="{{ $specData['processormodel'] }}">{{ $specData['processormodel'] }}</option>
                         </select>
                     </div>
 
@@ -374,7 +390,7 @@
                     <div class="mb-4">
                         <label for="processorseries" class="form-label esa-label"> Processor Series </label>
                         <select id="processorseries" name="processorseries" class="form-control">
-                            <option value="">Select Processor Series</option>
+                            <option value="{{ $specData['processorseries'] }}">{{ $specData['processorseries'] }}</option>
                         </select>
                     </div>
 
@@ -386,7 +402,7 @@
                             var optionData = @json($optionData); // Get the option data from the server-side
 
                             // Clear existing options
-                            assetDropdown.innerHTML = '<option value="">Select Processor Model</option>';
+                            assetDropdown.innerHTML = '<option value="">Select Processor Series</option>';
 
                             // Filter and add options based on selected Processor Model and condition = 'PROC_SERIES'
                             optionData.forEach(function(option) {
@@ -404,7 +420,7 @@
                     <div class="mb-4">
                         <label for="memorytype" class="form-label esa-label"> Memory Type </label>
                         <select id="memorytype" name="memorytype" class="form-control">
-                            <option value="">Select Memory Type</option>
+                            <option value="{{ $specData['memorytype'] }}">{{ $specData['memorytype'] }}</option>
                             @foreach ($optionData as $optionvalue)
                                 @if ($optionvalue['condition'] == 'MEMORY_TYPE' )
                                     <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
@@ -417,7 +433,7 @@
                     <div class="mb-4">
                         <label for="memorybrand" class="form-label esa-label"> Memory Brand </label>
                         <select id="memorybrand" name="memorybrand" class="form-control">
-                            <option value="">Select Memory Brand</option>
+                            <option value="{{ $specData['memorybrand'] }}">{{ $specData['memorybrand'] }}</option>
                             @foreach ($optionData as $optionvalue)
                                 @if ($optionvalue['condition'] == 'MEMORY_BRAND' )
                                     <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
@@ -430,7 +446,7 @@
                     <div class="mb-4">
                         <label for="memorymodel" class="form-label esa-label"> Memory Model </label>
                         <select id="memorymodel" name="memorymodel" class="form-control">
-                            <option value="">Select Memory Model</option>
+                            <option value="{{ $specData['memorymodel'] }}">{{ $specData['memorymodel'] }}</option>
                         </select>
                     </div>
 
@@ -460,7 +476,7 @@
                     <div class="mb-4">
                         <label for="memoryseries" class="form-label esa-label"> Memory Series </label>
                         <select id="memoryseries" name="memoryseries" class="form-control">
-                            <option value="">Select Memory Series</option>
+                            <option value="{{ $specData['memoryseries'] }}">{{ $specData['memoryseries'] }}</option>
                         </select>
                     </div>
 
@@ -490,22 +506,9 @@
                     <div class="mb-4">
                         <label for="memorycapacity" class="form-label esa-label"> Memory Capacity </label>
                         <select id="memorycapacity" name="memorycapacity" class="form-control">
-                            <option value="">Select Memory Capacity</option>
+                            <option value="{{ $specData['memorycapacity'] }}">{{ $specData['memorycapacity'] }}</option>
                             @foreach ($optionData as $optionvalue)
                                 @if ($optionvalue['condition'] == 'MEMORY_CAPACITY' )
-                                    <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
-                                @endif
-                            @endforeach
-                        </select>
-                    </div>
-
-                    {{-- select storage type --}}
-                    <div class="mb-4">
-                        <label for="storagetype" class="form-label esa-label"> Storage Type </label>
-                        <select id="storagetype" name="storagetype" class="form-control">
-                            <option value="">Select Storage Type</option>
-                            @foreach ($optionData as $optionvalue)
-                                @if ($optionvalue['condition'] == 'STORAGE_TYPE' )
                                     <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
                                 @endif
                             @endforeach
@@ -514,11 +517,24 @@
                 </div>
                 {{-- Field 12 -> 22 --}}
                 <div class="col-12 col-md-6 col-lg-4">
+                    {{-- select storage type --}}
+                    <div class="mb-4">
+                        <label for="storagetype" class="form-label esa-label"> Storage Type </label>
+                        <select id="storagetype" name="storagetype" class="form-control">
+                            <option value="{{ $specData['storagetype'] }}">{{ $specData['storagetype'] }}</option>
+                            @foreach ($optionData as $optionvalue)
+                                @if ($optionvalue['condition'] == 'STORAGE_TYPE' )
+                                    <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                    
                     {{-- select storage brand --}}
                     <div class="mb-4">
                         <label for="storagebrand" class="form-label esa-label"> Storage Brand </label>
                         <select id="storagebrand" name="storagebrand" class="form-control">
-                            <option value="">Select Storage Brand</option>
+                            <option value="{{ $specData['storagebrand'] }}">{{ $specData['storagebrand'] }}</option>
                             @foreach ($optionData as $optionvalue)
                                 @if ($optionvalue['condition'] == 'STORAGE_BRAND' )
                                     <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
@@ -531,7 +547,7 @@
                     <div class="mb-4">
                         <label for="storagemodel" class="form-label esa-label"> Storage Model </label>
                         <select id="storagemodel" name="storagemodel" class="form-control">
-                            <option value="">Select Storage Model</option>
+                            <option value="{{ $specData['storagemodel'] }}">{{ $specData['storagemodel'] }}</option>
                         </select>
                     </div>
 
@@ -561,7 +577,8 @@
                     <div class="mb-4">
                         <label for="storagecapacity" class="form-label esa-label"> Storage Capacity </label>
                         <select id="storagecapacity" name="storagecapacity" class="form-control">
-                            <option value="">Select Storage Capacity</option>
+                            <option value="{{ $specData['storagecapacity'] }}">{{ $specData['storagecapacity'] }}</option>
+
                             @foreach ($optionData as $optionvalue)
                                 @if ($optionvalue['condition'] == 'STORAGE_CAPACITY' )
                                     <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
@@ -574,7 +591,7 @@
                     <div class="mb-4">
                         <label for="graphicstypE1" class="form-label esa-label"> First Graphics Type </label>
                         <select id="graphicstypE1" name="graphicstypE1" class="form-control">
-                            <option value="">Select First Graphic Type</option>
+                            <option value="{{ $specData['graphicstypE1'] }}">{{ $specData['graphicstypE1'] }}</option>
                             @foreach ($optionData as $optionvalue)
                                 @if ($optionvalue['condition'] == 'GRAPHIC_TYPE' )
                                     <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
@@ -587,7 +604,7 @@
                     <div class="mb-4">
                         <label for="graphicsbranD1" class="form-label esa-label"> First Graphic Brand </label>
                         <select id="graphicsbranD1" name="graphicsbranD1" class="form-control">
-                            <option value="">Select First Graphic Brand</option>
+                            <option value="{{ $specData['graphicsbranD1'] }}">{{ $specData['graphicsbranD1'] }}</option>
                             @foreach ($optionData as $optionvalue)
                                 @if ($optionvalue['condition'] == 'GRAPHIC_BRAND' )
                                     <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
@@ -600,7 +617,7 @@
                     <div class="mb-4">
                         <label for="graphicsmodeL1" class="form-label esa-label"> First Graphic Model </label>
                         <select id="graphicsmodeL1" name="graphicsmodeL1" class="form-control">
-                            <option value="">Select First Graphic Model</option>
+                            <option value="{{ $specData['graphicsmodeL1'] }}">{{ $specData['graphicsmodeL1'] }}</option>
                         </select>
                     </div>
 
@@ -630,7 +647,7 @@
                     <div class="mb-4">
                         <label for="graphicsserieS1" class="form-label esa-label"> First Graphic Series </label>
                         <select id="graphicsserieS1" name="graphicsserieS1" class="form-control">
-                            <option value="">Select First Graphic Series</option>
+                            <option value="{{ $specData['graphicsserieS1'] }}">{{ $specData['graphicsserieS1'] }}</option>
                         </select>
                     </div>
 
@@ -660,7 +677,7 @@
                     <div class="mb-4">
                         <label for="graphicscapacitY1" class="form-label esa-label"> First Graphic Memory Capacity </label>
                         <select id="graphicscapacitY1" name="graphicscapacitY1" class="form-control">
-                            <option value="">Select First Graphic Memory Capacity</option>
+                            <option value="{{ $specData['graphicscapacitY1'] }}">{{ $specData['graphicscapacitY1'] }}</option>
                             @foreach ($optionData as $optionvalue)
                                 @if ($optionvalue['condition'] == 'GRAPHIC_MEMORY_CAPACITY' )
                                     <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
@@ -673,7 +690,7 @@
                     <div class="mb-4">
                         <label for="graphicstypE2" class="form-label esa-label"> Second Graphic Type </label>
                         <select id="graphicstypE2" name="graphicstypE2" class="form-control">
-                            <option value="">Select Second Graphic Type</option>
+                            <option value="{{ $specData['graphicstypE2'] }}">{{ $specData['graphicstypE2'] }}</option>
                             @foreach ($optionData as $optionvalue)
                                 @if ($optionvalue['condition'] == 'GRAPHIC_TYPE' )
                                     <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
@@ -686,7 +703,7 @@
                     <div class="mb-4">
                         <label for="graphicsbranD2" class="form-label esa-label"> Second Graphic Brand </label>
                         <select id="graphicsbranD2" name="graphicsbranD2" class="form-control">
-                            <option value="">Select Second Graphic Brand</option>
+                            <option value="{{ $specData['graphicsbranD2'] }}">{{ $specData['graphicsbranD2'] }}</option>
                             @foreach ($optionData as $optionvalue)
                                 @if ($optionvalue['condition'] == 'GRAPHIC_BRAND' )
                                     <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
@@ -699,7 +716,7 @@
                     <div class="mb-4">
                         <label for="graphicsmodeL2" class="form-label esa-label"> Second Graphic Model </label>
                         <select id="graphicsmodeL2" name="graphicsmodeL2" class="form-control">
-                            <option value="">Select Second Graphic Model</option>
+                            <option value="{{ $specData['graphicsmodeL2'] }}">{{ $specData['graphicsmodeL2'] }}</option>
                         </select>
                     </div>
 
@@ -731,7 +748,7 @@
                     <div class="mb-4">
                         <label for="graphicsserieS2" class="form-label esa-label"> Second Graphic Series </label>
                         <select id="graphicsserieS2" name="graphicsserieS2" class="form-control">
-                            <option value="">Select Second Graphic Series</option>
+                            <option value="{{ $specData['graphicsserieS2'] }}">{{ $specData['graphicsserieS2'] }}</option>
                         </select>
                     </div>
 
@@ -761,7 +778,7 @@
                     <div class="mb-4">
                         <label for="graphicscapacitY2" class="form-label esa-label"> Second Graphic Memory Capacity </label>
                         <select id="graphicscapacitY2" name="graphicscapacitY2" class="form-control">
-                            <option value="">Select Second Graphic Memory Capacity</option>
+                            <option value="{{ $specData['graphicscapacitY2'] }}">{{ $specData['graphicscapacitY2'] }}</option>
                             @foreach ($optionData as $optionvalue)
                                 @if ($optionvalue['condition'] == 'GRAPHIC_MEMORY_CAPACITY' )
                                     <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
@@ -774,7 +791,7 @@
                     <div class="mb-4">
                         <label for="screenresolution" class="form-label esa-label"> Screen Resolution </label>
                         <select id="screenresolution" name="screenresolution" class="form-control">
-                            <option value="">Select Screen Resolution</option>
+                            <option value="{{ $specData['screenresolution'] }}">{{ $specData['screenresolution'] }}</option>
                             @foreach ($optionData as $optionvalue)
                                 @if ($optionvalue['condition'] == 'SCREEN_RESOLUTION' )
                                     <option value="{{ $optionvalue['description'] }}">{{ $optionvalue['description'] }}</option>
@@ -860,13 +877,13 @@
 
             <!-- Buttons -->
             <div class="flex justify-end">
-                <button type="button" onclick="window.location.href='{{ route('transaction.asset.index') }}'" class="btn btn-outline-muted esa-btn-lg">Back to Master</button>
+                <button type="button" onclick="window.history.back()" class="btn btn-outline-muted esa-btn-lg">Back to Detail</button>
                 <button type="submit" class="btn btn-primary esa-btn-lg">Save</button>
             </div>
         </form>        
     </div>
 </div>
-@endsection
+@endsection 
 @section('scripts')
 
             <script src="{{ asset('assets/dist/libs/dropzone/dist/min/dropzone.min.js') }}"></script>
