@@ -376,10 +376,14 @@
 
                 <div class="mb-4">
                     <label for="assetserialnumber" class="form-label esa-label">Serial Number</label>
-                    <input type="text" id="assetserialnumber" name="assetserialnumber" class="w-full p-2 border rounded @error('assetserialnumber') is-invalid @enderror" required>
+                    <input type="text" id="assetserialnumber" name="assetserialnumber" class="form-control  @error('assetserialnumber') is-invalid @enderror" required>
                     @error('assetserialnumber')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
+                </div>
+                <div class="mb-4">
+                    <label for="datepurchased" class="form-label esa-label">Date</label>
+                    <input type="date" id="datepurchased" name="datepurchased" class="form-control  @error('datepurchased') is-invalid @enderror" required>
                 </div>
 
                 <div class="mb-4">
@@ -393,6 +397,7 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
+                
 
         
             <!-- Buttons -->
