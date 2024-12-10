@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 
-class  TRNAssetSpecController extends Controller
+class  TrnAssetSpecController extends Controller
 {
 
     public function show($assetcode) {

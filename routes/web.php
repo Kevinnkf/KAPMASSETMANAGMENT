@@ -18,10 +18,10 @@ use App\Http\Controllers\Asset\{
     ConfigurationController,
     ImageController,
     MaintenanceController,
-    MasterController as MasterController,
-    TRNAssetController as TrnAssetController,
+    MasterController,
+    TrnAssetController,
     SoftwareController,
-    TRNAssetSpecController as TrnAssetSpecController
+    TrnAssetSpecController
 };
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;

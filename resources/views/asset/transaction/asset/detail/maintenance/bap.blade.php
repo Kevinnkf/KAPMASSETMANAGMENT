@@ -179,7 +179,7 @@
 @endphp
     <table class="header-table">
         <tr>
-            <td class="logo" rowspan="4">
+              <td class="logo" rowspan="4">
                 <img src="D:\laragon\www\KAPMASSETMANAGMENT\public\assets\logo\KAPM-logo.png" alt="Logo">
             </td>
             <td class="header-title" rowspan="2">
