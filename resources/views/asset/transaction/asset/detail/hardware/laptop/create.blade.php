@@ -317,14 +317,14 @@
                 <div class="col-12 col-md-6 col-lg-4">
                     {{-- show assetcode --}}
                     <div class="mb-4">
-                        <label for="assetcodeModal" class="form-label esa-label">Asset Code</label>
-                        <input type="text" id="assetcodeModal" class="form-control" name="assetcode" value="{{ $assetcode }}" readonly> <!-- Hidden input for the condition -->
+                        <label for="assetcode" class="form-label esa-label">Asset Code</label>
+                        <input type="text" id="assetcode" class="form-control" name="assetcode" value="{{ $assetcode }}" readonly> <!-- Hidden input for the condition -->
                     </div>
                     
                     {{-- show categoru --}}
                     <div class="mb-4">
-                        <label for="assetcategoryModal" class="form-label esa-label">Asset Category</label>
-                        <input type="text" id="assetcategoryModal" class="form-control" name="assetcategory" value="{{ $assetcategory }}" readonly> <!-- Hidden input for the condition -->
+                        <label for="assetcategory" class="form-label esa-label">Asset Category</label>
+                        <input type="text" id="assetcategory" class="form-control" name="assetcategory" value="{{ $assetcategory }}" readonly> <!-- Hidden input for the condition -->
                     </div>
 
                     {{-- select processor brand --}}
