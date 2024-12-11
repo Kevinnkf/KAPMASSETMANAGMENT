@@ -68,22 +68,54 @@
             </li>
 
             <!-- Asset Management System -->
-            {{-- <li class="sidebar-item pb-2">
+            <li class="sidebar-item pb-2">
                 <a class="sidebar-link bg-primary-dark-kai px-3 has-arrow" href="#" aria-expanded="false">
                     <i class="ti ti-settings"></i>
                     <span class="hide-menu">Configuration</span>
                 </a>
                 <ul aria-expanded="false" class="collapse first-level">
-                    <li class="sidebar-item">
+                    {{-- <li class="sidebar-item">
                         <a href="{{ route('configuration.menus.index') }}" class="sidebar-link bg-primary-dark-kai">
                             <div class="round-16 d-flex align-items-center justify-content-center">
                                 <i class="ti ti-circle"></i>
                             </div>
                             <span class="hide-menu">Menu</span>
                         </a>
-                    </li>
+                    </li> --}}
+                    @foreach ($sidebarData as $masters)
+                    @if($masters['condition'] == 'FIELD' && $masters['description'] == 'ADD_MASTER' )
+                        @php
+                            // Assign the description value
+                            $description = $masters['description'];
+                        @endphp                                  
+                            <a class="sidebar-link bg-primary-dark-kai px-3 has-arrow" href="#" aria-expanded="false">
+                                <i class="ti ti-settings"></i>
+                                <span class="hide-menu">{{$masters['description']}}</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                @foreach($sidebarData as $innerMasters)
+                                    @if($innerMasters['condition'] == 'FIELD_VALUE' && $innerMasters['typegcm'] == 'ADD_MASTER')
+                                        @php
+                                            // Assign the description value
+                                            $href = url('master/type/show/' . $innerMasters['description']);
+                                        @endphp
+                                        <li class="sidebar-item">
+                                            <a href="{{$href}}" class="sidebar-link bg-primary-dark-kai">
+                                                <div class="round-16 d-flex align-items-center justify-content-center">
+                                                    <i class="ti ti-circle"></i>
+                                                </div>
+                                                <span class="hide-menu">
+                                                    {{ $innerMasters['description'] }}
+                                                </span>
+                                            </a>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                    @endif
+                    @endforeach
                 </ul>
-            </li> --}}
+            </li>
 
             <li class="sidebar-item pb-2">
                 <a class="sidebar-link bg-primary-dark-kai px-3 has-arrow" href="#" aria-expanded="false">
@@ -91,16 +123,16 @@
                     <span class="hide-menu">Master</span>
                 </a>
                 <ul aria-expanded="false" class="collapse first-level">
-                    <li class="sidebar-item">
+                    {{-- <li class="sidebar-item">
                         <a href="{{ route('master.type.index') }}" class="sidebar-link bg-primary-dark-kai">
                             <div class="round-16 d-flex align-items-center justify-content-center">
                                 <i class="ti ti-circle"></i>
                             </div>
                             <span class="hide-menu">Master Index</span>
                         </a>
-                    </li>
+                    </li> --}}
                     @foreach ($sidebarData as $masters)
-                    @if($masters['condition'] == 'FIELD')
+                    @if($masters['condition'] == 'FIELD' && $masters['description'] != 'ADD_MASTER')
                         @php
                             // Assign the description value
                             $description = $masters['description'];
@@ -117,7 +149,7 @@
                                             $href = url('master/type/show/' . $innerMasters['description']);
                                         @endphp
                                         <li class="sidebar-item">
-                                            <a href="{{$href}}" class="sidebar-link bg-primary-dark-kai">
+                                            <a href="{{$href}}" class="sidebar-link bg-primary-dark-kai" style="margin-left: 28px">
                                                 <div class="round-16 d-flex align-items-center justify-content-center">
                                                     <i class="ti ti-circle"></i>
                                                 </div>
