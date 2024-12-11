@@ -366,7 +366,7 @@ class TRNAssetController extends Controller
 
         try {
             // Send POST request directly using the validated data
-            $response = $client->post("http://localhost:5252/api/TrnAsset", [
+            $response = $client->post("http://10.48.1.3:7252/api/TrnAsset", [
                 'json' => [
                     'idasset' => '0',
                     'assetcode' => 'assetcode',
@@ -640,13 +640,13 @@ class TRNAssetController extends Controller
 
             // Data atasan dari data izin pegawai
             $atasan = ['atasan' => $dataIzin['data'][0]['atasan'] ?? null];
-            $response = $client->request('GET', 'http://localhost:5252/api/Master');
+            $response = $client->request('GET', 'http://10.48.1.3:7252/api/Master');
             $body = $response->getBody();
             $content = $body->getContents();
             $masterData = json_decode($content, true);
 
             // Fetch asset data based on search term
-            $response = $client->request("GET", "http://localhost:5252/api/TrnAsset/search", [
+            $response = $client->request("GET", "http://10.48.1.3:7252/api/TrnAsset/search", [
                 'query' => $validated 
             ]);
 
@@ -706,7 +706,7 @@ class TRNAssetController extends Controller
         $client = new Client();
         
         // Fetch asset data
-        $assetResponse = $client->request('GET', "http://localhost:5252/api/TrnAsset/{$assetcode}");
+        $assetResponse = $client->request('GET', "http://10.48.1.3:7252/api/TrnAsset/{$assetcode}");
         $assetData = json_decode($assetResponse->getBody()->getContents(), true);
 
         $qrCode = DNS2DFacade::getBarcodePNG($assetcode, 'QRCODE', 3, 3); // Generate QR code
