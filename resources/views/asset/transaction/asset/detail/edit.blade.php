@@ -310,7 +310,7 @@
 @endif
 <div id="createAsset" class="inset-0 bg-white flex justify-center items-center p-4">
     <div class="bg-white p-6 rounded-md w-96">
-        <h2 class="text-xl font-bold mb-4">Add new asset here</h2>
+        <h2 class="text-xl font-bold mb-4">Update asset</h2>
         <form id="editForm" action="{{ route('transaction.asset.update', [
                                     'assettype' => $assettype,
                                     'assetcategory' => $assetcategory, 

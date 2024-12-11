@@ -101,7 +101,9 @@ class MaintenanceController extends Controller{
 
             $data = json_decode($response->getBody()->getContents(), true);
             Log::info("API Response: ", $data);
-            return back()->with("success", "Data has been added successfully");
+            return redirect()->route('transaction.asset.laptop', ['assetcode' => $assetcode])
+                                 ->with('success', 'Success adding maintenance history!'); 
+            // return back()->with("success", "Data has been added successfully");
 
         } catch (\GuzzleHttp\Exception\RequestException $e) {
             $responseBody = $e->hasResponse() ? (string) $e->getResponse()->getBody() : null;

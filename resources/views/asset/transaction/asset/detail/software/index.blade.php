@@ -33,7 +33,7 @@
                     <thead>
                         <!-- start row -->
                         <tr>
-                            <th>ID</th>
+                            {{-- <th>ID</th> --}}
                             <th>Kode Aset</th>
                             <th>Tipe</th>
                             <th>Kategori</th>
@@ -51,7 +51,7 @@
                         @else
                         @foreach($detailSoftwareData as $software)
                         <tr>
-                            <td>{{ $software['idassetsoftware'] }}</td>
+                            {{-- <td>{{ $software['idassetsoftware'] }}</td> --}}
                             <td>{{  $software['assetcode'] }}</td>
                             <td>{{  $software['softwaretype'] }}</td>
                             <td>{{  $software['softwarecategory'] }}</td>

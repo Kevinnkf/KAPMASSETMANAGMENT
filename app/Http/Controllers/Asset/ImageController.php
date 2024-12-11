@@ -103,7 +103,9 @@ class ImageController extends Controller
             $data = json_decode($response->getBody()->getContents(), true); // Decode the response
             // Log success (ensure $data is an array or provide a message)
             Log::info("Success", $data ? $data : []); // Pass empty array if $data is null  
-            return back()->with("success", "Data has been added successfully");
+            return redirect()->route('transaction.asset.laptop', ['assetcode' => $assetcode])
+                                 ->with('success', 'Success adding image!'); 
+            // return back()->with("success", "Data has been added successfully");
         } catch (\Throwable $th) {
             // Log error and handle the exception
             Log::error('API Error: ' . $th->getMessage());

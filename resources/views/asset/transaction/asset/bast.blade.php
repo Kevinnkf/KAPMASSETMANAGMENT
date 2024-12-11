@@ -196,7 +196,7 @@
     <table class="info-table">
         <tr>
             <td><p white-space:nowrap" class="ft16">No Ref: </p></td>
-            <td><p white-space:nowrap" class="ft16">BAST.IT.{{ now()->format('mY') }}.xxxx</p></td>
+            <td><p white-space:nowrap" class="ft16">BAST.IT.{{ now()->format('mY') }}.{{ now()->format('d') }}</p></td>
         </tr>
         <tr>
             <td><p white-space:nowrap" class="ft16">Tanggal: </p></td>
