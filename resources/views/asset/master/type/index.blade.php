@@ -86,42 +86,45 @@
                         </div>
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
-                                <!-- Previous Page Link -->
-                                @if ($masterData->onFirstPage())
-                                    <li class="page-item disabled">
-                                        <span class="page-link">Previous</span>
-                                    </li>
-                                @else
-                                    <li class="page-item">
-                                        <a class="page-link" href="{{ $masterData->previousPageUrl() }}">Previous</a>
-                                    </li>
-                                @endif
+                                <!-- Start Page Link -->
+                                <li class="page-item {{ $masterData->onFirstPage() ? 'disabled' : '' }}">
+                                    <a class="page-link" href="{{ $masterData->onFirstPage() ? '#' : $masterData->url(1) }}">
+                                        Start
+                                    </a>
+                                </li>
+                        
+                                @php
+                                    $currentPage = $masterData->currentPage();
+                                    $lastPage = $masterData->lastPage();
+                                    $maxLinks = 10; // Maximum number of links to display
+                                    $half = floor($maxLinks / 2);
+                                    $start = max(1, $currentPage - $half);
+                                    $end = min($lastPage, $currentPage + $half);
+                        
+                                    // Adjust start and end if there are not enough pages
+                                    if ($end - $start < $maxLinks - 1) {
+                                        if ($start == 1) {
+                                            $end = min($lastPage, $start + $maxLinks - 1);
+                                        } else {
+                                            $start = max(1, $end - $maxLinks + 1);
+                                        }
+                                    }
+                                @endphp
                         
                                 <!-- Pagination Elements -->
-                                @foreach ($masterData->links()->elements[0] as $page => $url)
-                                    @if ($page == $masterData->currentPage())
-                                        <li class="page-item active">
-                                            <span class="page-link">{{ $page }}</span>
-                                        </li>
-                                    @else
-                                        <li class="page-item">
-                                            <a class="page-link" href="{{ $url }}">{{ $page }}</a>
-                                        </li>
-                                    @endif
-                                @endforeach
-                        
-                                <!-- Next Page Link -->
-                                @if ($masterData->hasMorePages())
-                                    <li class="page-item">
-                                        <a class="page-link" href="{{ $masterData->nextPageUrl() }}">Next</a>
+                                @for ($page = $start; $page <= $end; $page++)
+                                    <li class="page-item {{ $page == $currentPage ? 'active' : '' }}">
+                                        <a class="page-link" href="{{ $masterData->url($page) }}">{{ $page }}</a>
                                     </li>
-                                @else
-                                    <li class="page-item disabled">
-                                        <span class="page-link">Next</span>
-                                    </li>
-                                @endif
+                                @endfor
+                                <!-- End Page Link -->
+                                <li class="page-item {{ $masterData->hasMorePages() ? '' : 'disabled' }}">
+                                    <a class="page-link" href="{{ $masterData->hasMorePages() ? $masterData->url($lastPage) : '#' }}">
+                                        End
+                                    </a>
+                                </li>
                             </ul>
-                        </nav>   
+                        </nav> 
                         <div id="editModal" class="modal fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
                             <div class="bg-white p-6 rounded-md w-96">
                                 <h2 class="text-xl font-bold mb-4">Edit Master</h2>
