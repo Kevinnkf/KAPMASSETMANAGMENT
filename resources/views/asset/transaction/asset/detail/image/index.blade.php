@@ -29,9 +29,9 @@
                                 <div class="card-body p-3 d-flex flex-column align-items-center justify-content-center">
                                     <div class="row g-5">
                                         <div class="col-sm-4 d-none d-sm-block text-center">
-                                            <a href="#modalImage" data-bs-toggle="modal"  onclick="openImgModal({{ json_encode($img) }})">
-                                                <img class="h-auto max-w-full rounded-lg" src="/mnt/net{{ $img['assetpic'] }}" alt="Asset Image">
-                                            </a>
+                                            {{-- <a href="#modalImage" data-bs-toggle="modal"  onclick="openImgModal({{ json_encode($img) }})"> --}}
+                                                <img class="h-auto max-w-full rounded-lg" src="/assets/dist/images/network_share/AssetManagementSystem/Image/Asset/{{ $img['assetpic'] }}" alt="Asset Image">
+                                            {{-- </a> --}}
                                             <a href="{{ route('transaction.image.edit', ['assetcode' => $assetcode, $img['idassetpic']]) }}" class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">
                                                 Edit
                                             </a>

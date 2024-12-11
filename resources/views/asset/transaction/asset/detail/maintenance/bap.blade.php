@@ -179,7 +179,7 @@
 @endphp
     <table class="header-table">
         <tr>
-            <td class="logo" rowspan="4">
+              <td class="logo" rowspan="4">
                 <img src="D:\laragon\www\KAPMASSETMANAGMENT\public\assets\logo\KAPM-logo.png" alt="Logo">
             </td>
             <td class="header-title" rowspan="2">
@@ -289,8 +289,8 @@
         <tr>
             <td style="text-align: center; border: 1px black; padding-bottom: 80px;">
                 <p class="ft13">yang Menyerahkan</p><br><br><br><br><br><br><br>
-                <p class="ft13" style="text-decoration: underline"><b>{{ $selectedRecord['trnasset']['picadded'] ?? 'N/A' }}&#160;</b></p>
-                <p class="ft13"><b>Nippm.&#160;{{$nippm}}&#160;</b></p>
+                <p class="ft13" style="text-decoration: underline"><b>{{ $data['nama'] }}&#160;</b></p>
+                <p class="ft13"><b>Nippm.&#160;{{$data['nipp']}}&#160;</b></p>
             </td>
             <td style="text-align: center; border: 1px black; padding-bottom: 80px;">
                 <p class="ft13"> Mengetahui</p><br><br><br><br><br><br><br>

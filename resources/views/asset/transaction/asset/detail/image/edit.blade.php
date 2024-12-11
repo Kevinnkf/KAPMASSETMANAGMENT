@@ -312,7 +312,7 @@
     <!-- Header -->
     <div class="py-3">
         <div class="esa-header">
-            <div class="esa-header-dark">Edit software</div>
+            <div class="esa-header-dark">Edit Image</div>
         </div>
     </div>
 
@@ -344,7 +344,7 @@
     
                         <div class="row mb-3">
                             <input 
-                                class="form-control @error('assetimage') is-invalid @enderror block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" 
+                                class="form-control @error('assetpic') is-invalid @enderror block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" 
                                 aria-describedby="assetpic" 
                                 id="assetpic" 
                                 name="assetpic" 

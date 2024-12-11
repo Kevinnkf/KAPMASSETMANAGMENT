@@ -353,15 +353,20 @@ class TRNAssetController extends Controller
             'assetbrand' => 'required|string|max:255',
             'assetmodel' => 'required|string|max:255',
             'assetseries' => 'required|string|max:255',
-            'assetserialnumber' => 'required|string|max:255'
+            'assetserialnumber' => 'required|string|max:255',
+            'datepurchased' => 'required'
         ]);
 
         // Initialize the HTTP client for making requests
         $client = new \GuzzleHttp\Client();
 
+        $validet = $validated['datepurchased'];
+        // $datepurchase = date("YYYY-mm-dd", strtotime($validet));
+        $datepurchase = date("Y-m-d", strtotime($validet));
+
         try {
             // Send POST request directly using the validated data
-            $response = $client->post("http://10.48.1.3:7252/api/TrnAsset", [
+            $response = $client->post("http://localhost:5252/api/TrnAsset", [
                 'json' => [
                     'idasset' => '0',
                     'assetcode' => 'assetcode',
@@ -373,9 +378,10 @@ class TRNAssetController extends Controller
                     'assetserialnumber' => $validated['assetserialnumber'],
                     'picadded' => $userName,
                     'condition' => 'GREAT',
-                    'active' => 'Y',
+                    'active' => 'y',
                     'nipp' => null,
                     'picupdated' => null,
+                    'purchasedate' => $datepurchase
                 ]
             ]);
 
@@ -570,6 +576,7 @@ class TRNAssetController extends Controller
         $data = [
             'assetData' => $assetData,
             'qrCode' => $qrCode,
+            "data" => session('userdata')
         ];
     
         $pdf = SnappyPdf::loadView('asset.transaction.asset.bast', $data);
@@ -707,7 +714,8 @@ class TRNAssetController extends Controller
         // Prepare data for PDF
         $data = [
             'assetData' => $assetData,
-            'qrCode' => $qrCode
+            'qrCode' => $qrCode,
+            "data" => session('userdata')
         ];
 
         // Generate PDF

@@ -18,10 +18,10 @@ use App\Http\Controllers\Asset\{
     ConfigurationController,
     ImageController,
     MaintenanceController,
-    MasterController as MasterController,
-    TRNAssetController as TrnAssetController,
+    MasterController,
+    TrnAssetController,
     SoftwareController,
-    TRNAssetSpecController as TrnAssetSpecController
+    TrnAssetSpecController
 };
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -100,6 +100,9 @@ Route::middleware(['user-auth'])->group(function () {
             // Route::get('detail/laptop/{assetcode}', [TrnAssetController::class, 'show'])->name('transaction.asset.mobile');
             // Route::get('detail/laptop/{assetcode}', [TrnAssetController::class, 'show'])->name('transaction.asset.others');
             
+            Route::get('detail/mobile/{assetcode}', [TrnAssetController::class, 'show'])->name('transaction.asset.mobile');
+            Route::get('detail/others/{assetcode}', [TrnAssetController::class, 'show'])->name('transaction.asset.others');
+            
             Route::get('/create{', [TrnAssetController::class, 'create'])->name('transaction.asset.create');
             Route::post('/store', [TrnAssetController::class, 'store'])->name('transaction.asset.store');
 
@@ -128,6 +131,8 @@ Route::middleware(['user-auth'])->group(function () {
             // Edit hardware laptop or pc
             Route::get('/laptop/edit/{assetcategory}/{assetcode}/{idassetspec}', [TrnAssetSpecController::class, 'edit'])-> name('transaction.hardware.laptop.edit');
             Route::put('/laptop/update/{assetcode}/{idassetspec}', [TrnAssetSpecController::class, 'update'])-> name('transaction.hardware.laptop.update');
+
+            // Edit 
         });
 
         //Routing for software
