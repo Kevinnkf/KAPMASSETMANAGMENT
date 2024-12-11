@@ -145,7 +145,7 @@
                             <div class="round-16 d-flex align-items-center justify-content-center">
                                 <i class="ti ti-circle"></i>
                             </div>
-                            <span class="hide-menu">Asset</span>
+                            <span class="hide-menu">Index Asset</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
@@ -157,7 +157,7 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="{{ route('transaction.asset.index') }}" class="sidebar-link bg-primary-dark-kai">
+                        <a href="{{ route('transaction.assign.index') }}" class="sidebar-link bg-primary-dark-kai">
                             <div class="round-16 d-flex align-items-center justify-content-center">
                                 <i class="ti ti-circle"></i>
                             </div>
