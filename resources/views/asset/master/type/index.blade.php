@@ -2,7 +2,7 @@
 
 @section('content')
     {{-- Breadcrumb --}}
-    @include('kepegawaian.asesmen-pekerja.asesmen-multirater-360.breadcrumb')
+    
     {{-- End Breadcrumb --}}
 
     {{-- Content --}}
@@ -40,7 +40,7 @@
                     <div class="card-body">
                         <!-- Filter Table -->
                         <div class="py-4">
-                            <div class="esa-filter-container">
+                            {{-- <div class="esa-filter-container">
                                 <div>
                                     <select class="form-select" style="width: 9.5rem; stroke: red;" id="year-select">
                                         <option value="2022">Tahun 2022</option>
@@ -50,7 +50,7 @@
                                 </div>
                                 <br>
                                 <button class="btn btn-outline-primary esa-btn-lg">Clear Filter</button>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="card-datatable table-responsive">
                             <table id="master" class="table table-striped display nowrap esa-table-light">
@@ -77,7 +77,6 @@
                                         <td>{{  $master['valuegcm'] }}</td>
                                         <td>{{  $master['typegcm'] }}</td>
                                         <td class="action-buttons">
-                                            <button class="btn mb-1 waves-effect waves-light btn-outline-danger esa-btn">Delete</button>
                                             <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" style="height:36px" onclick="openEditModal({{ json_encode($master) }})">Update</button>
                                         </td>
                                     </tr>

@@ -2,16 +2,15 @@
 
 @section('content')
     {{-- Breadcrumb --}}
-    @include('kepegawaian.asesmen-pekerja.asesmen-multirater-360.breadcrumb')
     {{-- End Breadcrumb --}}
 
     {{-- Content --}}
     <div class="row align-items-center">
         <div class="col">
-            <h4 class="fw-semibold mt-3 text-primary-kai">{{ $title }}</h4>
+            <h4 class="fw-semibold mt-3 text-primary-kai">Master Aset</h4>
         </div>
         <div class="row">
-            <div class="col-10">{{ $subtitle }}</div>
+            <div class="col-10"></div>
             <div class="col-auto">
                 @if (!empty($currentCondition))
                 <a href="{{ route('master.type.create', ['condition' => $currentCondition]) }}"
@@ -72,7 +71,6 @@
                                         <td>{{  $master['valuegcm'] }}</td>
                                         <td>{{  $master['typegcm'] }}</td>
                                         <td class="action-buttons">
-                                            <button class="btn mb-1 waves-effect waves-light btn-outline-danger esa-btn">Delete</button>
                                             <a href="#modalMaster" 
                                                 data-bs-toggle="modal" 
                                                 class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" 
