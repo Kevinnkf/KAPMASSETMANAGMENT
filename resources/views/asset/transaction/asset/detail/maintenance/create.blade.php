@@ -350,6 +350,16 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-12">
+                            <label for="notesaction" class="form-label esa-label">Aksi</label>
+                            <textarea class="form-control @error('notesaction') is-invalid @enderror" id="notesaction" name="notesaction" placeholder="Aksi yang dilakukan" required>{{ old('notesaction') }}</textarea>
+
+                            @error('notesaction')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
                             <label for="notessparepart" class="form-label esa-label">Sparepart</label>
                             <textarea class="form-control @error('notessparepart') is-invalid @enderror" id="notessparepart" name="notessparepart" placeholder="Sparepart yang ditangani" required>{{ old('notessparepart') }}</textarea>
 
@@ -357,16 +367,6 @@
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <label for="notesaction" class="form-label esa-label">Aksi</label>
-                            <textarea class="form-control @error('notesaction') is-invalid @enderror" id="notesaction" name="notesaction" placeholder="Aksi yang dilakukan" required>{{ old('notesaction') }}</textarea>
-
-                            @error('notesaction')
-                                <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>

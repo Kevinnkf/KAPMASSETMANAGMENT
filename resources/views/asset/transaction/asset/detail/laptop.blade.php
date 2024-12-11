@@ -66,6 +66,15 @@
             color: #0B56A7;
         }
 
+        .esa-danger {
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 600;
+            font-size: 20px;
+            line-height: 24px;
+            letter-spacing: -0.017em;
+            color: red;
+        }
+
         .esa-label {
             font-family: 'Open Sans', sans-serif;
             font-weight: 400;

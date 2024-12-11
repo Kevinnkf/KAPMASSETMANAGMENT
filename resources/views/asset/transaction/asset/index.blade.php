@@ -229,6 +229,7 @@
                                         <td>{{ $asset['idasset'] }}</td>
                                         <td>{{  $asset['assetcode'] }}</td>
                                         <td>{{  $asset['nipp'] }}</td>
+                                        {{-- <td>{{  $asset['employee']['name'] }}</td> --}}
                                         <td>{{  $asset['assettype'] }}</td>
                                         <td>{{  $asset['assetcategory'] }}</td>
                                         <td>{{  $asset['assetbrand'] }} {{  $asset['assetmodel'] }} {{  $asset['assetseries'] }}</td>
