@@ -2,7 +2,7 @@
 
 @section('content')
     {{-- Breadcrumb --}}
-    @include('kepegawaian.asesmen-pekerja.asesmen-multirater-360.breadcrumb')
+    
     {{-- End Breadcrumb --}}
 
     {{-- Content --}}
@@ -40,7 +40,7 @@
                     <div class="card-body">
                         <!-- Filter Table -->
                         <div class="py-4">
-                            <div class="esa-filter-container">
+                            {{-- <div class="esa-filter-container">
                                 <div>
                                     <select class="form-select" style="width: 9.5rem; stroke: red;" id="year-select">
                                         <option value="2022">Tahun 2022</option>
@@ -50,7 +50,7 @@
                                 </div>
                                 <br>
                                 <button class="btn btn-outline-primary esa-btn-lg">Clear Filter</button>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="card-datatable table-responsive">
                             <table id="master" class="table table-striped display nowrap esa-table-light">
@@ -77,7 +77,6 @@
                                         <td>{{  $master['valuegcm'] }}</td>
                                         <td>{{  $master['typegcm'] }}</td>
                                         <td class="action-buttons">
-                                            <button class="btn mb-1 waves-effect waves-light btn-outline-danger esa-btn">Delete</button>
                                             <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" style="height:36px" onclick="openEditModal({{ json_encode($master) }})">Update</button>
                                         </td>
                                     </tr>
@@ -86,55 +85,46 @@
                             </table>
                         </div>
                         <nav aria-label="Page navigation example">
-                            <ul class="inline-flex -space-x-px text-sm">
-                                <!-- Previous Page Link -->
-                                @if ($masterData->onFirstPage())
-                                    <li>
-                                        <span class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-700 bg-gray-200 border border-gray-300 rounded-s-lg cursor-not-allowed">
-                                            Previous
-                                        </span>
-                                    </li>
-                                @else
-                                    <li>
-                                        <a href="{{ $masterData->previousPageUrl() }}" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-700 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-800">
-                                            Previous
-                                        </a>
-                                    </li>
-                                @endif
+                            <ul class="pagination">
+                                <!-- Start Page Link -->
+                                <li class="page-item {{ $masterData->onFirstPage() ? 'disabled' : '' }}">
+                                    <a class="page-link" href="{{ $masterData->onFirstPage() ? '#' : $masterData->url(1) }}">
+                                        Start
+                                    </a>
+                                </li>
+                        
+                                @php
+                                    $currentPage = $masterData->currentPage();
+                                    $lastPage = $masterData->lastPage();
+                                    $maxLinks = 10; // Maximum number of links to display
+                                    $half = floor($maxLinks / 2);
+                                    $start = max(1, $currentPage - $half);
+                                    $end = min($lastPage, $currentPage + $half);
+                        
+                                    // Adjust start and end if there are not enough pages
+                                    if ($end - $start < $maxLinks - 1) {
+                                        if ($start == 1) {
+                                            $end = min($lastPage, $start + $maxLinks - 1);
+                                        } else {
+                                            $start = max(1, $end - $maxLinks + 1);
+                                        }
+                                    }
+                                @endphp
                         
                                 <!-- Pagination Elements -->
-                                @foreach ($masterData->links()->elements[0] as $page => $url)
-                                    @if ($page == $masterData->currentPage())
-                                        <li>
-                                            <span class="flex items-center justify-center px-3 h-8 text-white border border-gray-300 bg-blue-600 hover:bg-blue-700 hover:text-white">
-                                                {{ $page }}
-                                            </span>
-                                        </li>
-                                    @else
-                                        <li>
-                                            <a href="{{ $url }}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-800">
-                                                {{ $page }}
-                                            </a>
-                                        </li>
-                                    @endif
-                                @endforeach
-                        
-                                <!-- Next Page Link -->
-                                @if ($masterData->hasMorePages())
-                                    <li>
-                                        <a href="{{ $masterData->nextPageUrl() }}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-800">
-                                            Next
-                                        </a>
+                                @for ($page = $start; $page <= $end; $page++)
+                                    <li class="page-item {{ $page == $currentPage ? 'active' : '' }}">
+                                        <a class="page-link" href="{{ $masterData->url($page) }}">{{ $page }}</a>
                                     </li>
-                                @else
-                                    <li>
-                                        <span class="flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-gray-200 border border-gray-300 rounded-e-lg cursor-not-allowed">
-                                            Next
-                                        </span>
-                                    </li>
-                                @endif
+                                @endfor
+                                <!-- End Page Link -->
+                                <li class="page-item {{ $masterData->hasMorePages() ? '' : 'disabled' }}">
+                                    <a class="page-link" href="{{ $masterData->hasMorePages() ? $masterData->url($lastPage) : '#' }}">
+                                        End
+                                    </a>
+                                </li>
                             </ul>
-                        </nav>  
+                        </nav> 
                         <div id="editModal" class="modal fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
                             <div class="bg-white p-6 rounded-md w-96">
                                 <h2 class="text-xl font-bold mb-4">Edit Master</h2>

@@ -86,9 +86,11 @@ class TrnAssetController extends Controller
         
         
         
-        // Count assets based on conditions
+        // Count assets based on conditions and where nipp is null
         $countAsset = count(array_filter($assetData, function ($item) {
             return is_array($item) && (!array_key_exists('nipp', $item) || is_null($item['nipp']));
+            // return (is_null($item['nipp']));
+            // return is_array($item);
         }));
         
         $destroyedAsset = count(array_filter($assetData, function ($item) {

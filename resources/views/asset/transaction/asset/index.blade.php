@@ -213,7 +213,7 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Kode Aset</th>
-                                        <th>NIPP</th>
+                                        <th>Nama Karyawan</th>
                                         <th>Tipe</th>
                                         <th>Kategori</th>
                                         <th>Merk</th>
@@ -228,7 +228,7 @@
                                     <tr>
                                         <td>{{ $asset['idasset'] }}</td>
                                         <td>{{  $asset['assetcode'] }}</td>
-                                        <td>{{  $asset['nipp'] }}</td>
+                                        <td>{{ isset($asset['employee']) ? $asset['employee']['name'] : 'IT' }}</td>
                                         <td>{{  $asset['assettype'] }}</td>
                                         <td>{{  $asset['assetcategory'] }}</td>
                                         <td>{{  $asset['assetbrand'] }} {{  $asset['assetmodel'] }} {{  $asset['assetseries'] }}</td>
@@ -244,42 +244,58 @@
                         </div>
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
-                                <!-- Previous Page Link -->
-                                @if ($assetData->onFirstPage())
-                                    <li class="page-item disabled">
-                                        <span class="page-link">Previous</span>
-                                    </li>
-                                @else
-                                    <li class="page-item">
-                                        <a class="page-link" href="{{ $assetData->previousPageUrl() }}">Previous</a>
-                                    </li>
-                                @endif
+                                <!-- Start Page Link -->
+                                <li class="page-item {{ $assetData->onFirstPage() ? 'disabled' : '' }}">
+                                    <a class="page-link" href="{{ $assetData->onFirstPage() ? '#' : $assetData->url(1) }}">
+                                        Start
+                                    </a>
+                                </li>
+                                
+                                {{-- <li class="page-item {{ $assetData->onFirstPage() ? 'disabled' : '' }}">
+                                    <a class="page-link" href="{{ $assetData->onFirstPage() ? '#' : $assetData->previousPageUrl() }}">
+                                        Previous
+                                    </a>
+                                </li> --}}
+                        
+                                @php
+                                    $currentPage = $assetData->currentPage();
+                                    $lastPage = $assetData->lastPage();
+                                    $maxLinks = 10; // Maximum number of links to display
+                                    $half = floor($maxLinks / 2);
+                                    $start = max(1, $currentPage - $half);
+                                    $end = min($lastPage, $currentPage + $half);
+                        
+                                    // Adjust start and end if there are not enough pages
+                                    if ($end - $start < $maxLinks - 1) {
+                                        if ($start == 1) {
+                                            $end = min($lastPage, $start + $maxLinks - 1);
+                                        } else {
+                                            $start = max(1, $end - $maxLinks + 1);
+                                        }
+                                    }
+                                @endphp
                         
                                 <!-- Pagination Elements -->
-                                @foreach ($assetData->links()->elements[0] as $page => $url)
-                                    @if ($page == $assetData->currentPage())
-                                        <li class="page-item active">
-                                            <span class="page-link">{{ $page }}</span>
-                                        </li>
-                                    @else
-                                        <li class="page-item">
-                                            <a class="page-link" href="{{ $url }}">{{ $page }}</a>
-                                        </li>
-                                    @endif
-                                @endforeach
+                                @for ($page = $start; $page <= $end; $page++)
+                                    <li class="page-item {{ $page == $currentPage ? 'active' : '' }}">
+                                        <a class="page-link" href="{{ $assetData->url($page) }}">{{ $page }}</a>
+                                    </li>
+                                @endfor
                         
                                 <!-- Next Page Link -->
-                                @if ($assetData->hasMorePages())
-                                    <li class="page-item">
-                                        <a class="page-link" href="{{ $assetData->nextPageUrl() }}">Next</a>
-                                    </li>
-                                @else
-                                    <li class="page-item disabled">
-                                        <span class="page-link">Next</span>
-                                    </li>
-                                @endif
+                                {{-- <li class="page-item {{ $assetData->hasMorePages() ? '' : 'disabled' }}">
+                                    <a class="page-link" href="{{ $assetData->hasMorePages() ? $assetData->nextPageUrl() : '#' }}">
+                                        Next
+                                    </a>
+                                </li> --}}
+                                <!-- End Page Link -->
+                                <li class="page-item {{ $assetData->hasMorePages() ? '' : 'disabled' }}">
+                                    <a class="page-link" href="{{ $assetData->hasMorePages() ? $assetData->url($lastPage) : '#' }}">
+                                        End
+                                    </a>
+                                </li>
                             </ul>
-                        </nav>                        
+                        </nav>
                     </div>
                 </div>
             </div>

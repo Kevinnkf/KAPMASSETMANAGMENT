@@ -21,12 +21,12 @@
             <!-- ============================= -->
             <!-- Kepegawaian -->
             <!-- ============================= -->
-            <li class="nav-small-cap mt-3 mb-1">
+            {{-- <li class="nav-small-cap mt-3 mb-1">
                 <span class="hide-menu text-white-kai">Kepegawaian</span>
-            </li>
+            </li> --}}
 
             <!-- Time Management -->
-            <li class="sidebar-item pb-2">
+            {{-- <li class="sidebar-item pb-2">
                 <a class="sidebar-link bg-primary-dark-kai px-3 has-arrow" href="#" aria-expanded="false">
                     <i class="ti ti-settings"></i>
                     <span class="hide-menu">Time Management</span>
@@ -57,7 +57,7 @@
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li> --}}
             <!-- End Time Management -->
 
             <!-- ============================= -->
@@ -68,7 +68,7 @@
             </li>
 
             <!-- Asset Management System -->
-            <li class="sidebar-item pb-2">
+            {{-- <li class="sidebar-item pb-2">
                 <a class="sidebar-link bg-primary-dark-kai px-3 has-arrow" href="#" aria-expanded="false">
                     <i class="ti ti-settings"></i>
                     <span class="hide-menu">Configuration</span>
@@ -83,7 +83,7 @@
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li> --}}
 
             <li class="sidebar-item pb-2">
                 <a class="sidebar-link bg-primary-dark-kai px-3 has-arrow" href="#" aria-expanded="false">
@@ -145,7 +145,7 @@
                             <div class="round-16 d-flex align-items-center justify-content-center">
                                 <i class="ti ti-circle"></i>
                             </div>
-                            <span class="hide-menu">Asset</span>
+                            <span class="hide-menu">Index Asset</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
@@ -157,7 +157,7 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="{{ route('transaction.asset.index') }}" class="sidebar-link bg-primary-dark-kai">
+                        <a href="{{ route('transaction.assign.index') }}" class="sidebar-link bg-primary-dark-kai">
                             <div class="round-16 d-flex align-items-center justify-content-center">
                                 <i class="ti ti-circle"></i>
                             </div>

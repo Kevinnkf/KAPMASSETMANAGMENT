@@ -17,7 +17,7 @@
                     <table id="maintenance" class="table table-striped display nowrap esa-table-light">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                {{-- <th>ID</th> --}}
                                 <th>Kode Aset</th>
                                 <th>Suku Cadang</th>
                                 <th>Catatan Perbaikan</th>
@@ -35,7 +35,7 @@
                             @else
                                 @foreach($historyMaintenanceData as $maintenance)
                                     <tr>
-                                        <td>{{ $maintenance['maintenanceid'] }}</td>
+                                        {{-- <td>{{ $maintenance['maintenanceid'] }}</td> --}}
                                         <td>{{ $maintenance['assetcode'] }}</td>
                                         <td>{{ $maintenance['notessparepart'] }}</td>
                                         <td>{{ $maintenance['notesaction'] }}</td>

@@ -16,7 +16,7 @@ use function Symfony\Component\Clock\now;
 
 class MaintenanceController extends Controller{
     // Get all maintenance records
-    public function indexz() {
+    public function index() {
         $client = new Client();
         $response = $client->request('GET', 'http://10.48.1.3:7252/api/TrnHistMaintenance');
         $body = $response->getBody();
@@ -45,7 +45,7 @@ class MaintenanceController extends Controller{
             ['path' => request()->url(), 'query' => request()->query()] // Maintain query parameters
         );
 
-        return view('maintenance.index', [
+        return view('asset.transaction.maintenance.index', [
             'maintenanceData' => $paginatedData,
             'assetData' => $assetData,
             'userData' => $userData  
@@ -101,7 +101,9 @@ class MaintenanceController extends Controller{
 
             $data = json_decode($response->getBody()->getContents(), true);
             Log::info("API Response: ", $data);
-            return back()->with("success", "Data has been added successfully");
+            return redirect()->route('transaction.asset.laptop', ['assetcode' => $assetcode])
+                                 ->with('success', 'Success adding maintenance history!'); 
+            // return back()->with("success", "Data has been added successfully");
 
         } catch (\GuzzleHttp\Exception\RequestException $e) {
             $responseBody = $e->hasResponse() ? (string) $e->getResponse()->getBody() : null;

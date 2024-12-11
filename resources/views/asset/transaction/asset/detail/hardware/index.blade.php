@@ -23,6 +23,13 @@
                             onclick="openAndDownloadPDF('{{ route('transaction.asset.label', ['assetcode' => $assetcode]) }}')">
                         Print Label
                         </button>
+                        <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" onclick="window.location.href='{{ route('transaction.asset.edit',[
+                                'assettype' => $assettype,
+                                'assetcategory' => $assetcategory, 
+                                'assetcode' => $assetcode,
+                                ])}}'">
+                                Update Asset
+                        </button>
                         {{-- change the route accordingly --}}
                         @if (is_null($idassetspec) || $idassetspec === 0 || $idassetspec === 'N/A')
                             <a href="{{ route('transaction.hardware.laptop.create', [
@@ -35,15 +42,13 @@
                                 'idassetspec' => $idassetspec
                                 ]) }}" class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Update Hardware</a>
                         @endif
-                        <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" onclick="window.location.href='{{ route('transaction.asset.edit',[
-                                'assettype' => $assettype,
-                                'assetcategory' => $assetcategory, 
-                                'assetcode' => $assetcode,
-                                ])}}'">
-                                Update Asset
-                        </button>
                     </div>
                 </div>
+                @if (empty($assetSpecData))
+                <div style="padding-left: 30px">
+                    <h4 class="esa-danger">Hardware Data is not available yet!</h4>
+                </div>
+                @endif
             </div>
 
             @include('asset.transaction.asset.detail.hardware.modal')

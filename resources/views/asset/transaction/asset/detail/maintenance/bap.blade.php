@@ -215,7 +215,7 @@
     <table class="info-table">
         <tr>
             <td><p white-space:nowrap" class="ft16">No Ref: </p></td>
-            <td><p white-space:nowrap" class="ft16">BAST.IT.{{ now()->format('mY') }}.xxxx</p></td>
+            <td><p white-space:nowrap" class="ft16">BAST.IT.{{ now()->format('mY') }}.{{ now()->format('d') }}</p></td>
         </tr>
         <tr>
             <td><p white-space:nowrap" class="ft16">Tanggal: </p></td>
@@ -231,7 +231,7 @@
             <td style="border: none"> <p style="white-space: nowrap;" class="ft16">Nomor Asset </p></td>
             <td style="border: none"> <p style="white-space: nowrap;" class="ft16">: {{$selectedRecord['assetcode']}}</p></td>
             <td style="border: none"> <p style="white-space: nowrap;" class="ft16">Tanggal Perbaikan</p></td>
-            <td style="border: none"> <p style="white-space: nowrap;" class="ft16">: BAST.IT.{{ now()->format('mY')}}.xxxx</p></td>
+            <td style="border: none"> <p style="white-space: nowrap;" class="ft16">: {{ now()->format('d-m-Y')}}</p></td>
         </tr>
         <tr>
             <td style="border: none"> <p style="white-space: nowrap;" class="ft16">Serial Number </p></td>

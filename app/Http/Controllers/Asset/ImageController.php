@@ -16,12 +16,12 @@ class ImageController extends Controller
         $client = new Client();
 
         // First API call to fetch asset data (TrnAsset)
-        $responseAsset = $client->request('GET', "http://localhost:5252/api/TrnAsset/{$assetcode}");
+        $responseAsset = $client->request('GET', "http://10.48.1.3:7252/api/TrnAsset/{$assetcode}");
         $contentAsset = $responseAsset->getBody()->getContents();
         $assetData = json_decode($contentAsset, true);
         
         //Fetch PIC
-        $responsePic = $client->request('GET', "http://localhost:5252/api/User");
+        $responsePic = $client->request('GET', "http://10.48.1.3:7252/api/User");
         $contentPic = $responsePic->getBody()->getContents();
         $userData = json_decode($contentPic, true);  
 
@@ -39,12 +39,12 @@ class ImageController extends Controller
         $client = new Client();
 
         // First API call to fetch asset data (TrnAsset)
-        $responseAsset = $client->request('GET', "http://localhost:5252/api/TrnAsset/{$assetcode}");
+        $responseAsset = $client->request('GET', "http://10.48.1.3:7252/api/TrnAsset/{$assetcode}");
         $contentAsset = $responseAsset->getBody()->getContents();
         $assetData = json_decode($contentAsset, true);
 
         // Fetch PIC
-        $responseUser = $client -> get('http://localhost:5252/api/User');
+        $responseUser = $client -> get('http://10.48.1.3:7252/api/User');
         $contentUser = $responseUser->getBody()->getContents();
         $userData = json_decode($contentUser, true);
 
@@ -78,7 +78,7 @@ class ImageController extends Controller
             }   
 
             // Build the multipart form data including the image file
-            $response = $client->post('http://localhost:5252/api/TrnAssetDtlPicture', [
+            $response = $client->post('http://10.48.1.3:7252/api/TrnAssetDtlPicture', [
                 'multipart' => [
                     [
                         'name' => 'ASSETCODE',
@@ -103,7 +103,9 @@ class ImageController extends Controller
             $data = json_decode($response->getBody()->getContents(), true); // Decode the response
             // Log success (ensure $data is an array or provide a message)
             Log::info("Success", $data ? $data : []); // Pass empty array if $data is null  
-            return back()->with("success", "Data has been added successfully");
+            return redirect()->route('transaction.asset.laptop', ['assetcode' => $assetcode])
+                                 ->with('success', 'Success adding image!'); 
+            // return back()->with("success", "Data has been added successfully");
         } catch (\Throwable $th) {
             // Log error and handle the exception
             Log::error('API Error: ' . $th->getMessage());
@@ -170,7 +172,7 @@ class ImageController extends Controller
             // Log::info('Request Data Query Image:', $queryParams['ASSETPIC']);
 
             // Make the PUT request
-            $response = $client->put("http://localhost:5252/api/TrnAssetDtlPicture/{$idassetpic}", [
+            $response = $client->put("http://10.48.1.3:7252/api/TrnAssetDtlPicture/{$idassetpic}", [
                 'query' => $queryParams,
             ]);
 
@@ -198,22 +200,22 @@ class ImageController extends Controller
         $client = new Client();
 
         // First API call to fetch asset data (TrnAsset)
-        $responseAsset = $client->request('GET', "http://localhost:5252/api/TrnAssetDtlPicture/{$idassetpic}");
+        $responseAsset = $client->request('GET', "http://10.48.1.3:7252/api/TrnAssetDtlPicture/{$idassetpic}");
         $contentAsset = $responseAsset->getBody()->getContents();
         $img = json_decode($contentAsset, true);
 
         //Fetch PIC
-        $responsePic = $client->request('GET', "http://localhost:5252/api/User");
+        $responsePic = $client->request('GET', "http://10.48.1.3:7252/api/User");
         $contentPic = $responsePic->getBody()->getContents();
         $userData = json_decode($contentPic, true);  
 
         //Fetch Master
-        $responseMst = $client->get("http://localhost:5252/api/master");
+        $responseMst = $client->get("http://10.48.1.3:7252/api/master");
         $contentMst = $responseMst->getBody()->getContents();
         $mstData = json_decode($contentMst, true);
 
         //Fetch software
-       //  $responseSoftware = $client -> request('GET', 'http://localhost:5252/api/TrnSoftware/{$assetcode}');
+       //  $responseSoftware = $client -> request('GET', 'http://10.48.1.3:7252/api/TrnSoftware/{$assetcode}');
        //  $contentSoftware = $responseSoftware ->getBody()->getContents();
        //  $softwareData = json_decode($contentSoftware, true);
 
@@ -254,7 +256,7 @@ class ImageController extends Controller
             }   
 
         // Build the multipart form data including the image file
-        $response = $client->put("http://localhost:5252/api/TrnAssetDtlPicture/{$idassetpic}", [
+        $response = $client->put("http://10.48.1.3:7252/api/TrnAssetDtlPicture/{$idassetpic}", [
             'multipart' => [
                 [
                     'name' => 'IDASSETPIC',

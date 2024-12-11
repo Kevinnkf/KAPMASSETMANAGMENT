@@ -309,7 +309,7 @@
 @endif
 <div id="createAsset" class="inset-0 bg-white flex justify-center items-center p-4">
     <div class="bg-white p-6 rounded-md w-96">
-        <h2 class="esa-header-dark">Adding {{ $assetcode }} Specification Detail </h2>
+        <h2 class="esa-header-dark">Edit {{ $assetcode }} Specification Detail </h2>
         <form id="editForm" action="{{ route('transaction.hardware.laptop.update', [
                                     'assetcategory' => $assetcategory, 
                                     'assetcode' => $assetcode,
