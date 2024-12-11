@@ -16,7 +16,7 @@ use function Symfony\Component\Clock\now;
 
 class MaintenanceController extends Controller{
     // Get all maintenance records
-    public function indexz() {
+    public function index() {
         $client = new Client();
         $response = $client->request('GET', 'http://10.48.1.3:7252/api/TrnHistMaintenance');
         $body = $response->getBody();
@@ -45,7 +45,7 @@ class MaintenanceController extends Controller{
             ['path' => request()->url(), 'query' => request()->query()] // Maintain query parameters
         );
 
-        return view('maintenance.index', [
+        return view('asset.transaction.maintenance.index', [
             'maintenanceData' => $paginatedData,
             'assetData' => $assetData,
             'userData' => $userData  
