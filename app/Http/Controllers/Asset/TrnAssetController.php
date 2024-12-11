@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Milon\Barcode\Facades\DNS2DFacade;
 
-class TRNAssetController extends Controller
+class TrnAssetController extends Controller
 {
     private $parent = "Kepegawaian";
     private $modul = "Time Management";
@@ -361,10 +361,8 @@ class TRNAssetController extends Controller
 
         // Initialize the HTTP client for making requests
         $client = new \GuzzleHttp\Client();
-
-        $validet = $validated['datepurchased'];
         // $datepurchase = date("YYYY-mm-dd", strtotime($validet));
-        $datepurchase = date("Y-m-d", strtotime($validet));
+        $datepurchase = date("Y-m-d", strtotime($validated['datepurchased']));
 
         try {
             // Send POST request directly using the validated data

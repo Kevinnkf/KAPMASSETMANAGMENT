@@ -381,24 +381,11 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
+
                 <div class="mb-4">
                     <label for="datepurchased" class="form-label esa-label">Date</label>
                     <input type="date" id="datepurchased" name="datepurchased" class="form-control  @error('datepurchased') is-invalid @enderror" required>
                 </div>
-
-                <div class="mb-4">
-                    <label for="picadded" class="form-label esa-label">PIC Added</label>
-                    <select id="picadded" name="picadded" class="form-control" @error('picadded') is-invalid @enderror>
-                        <option value="">Select PIC</option>
-                        <option value="TOMMY WISNU WARDHANA">TOMMY WISNU WARDHANA</option>
-                        <option value="MUHAMAD FAUZAN">MUHAMAD FAUZAN</option>
-                    </select>
-                    @error('picadded')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-                
-
         
             <!-- Buttons -->
             <div class="flex justify-end">

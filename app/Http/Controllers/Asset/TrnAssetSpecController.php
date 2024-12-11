@@ -294,7 +294,7 @@ class  TrnAssetSpecController extends Controller
                 return redirect()->route('detailAsset.mobile', ['assetcode' => $assetcode])
                                  ->with('success', 'Asset created successfully!');
             } else {
-                return redirect()->route('detailAsset.others', ['assetcode' => $assetcode])
+                return redirect()->route('transaction.asset.laptop', ['assetcode' => $assetcode])
                                 ->with('success', 'Asset created successfully!');}
         
             return redirect()->back()->with("success", "Data has been updated successfully");

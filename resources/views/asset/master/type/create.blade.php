@@ -367,14 +367,36 @@
                         </div>
                     </div>
 
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <label for="typegcm" class="form-label esa-label">Type GCM</label>
-                            <input type="text" class="form-control @error('typegcm') is-invalid @enderror" id="typegcm" name="typegcm" value="{{ old('typegcm') }}" placeholder="Type GCM" required>
-                            @error('typegcm')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+                    <div class="mb-4">
+                        <label for="typegcmModal" class="form-label esa-label">TypeGCM</label>
+                        @if ($condition == 'FIELD')
+                            <input type="text" id="typegcmModal" name="typegcm" class="form-control">
+                        @elseif ($condition == 'FIELD_VALUE')
+                            <select id="typegcmModal" name="typegcm" class="form-select">
+                                <option value="">Select TypeGCM</option>
+                                @foreach ($masterData as $master)
+                                    @if ($master['condition'] == 'FIELD')
+                                        <option value="{{ $master['description'] }}">{{ $master['description'] }}</option>
+                                    @endif  
+                                @endforeach
+                            </select>
+                        @else
+                            @php
+                                // Get unique condition values from the master data
+                                $getCondition = array();
+                                foreach ($masterData as $master) {
+                                    // Check if 'condition' key exists in the array
+                                    $getCondition[] = $master['description'];
+                                }
+                                $uniqueCondition = array_unique($getCondition);
+                            @endphp
+                            <select id="typegcmModal" name="typegcm" class="form-select">
+                                <option value="">Select TypeGCM</option>
+                                @foreach ($uniqueCondition as $optionvalue)
+                                    <option value="{{ $optionvalue }}">{{ $optionvalue }}</option>
+                                @endforeach
+                            </select>
+                        @endif
                     </div>
 
                     <hr>
