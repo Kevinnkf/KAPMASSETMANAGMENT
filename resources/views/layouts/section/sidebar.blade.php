@@ -21,12 +21,12 @@
             <!-- ============================= -->
             <!-- Kepegawaian -->
             <!-- ============================= -->
-            <li class="nav-small-cap mt-3 mb-1">
+            {{-- <li class="nav-small-cap mt-3 mb-1">
                 <span class="hide-menu text-white-kai">Kepegawaian</span>
-            </li>
+            </li> --}}
 
             <!-- Time Management -->
-            <li class="sidebar-item pb-2">
+            {{-- <li class="sidebar-item pb-2">
                 <a class="sidebar-link bg-primary-dark-kai px-3 has-arrow" href="#" aria-expanded="false">
                     <i class="ti ti-settings"></i>
                     <span class="hide-menu">Time Management</span>
@@ -57,7 +57,7 @@
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li> --}}
             <!-- End Time Management -->
 
             <!-- ============================= -->
@@ -68,7 +68,7 @@
             </li>
 
             <!-- Asset Management System -->
-            <li class="sidebar-item pb-2">
+            {{-- <li class="sidebar-item pb-2">
                 <a class="sidebar-link bg-primary-dark-kai px-3 has-arrow" href="#" aria-expanded="false">
                     <i class="ti ti-settings"></i>
                     <span class="hide-menu">Configuration</span>
@@ -83,7 +83,7 @@
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li> --}}
 
             <li class="sidebar-item pb-2">
                 <a class="sidebar-link bg-primary-dark-kai px-3 has-arrow" href="#" aria-expanded="false">
