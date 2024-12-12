@@ -23,13 +23,19 @@ class ImageController extends Controller
         //Fetch PIC
         $responsePic = $client->request('GET', "http://10.48.1.3:7252/api/User");
         $contentPic = $responsePic->getBody()->getContents();
-        $userData = json_decode($contentPic, true);  
+        $userData = json_decode($contentPic, true);
+        
+        // Fetch Master
+        $responseMst = $client->get("http://10.48.1.3:7252/api/master");
+        $contentMst = $responseMst->getBody()->getContents();
+        $mstData = json_decode($contentMst, true);
 
         // Pass both assetData and assetSpecData to the view
         return view('asset.transaction.asset.detail.image.create', [
             'assetcode' => $assetcode,
             'assetData' => $assetData,
             'userData' => $userData,
+            'mstData' => $mstData,
             "data" => session('userdata'),
         ]);
     }

@@ -294,6 +294,10 @@
             position: absolute;
             right: 10px;
         } */
+
+        .swal-center-buttons {
+            justify-content: center; /* Center the button(s) */
+        }
     </style>
 
 @endsection
@@ -357,8 +361,36 @@
                             name="assetimage" 
                             type="file" 
                             required
+                            accept=".jpg,.jpeg,.png"
                         >
                     </div>
+                    @foreach ($mstData as $item)
+                        @php
+                            if ($item['condition'] == "IMAGE FILE SIZE") {
+                                $filesize = $item['valuegcm'];
+                                $description = $item['description'];
+                            }
+                        @endphp
+                    @endforeach
+                    <script>
+                        document.getElementById('assetimage').addEventListener('change', function(event) {
+                            const file = event.target.files[0];
+                            const description = {!! json_encode($description) !!};
+                            const file_size = {!! json_encode($filesize) !!};
+
+                            if (file && file.size > file_size * 1024) { // 10240 KB = 10 MB
+                                 Swal.fire({
+                                    icon: 'warning',
+                                    title: 'File too large',
+                                    text: 'File size exceeds the ' + description + ' limit.',
+                                    customClass: {
+                                        actions: 'swal-center-buttons' // Add a class for custom styles
+                                    }
+                                });
+                                event.target.value = ''; // Reset the input
+                            }
+                        });
+                    </script>
                     <div class="row mb-3" hidden>
                         <div class="col-md-12">
                             <label for="active" class="form-label esa-label">Active</label>

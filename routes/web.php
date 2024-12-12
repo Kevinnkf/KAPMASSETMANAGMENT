@@ -94,7 +94,9 @@ Route::middleware(['user-auth'])->group(function () {
     Route::prefix("transaction")->group(function () {
         Route::prefix("/asset")->group(function () {
             Route::get("/index", [TrnAssetController::class, 'index'])->name('transaction.asset.index');
+
             Route::put("/unassign/{assetcode}", [TrnAssetController::class, 'unassignAsset'])->name('transaction.asset.unassign');
+            Route::put("/assign/{assetcode}", [TrnAssetController::class, 'assignAsset'])->name('transaction.asset.assign');
 
             Route::get('detail/laptop/{assetcode}', [TrnAssetController::class, 'show'])->name('transaction.asset.laptop');
             // Route::get('detail/laptop/{assetcode}', [TrnAssetController::class, 'show'])->name('transaction.asset.mobile');
