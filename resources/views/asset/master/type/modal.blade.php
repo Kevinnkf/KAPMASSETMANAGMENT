@@ -45,12 +45,47 @@
                                         </input>
                                     </div>
                                 </div>
-                                <div class="row mb-3">
+                                <div class="row mb-3" id="valueInputGroup">
                                     <div class="col-md-12">
                                         <label for="modalValue" class="form-label esa-label">Value</label>
-                                        <input type="text" id="modalValue" class="form-control" name="valuegcm" required readonly></input>
+                                        {{-- <select id="modalValueSelect" name="valuegcm" class="form-control d-none">
+                                            <option value="small">Small</option>
+                                            <option value="medium">Medium</option>
+                                            <option value="large">Large</option>
+                                        </select> --}}
+                                        <input type="text" id="modalValueText" class="form-control" name="valuegcm" required>
                                     </div>
                                 </div>
+                                
+                                {{-- <script>
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        const conditionInput = document.getElementById('modalCondition');
+                                        const selectInput = document.getElementById('modalValueSelect');
+                                        const textInput = document.getElementById('modalValueText');
+                                
+                                        function toggleInputs() {
+                                            const condition = conditionInput.value;
+                                            if (condition === 'FILE IMAGE SIZE') {
+                                                selectInput.classList.remove('d-none');
+                                                selectInput.required = true;
+                                                textInput.classList.add('d-none');
+                                                textInput.required = false;
+                                            } else {
+                                                textInput.classList.remove('d-none');
+                                                textInput.required = true;
+                                                selectInput.classList.add('d-none');
+                                                selectInput.required = false;
+                                            }
+                                        }
+                                
+                                        // Initialize on page load
+                                        toggleInputs();
+                                
+                                        // Update inputs dynamically if the condition changes
+                                        conditionInput.addEventListener('change', toggleInputs);
+                                    });
+                                </script> --}}
+                                
                                 <div class="row mb-3">
                                     <div class="col-md-12">
                                         <label for="modalType" class="form-label esa-label">Tipe</label>
