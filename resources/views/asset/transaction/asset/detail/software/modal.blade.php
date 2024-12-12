@@ -38,7 +38,7 @@
                                         <select id="modalSoftwareType" class="form-control" name="softwaretype" required>
                                             <option value="" disabled selected>Select Software Type</option>
                                             @foreach ($assetMaster as $mst)
-                                                @if ($mst['description'])
+                                                @if  ($mst['condition'] == 'SOFTWARE TYPE')
                                                     <option value="{{ $mst['description'] }}">
                                                         {{ $mst['description'] }}
                                                     </option>
@@ -53,7 +53,7 @@
                                         <select id="modalSoftwareCategory" class="form-control" name="softwarecategory" required>
                                             <option value="" disabled selected>Select Software Category</option>
                                             @foreach ($assetMaster as $mst)
-                                                @if ($mst['description'])
+                                                @if  ($mst['condition'] == 'SOFTWARE CATEGORY')
                                                     <option value="{{ $mst['description'] }}">
                                                         {{ $mst['description'] }}
                                                     </option>
@@ -68,7 +68,7 @@
                                         <select id="modalSoftwareName" class="form-control" name="softwarename" required>
                                             <option value="" disabled selected>Select Software Name</option>
                                             @foreach ($assetMaster as $mst)
-                                                @if ($mst['description'])
+                                                @if  ($mst['condition'] == 'SOFTWARE NAME')
                                                     <option value="{{ $mst['description'] }}">
                                                         {{ $mst['description'] }}
                                                     </option>
@@ -83,7 +83,7 @@
                                         <select id="modalSoftwareLicense" class="form-control" name="softwarelicense" required>
                                             <option value="" disabled selected>Select Software LIcense</option>
                                             @foreach ($assetMaster as $mst)
-                                                @if ($mst['description'])
+                                                @if  ($mst['condition'] == 'SOFTWARE LICENSE')
                                                     <option value="{{ $mst['description'] }}">
                                                         {{ $mst['description'] }}
                                                     </option>
@@ -98,7 +98,7 @@
                                         <select id="modalSoftwarePeriod" class="form-control" name="softwareperiod" required>
                                             <option value="" disabled selected>Select Software Period</option>
                                             @foreach ($assetMaster as $mst)
-                                                @if ($mst['description'])
+                                                @if  ($mst['condition'] == 'SOFTWARE PERIOD')
                                                     <option value="{{ $mst['description'] }}">
                                                         {{ $mst['description'] }}
                                                     </option>

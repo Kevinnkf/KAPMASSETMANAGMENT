@@ -430,7 +430,7 @@
     <!-- Header -->
     <div class="card" id="card-info">
         @if (empty($employeeNIPP) || $employeeNIPP === 'N/A')
-        <div class="card-body d-flex justify-content-between align-items-center">
+        <div class="card-body d-flex justify-content-between align-items-center" style="margin-right: 0">
             <div>
                 <h1 class="fw-bolder" style="font-size: 32px;">
                     This asset is available to assign
@@ -454,13 +454,13 @@
                 </h1>
             </div>
             <div>
-                <button class="btn mb-1 waves-effect waves-light btn-rounded btn-danger esa-btn unassign-asset"
+                <button class="btn mb-1 waves-effect waves-light btn-rounded btn-danger esa-btn" style="width: 100px;"
                 onclick="confirmUnassignAsset('{{ route('transaction.asset.unassign', ['assetcode' => $assetcode]) }}')"> 
                 Unassign
                 </button>
-                <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" 
-                    onclick="window.location.href='{{ route('transaction.asset.print', ['assetcode' => $assetcode]) }}'">
-                Print BAST
+                <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" style="width: 100px;" 
+                        onclick="window.location.href='{{ route('transaction.asset.print', ['assetcode' => $assetcode]) }}'">
+                        Print BAST
                 </button>
             </div>
         </button>
@@ -579,14 +579,14 @@ function openNippModal() {
 function confirmUnassignAsset(url) {
     // Show SweetAlert confirmation dialog
     Swal.fire({
+        icon: 'error',
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
+
         confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
         confirmButtonText: 'Yes, unassign it!',
-        cancelButtonText: 'Cancel'
+        showCancelButton: true,
+        cancelButtonTextColor: '#fffff',
     }).then((result) => {
         if (result.isConfirmed) {
             // If confirmed, call the unassignAsset function

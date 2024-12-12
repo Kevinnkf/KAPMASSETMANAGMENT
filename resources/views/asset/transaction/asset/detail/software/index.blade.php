@@ -28,7 +28,7 @@
                 Update Asset
             </button> --}}
 
-            <div class="card-datatable table-responsive">
+            <div class="card-datatable table-responsive px-4 py-6">
                 <table id="software" class="table table-striped display nowrap esa-table-light">
                     <thead>
                         <!-- start row -->
