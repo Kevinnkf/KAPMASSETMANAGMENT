@@ -86,7 +86,7 @@ class ImageController extends Controller
                     ],
                     [
                         'name' => 'ACTIVE',
-                        'contents' => $validated['active'],
+                        'contents' => 'Y',
                     ],
                     [
                         'name' => 'PICADDED',
