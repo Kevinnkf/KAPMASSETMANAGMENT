@@ -18,7 +18,7 @@
                         <thead>
                             <tr>
                                 {{-- <th>ID</th> --}}
-                                <th>Kode Aset</th>
+                                {{-- <th>Kode Aset</th> --}}
                                 <th>Suku Cadang</th>
                                 <th>Catatan Perbaikan</th>
                                 <th>Hasil Perbaikan</th>
@@ -36,14 +36,14 @@
                                 @foreach($historyMaintenanceData as $maintenance)
                                     <tr>
                                         {{-- <td>{{ $maintenance['maintenanceid'] }}</td> --}}
-                                        <td>{{ $maintenance['assetcode'] }}</td>
+                                        {{-- <td>{{ $maintenance['assetcode'] }}</td> --}}
                                         <td>{{ $maintenance['notessparepart'] }}</td>
                                         <td>{{ $maintenance['notesaction'] }}</td>
                                         <td>{{ $maintenance['notesresult'] }}</td>
                                         <td>{{ $maintenance['dateadded'] }}</td>
                                         <td>{{ $maintenance['picadded'] }}</td>
-                                        <td>
-                                            <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" 
+                                        <td style="width: 150px">
+                                            <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" style="max-width: 100px; white-space: normal; padding: 5px 10px;" 
                                                     onclick="window.location.href='{{ route('transaction.maintenance.print', ['assetcode' => $assetcode, 'idmtc' => $maintenance['maintenanceid']]) }}'">
                                                 Print BAP
                                             </button>
