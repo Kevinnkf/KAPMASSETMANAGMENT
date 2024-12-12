@@ -346,7 +346,7 @@
                             <select id="softwaretype" class="form-control" name="softwaretype"  @error('softwaretype') is-invalid @enderror" required>
                                 <option value="" disabled selected>Select Software Type</option>
                                 @foreach ($mstData as $mst)
-                                    @if ($mst['condition'] == 'SOFTWARE_TYPE')
+                                    @if ($mst['condition'] == 'SOFTWARE TYPE')
                                         <option value="{{ $mst['description'] }}" {{ old('softwaretype') == $mst['description'] ? 'selected' : '' }}>
                                             {{ $mst['description'] }}
                                         </option>
@@ -368,7 +368,7 @@
                             <select id="softwarecategory" class="form-control" name="softwarecategory"  @error('softwarecategory') is-invalid @enderror" required>
                                 <option value="" disabled selected>Select Software Category</option>
                                 @foreach ($mstData as $mst)
-                                    @if ($mst['condition'] == 'SOFTWARE_CATEGORY')
+                                    @if ($mst['condition'] == 'SOFTWARE CATEGORY')
                                         <option value="{{ $mst['description'] }}" {{ old('softwarecategory') == $mst['description'] ? 'selected' : '' }}>
                                             {{ $mst['description'] }}
                                         </option>
@@ -390,7 +390,7 @@
                             <select id="softwarename" class="form-control" name="softwarename"  @error('softwarename') is-invalid @enderror" required>
                                 <option value="" disabled selected>Select Software Name</option>
                                 @foreach ($mstData as $mst)
-                                    @if ($mst['condition'] == 'SOFTWARE_NAME')
+                                    @if ($mst['condition'] == 'SOFTWARE NAME')
                                         <option value="{{ $mst['description'] }}" {{ old('softwarename') == $mst['description'] ? 'selected' : '' }}>
                                             {{ $mst['description'] }}
                                         </option>
@@ -411,7 +411,7 @@
                             <select id="softwarelicense" class="form-control" name="softwarelicense"  @error('softwarelicense') is-invalid @enderror" required>
                                 <option value="" disabled selected>Select Software License</option>
                                 @foreach ($mstData as $mst)
-                                    @if ($mst['condition'] == 'SOFTWARE_LICENSE')
+                                    @if ($mst['condition'] == 'SOFTWARE LICENSE')
                                         <option value="{{ $mst['description'] }}" {{ old('softwarelicense') == $mst['description'] ? 'selected' : '' }}>
                                             {{ $mst['description'] }}
                                         </option>
@@ -432,7 +432,7 @@
                             <select id="softwareperiod" class="form-control" name="softwareperiod"  @error('softwareperiod') is-invalid @enderror" required>
                                 <option value="" disabled selected>Select Software Period</option>
                                 @foreach ($mstData as $mst)
-                                    @if ($mst['condition'] == 'SOFTWARE_PERIOD')
+                                    @if ($mst['condition'] == 'SOFTWARE PERIOD')
                                         <option value="{{ $mst['description'] }}" {{ old('softwareperiod') == $mst['description'] ? 'selected' : '' }}>
                                             {{ $mst['description'] }}
                                         </option>
