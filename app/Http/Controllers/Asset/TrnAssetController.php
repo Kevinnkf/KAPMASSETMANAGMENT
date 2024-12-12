@@ -248,6 +248,11 @@ class TrnAssetController extends Controller
         if (!is_array($imgData)) {
             $imgData = []; // Set to empty array if not an array
         }
+        
+        //Fourth API call to fetch employee data
+        $responseEmployee = $client->request('GET', "http://10.48.1.3:7252/api/Employee");
+        $contentEmployee = $responseEmployee->getBody()->getContents();
+        $employeeData = json_decode($contentEmployee, true);
 
         // Pass both assetData and assetSpecData to the view
         return view('asset.transaction.asset.detail.laptop', [
@@ -259,7 +264,8 @@ class TrnAssetController extends Controller
             'userData' => $userData,
             'histData' => $histData,
             'imgData' => $imgData,
-            "data" => session('userdata')
+            "data" => session('userdata'),
+            'employeeData' => $employeeData
         ]);
     }
     // public function index($assetcode) {

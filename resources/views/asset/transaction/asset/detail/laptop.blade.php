@@ -439,7 +439,12 @@
             @if (session('success'))
                         <h3 class="text-success">{{ session('success') }}</h3>
             @endif
-            <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Assign</button>
+        <a href="#nippModal" 
+            data-bs-toggle="modal" 
+            class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" 
+            onclick="openNippModal()">
+            Assign Asset
+        </a>
         </div>
         @else
         <div class="card-body d-flex justify-content-between align-items-center">
@@ -470,8 +475,107 @@
     @include('asset.transaction.asset.detail.image.index')
     
     @include('asset.transaction.asset.detail.maintenance.index')
+
+    {{-- Assign Modal --}}
+    <div id="nippModal" class="modal hidden">
+        <div class="modal-dialog modal-l modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header px-4 pt-4 pb-2">
+                    <h5 class="esa-title fs-5 text-primary-kai fw-bolder" id="nippModal">Assign Asset</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-content">
+                    <div class="row justify-center m-2">
+                        <div class="col-md-12">
+                            <div class="card w-100">
+                                <div class="card-body">
+                                    <form id="updateNippForm" method="POST">
+                                        @csrf
+                                        @method('PUT')  
+                                        <div class="col-md-12">
+                                            <label for="name" class="form-label esa-label">Name</label>
+                                            <select id="name" name="name" class="form-select" required>
+                                                <option value="" disabled selected>Name</option>
+                                                @foreach ($employeeData as $employee)
+                                                    <option value="{{ $employee['name'] }}"> {{ $employee['name'] }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <!-- Input field for NIPP -->
+                                        <div class="col-md-12">
+                                            <label for="nipp" class="form-label esa-label">Nipp</label>
+                                            <input type="text" id="nipp" name="nipp" class="form-control" placeholder="Nipp" readonly>
+                                        </div>
+                                        <!-- Employee Information Fields -->
+                                        <div class="col-md-12 mt-3">
+                                            <label for="position" class="form-label esa-label">Position</label>
+                                            <input type="text" id="position" name="position" class="form-control" placeholder="Position" readonly>
+                                        </div>
+                                        <div class="col-md-12 mt-3">
+                                            <label for="unit" class="form-label esa-label">Unit</label>
+                                            <input type="text" id="unit" name="unit" class="form-control" placeholder="Unit" readonly>
+                                        </div>
+                                        <div class="col-md-12 mt-3">
+                                            <label for="department" class="form-label esa-label">Department</label>
+                                            <input type="text" id="department" name="department" class="form-control" placeholder="Department" readonly>
+                                        </div>
+                                        <div class="col-md-12 mt-3">
+                                            <label for="directorate" class="form-label esa-label">Directorate</label>
+                                            <input type="text" id="directorate" name="directorate" class="form-control" placeholder="Directorate" readonly>
+                                        </div>
+
+                                        <script>
+                                            document.getElementById('name').addEventListener('change', function() {
+                                                var selectedName = this.value; // Get the selected NIPP value
+                                                var employeeData = @json($employeeData); // Parse PHP data into JavaScript object
+
+                                                // Find the selected employee's data
+                                                var selectedEmployee = employeeData.find(employee => employee.name === selectedName);
+                                            
+                                                // Populate the form fields with selected employee data or default to 'N/A'
+                                                if (selectedEmployee) {
+                                                    document.getElementById('nipp').value = selectedEmployee.nipp || 'N/A';
+                                                    document.getElementById('position').value = selectedEmployee.position || 'N/A';
+                                                    document.getElementById('unit').value = selectedEmployee.unit || 'N/A';
+                                                    document.getElementById('department').value = selectedEmployee.department || 'N/A';
+                                                    document.getElementById('directorate').value = selectedEmployee.directorate || 'N/A';
+                                                } else {
+                                                    document.getElementById('nipp').value = 'N/A';
+                                                    document.getElementById('position').value = 'N/A';
+                                                    document.getElementById('unit').value = 'N/A';
+                                                    document.getElementById('department').value = 'N/A';
+                                                    document.getElementById('directorate').value = 'N/A';
+                                                }
+                                            });
+                                        </script>
+                                            
+                                        </script>
+                                        <!-- Buttons -->
+                                        <div class="mt-3">
+                                            {{-- <button type="button" onclick="closeModal()" class="bg-gray-500 text-white px-4 py-2 rounded mr-2">Back</button> --}}
+                                            <button type="submit" class="btn btn-primary esa-btn-lg rounded">Assign</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
+function openNippModal() {
+
+
+    // Set the form action dynamically
+    var assetcode = "{{ $assetcode }}"; // Get the assetcode from Blade{!! json_encode($assetcode) !!}
+    document.getElementById('updateNippForm').action = `{{ route('transaction.asset.assign', ':assetcode') }}`.replace(':assetcode', assetcode);
+
+    console.log(document.getElementById('updateNippForm').action);
+}
+
 function confirmUnassignAsset(url) {
     // Show SweetAlert confirmation dialog
     Swal.fire({
