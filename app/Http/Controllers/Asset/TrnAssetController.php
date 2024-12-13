@@ -10,6 +10,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Milon\Barcode\Facades\DNS2DFacade;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\AssetExport;
 
 class TrnAssetController extends Controller
 {
@@ -736,5 +738,43 @@ class TrnAssetController extends Controller
         
         
         return $pdf->inline("Label QRCode.pdf");
+    }
+
+    public function exportExcel() {
+        $client = new Client();
+    
+        try {
+            $responseAsset = $client->request('GET', "http://10.48.1.3:7252/api/TrnAsset");
+    
+            
+            if ($responseAsset->getStatusCode() !== 200) {
+                return response()->json(['err   or' => 'Failed to retrieve asset data.'], $responseAsset->getStatusCode());
+            }
+    
+            $contentAsset = $responseAsset->getBody()->getContents();
+            $assetData = json_decode($contentAsset, true);
+    
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                return response()->json(['error' => 'Error decoding asset data.'], 500);
+            }
+    
+        } catch (\Exception $e) {
+        
+            return response()->json(['error' => 'Unable to fetch asset data: ' . $e->getMessage()], 500);
+        }
+    
+
+        $data = [
+            'assetData' => $assetData,            
+            "data" => session('userdata')
+        ];
+
+        $excel = Excel::download(new AssetExport($data), "testExcel.xlsx");
+        return $excel;
+
+    
+        // $pdf = SnappyPdf::loadView('asset.transaction.asset.bast', $data);
+        // $pdf->setOption('enable-local-file-access', true)->setPaper('a4');
+        // return $pdf->inline('Berita Acara Serah Terima.pdf');
     }
 }
