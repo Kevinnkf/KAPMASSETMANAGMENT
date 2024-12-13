@@ -130,6 +130,16 @@
                                         @enderror
                                     </div>
                                 </div>
+                                
+                                <div class="row mb-3" hidden>
+                                    <div class="col-md-12">
+                                        <label for="picadded" class="form-label esa-label">picadded</label>
+                                        <input type="text" class="form-control @error('picadded') is-invalid @enderror" id="picadded" name="picadded" value="test" placeholder="Lisensi Software" required>
+                                        @error('picadded')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
 
                                 <hr>
             
