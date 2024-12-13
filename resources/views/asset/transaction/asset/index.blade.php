@@ -205,6 +205,13 @@
                                     </div>
                                 </form>
                             </div>
+                            <div class="esa-filter-container">
+                                <form action="{{ route('transaction.asset.export') }}" method="GET" class="mb-4">
+                                    <div class="flex items-center">
+                                        <button type="submit" class="btn mb-1 waves-effect waves-light btn-rounded btn-warning esa-btn"><i class="fa fa-download"></i> Export</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                         <div class="card-datatable table-responsive">
                             <table id="master" class="table table-striped display nowrap esa-table-light">
