@@ -151,6 +151,7 @@ class SoftwareController extends Controller
                 'softwarelicense' => 'required',
                 'softwareperiod' => 'required',
                 'active' => 'required',
+                'picadded' => 'ss',
                 'dateadded' => 'nullable',
                 'picupdated' => 'nullable',
                 'dateupdated' => 'nullable',
