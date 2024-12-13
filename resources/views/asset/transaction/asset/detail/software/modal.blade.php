@@ -123,9 +123,9 @@
                                 </div>
                                 <div class="row mb-3" hidden>
                                     <div class="col-md-12">
-                                        <label for="picadded" class="form-label esa-label">picadded</label>
-                                        <input type="text" class="form-control @error('picadded') is-invalid @enderror" id="picadded" name="picadded" value="{{ $data['nama'] }}" placeholder="Lisensi Software" required>
-                                        @error('picadded')
+                                        <label for="picupdated" class="form-label esa-label">picupdated</label>
+                                        <input type="text" class="form-control @error('picupdated') is-invalid @enderror" id="picupdated" name="picupdated" value="{{ $data['nama'] }}" placeholder="Lisensi Software" required>
+                                        @error('picupdated')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
