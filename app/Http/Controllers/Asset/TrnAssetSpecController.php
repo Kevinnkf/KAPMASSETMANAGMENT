@@ -220,7 +220,6 @@ class  TrnAssetSpecController extends Controller
             'microphone' => 'nullable|boolean',
             'wifi' => 'nullable|boolean',
             'bluetooth' => 'nullable|boolean',
-            'picadded' => 'nullable|string|max:255',
         ]);
 
         // Initialize the HTTP client for making requests
@@ -273,7 +272,6 @@ class  TrnAssetSpecController extends Controller
                     'wifi' => $wifi,
                     'bluetooth' => $bluetooth,
                     'picupdated' => $userName,
-                    'picadded' => $validated['picadded'],
                     'active' => 'Y',
                 ]
             ]);
