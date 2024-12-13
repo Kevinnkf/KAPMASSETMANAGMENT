@@ -161,7 +161,7 @@ class SoftwareController extends Controller
         
             $response = $client->put("http://10.48.1.3:7252/api/TrnSoftware/{$idassetsoftware}", [
                 'json' => $validated,
-                'picadded' => "Test",  // Use the validated data
+                'picadded' => 'test',  // Use the validated data
             ]);
         
             $data = json_decode($response->getBody()->getContents(),  true);
