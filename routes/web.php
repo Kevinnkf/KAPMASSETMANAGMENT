@@ -128,6 +128,8 @@ Route::middleware(['user-auth'])->group(function () {
         Route::prefix("/hardware")->group(function () {
             // Create hardware laptop or pc
             Route::get("/laptop/create/{assetcategory}/{assetcode}", [TrnAssetSpecController::class, 'create'])->name('transaction.hardware.laptop.create');
+            Route::get("/mobile/create/{assetcategory}/{assetcode}", [TrnAssetSpecController::class, 'create'])->name('transaction.hardware.mobile.create');
+            Route::get("/others/create/{assetcategory}/{assetcode}", [TrnAssetSpecController::class, 'create'])->name('transaction.hardware.others.create');
             Route::post('/laptop/store/{assetcode}', [TrnAssetSpecController::class, 'store'])->name('transaction.hardware.laptop.store');
 
             // Edit hardware laptop or pc
