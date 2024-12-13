@@ -769,7 +769,7 @@ class TrnAssetController extends Controller
             "data" => session('userdata')
         ];
 
-        $excel = Excel::download(new AssetExport($data), "testStyle.xlsx");
+        $excel = Excel::download(new AssetExport($data), "Data Aset KAPM.xlsx");
         return $excel;
 
     
