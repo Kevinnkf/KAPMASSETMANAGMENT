@@ -383,7 +383,7 @@
                 </div>
 
                 <div class="mb-4">
-                    <label for="datepurchased" class="form-label esa-label">Date</label>
+                    <label for="datepurchased" class="form-label esa-label">Purchase Date</label>
                     <input type="date" id="datepurchased" name="datepurchased" class="form-control  @error('datepurchased') is-invalid @enderror" required>
                 </div>
         

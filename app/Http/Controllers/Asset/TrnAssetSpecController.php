@@ -27,10 +27,25 @@ class  TrnAssetSpecController extends Controller
         $content = $body->getContents();
         $data = json_decode($content, true);
 
+    if ($assetcategory == 'LAPTOP') {
         return view('asset.transaction.asset.detail.hardware.laptop.create', [
             'assetcode' => $assetcode,
             'assetcategory' => $assetcategory,
-            'optionData' => $data]); // Keep the view name consistent
+            'optionData' => $data
+        ]);
+    } elseif ($assetcategory == 'MOBILE') {
+        return view('asset.transaction.asset.detail.hardware.mobile.create', [
+            'assetcode' => $assetcode,
+            'assetcategory' => $assetcategory,
+            'optionData' => $data
+        ]);
+    } else {
+        return view('asset.transaction.asset.detail.hardware.others.create', [
+            'assetcode' => $assetcode,
+            'assetcategory' => $assetcategory,
+            'optionData' => $data
+        ]);
+    }
     }
 
     public function edit($assetcategory, $assetcode, $idassetspec) {
@@ -157,7 +172,7 @@ class  TrnAssetSpecController extends Controller
             $category = $validated['assetcategory'];
 
             // Check if the API response was successful and redirect accordingly
-            if ($category == 'LAPTOP') {
+            if ($category == 'LAPTOP' || $category == 'PERSONAL COMPUTER') {
                 return redirect()->route('transaction.asset.laptop', ['assetcode' => $assetcode])
                                  ->with('success', 'Asset created successfully!');
             } else if ($category == 'MOBILE') {
