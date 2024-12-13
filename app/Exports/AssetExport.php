@@ -65,7 +65,7 @@ class AssetExport implements FromArray, WithHeadings
                     ->getFill()
                     ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                     ->getStartColor()
-                    ->setARGB('DD4B39'); // Change to your desired color
+                    ->setARGB('#40E0D0'); // Change to your desired color
 
                 // Set border for the header
                 $event->sheet->getDelegate()->getStyle('A1')
