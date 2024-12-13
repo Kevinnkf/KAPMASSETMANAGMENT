@@ -151,7 +151,6 @@ class SoftwareController extends Controller
                 'softwarelicense' => 'required',
                 'softwareperiod' => 'required',
                 'active' => 'required',
-                'picadded' => 'ss',
                 'dateadded' => 'nullable',
                 'picupdated' => 'nullable',
                 'dateupdated' => 'nullable',
@@ -161,7 +160,8 @@ class SoftwareController extends Controller
             
         
             $response = $client->put("http://10.48.1.3:7252/api/TrnSoftware/{$idassetsoftware}", [
-                'json' => $validated,  // Use the validated data
+                'json' => $validated,
+                'picadded' => "Test",  // Use the validated data
             ]);
         
             $data = json_decode($response->getBody()->getContents(),  true);
