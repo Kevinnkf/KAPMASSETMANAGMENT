@@ -235,7 +235,7 @@
                                     <tr>
                                         <td>{{ $asset['idasset'] }}</td>
                                         <td>{{  $asset['assetcode'] }}</td>
-                                        <td>{{ isset($asset['employee']) ? $asset['employee']['name'] : 'IT' }}</td>
+                                        <td>{{ isset($asset['employee']) ? $asset['employee']['name'] : 'Asset Available at IT' }}</td>
                                         <td>{{  $asset['assettype'] }}</td>
                                         <td>{{  $asset['assetcategory'] }}</td>
                                         <td>{{  $asset['assetbrand'] }} {{  $asset['assetmodel'] }} {{  $asset['assetseries'] }}</td>
