@@ -53,7 +53,7 @@
                                             <option value="medium">Medium</option>
                                             <option value="large">Large</option>
                                         </select> --}}
-                                        <input type="text" id="modalValueText" class="form-control" name="valuegcm" required>
+                                        <input type="text" id="modalValue" class="form-control" name="valuegcm" required>
                                     </div>
                                 </div>
                                 
@@ -122,3 +122,21 @@
         </div>
     </div>
 </div>
+<script>
+
+function openMasterModal(master) {
+    // Populate the modal fields with the software data
+    document.getElementById('modalMasterId').value = master.masterid;
+    document.getElementById('modalCondition').value = master.condition;
+    document.getElementById('modalNoSr').value = master.nosr;
+    document.getElementById('modalDescription').value = master.description;
+    document.getElementById('modalValue').value = master.valuegcm;
+    document.getElementById('modalType').value = master.typegcm;
+    document.getElementById('active').value = master.active; 
+
+    // Update the form action
+    var form = document.getElementById('modalUpdateMasterForm');
+    form.action = "{{ route('master.type.update', ['masterid' => ':masterid']) }}".replace(':masterid', master.masterid);
+}
+
+</script>
