@@ -57,6 +57,7 @@
                                         <th>Deskripsi</th>
                                         <th>Value</th>
                                         <th>Tipe</th>
+                                        <th>Active</th>
                                         <th>Aksi</th>
                                     </tr>
                                     <!-- end row -->
@@ -70,6 +71,7 @@
                                         <td>{{  $master['description'] }}</td>
                                         <td>{{  $master['valuegcm'] }}</td>
                                         <td>{{  $master['typegcm'] }}</td>
+                                        <td>{{  $master['active'] }}</td>
                                         <td class="action-buttons">
                                             <a href="#modalMaster" 
                                                 data-bs-toggle="modal" 

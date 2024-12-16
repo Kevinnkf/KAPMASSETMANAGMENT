@@ -96,7 +96,7 @@
                                 <div class="row mb-3">
                                     <div class="col-md-12">
                                         <label for="active" class="form-label esa-label">Active</label>
-                                        <select id="active" name="active" class="form-control @error('active') is-invalid @enderror">
+                                        <select id="active" name="active" class="form-control @error('active') is-invalid @enderror" required>
                                             <option value="Y">Y</option>  <!-- Represents true -->
                                             <option value="N">N</option>  <!-- Represents false -->
                                         </select>
