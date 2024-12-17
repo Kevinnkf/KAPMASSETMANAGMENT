@@ -497,7 +497,7 @@
                                             <select id="name" name="name" class="form-select" required>
                                                 <option value="" disabled selected>Name</option>
                                                 @foreach ($employeeData as $employee)
-                                                    <option value="{{ $employee['name'] }}"> {{ $employee['name'] }}</option>
+                                                    <option value="{{ $employee['data'] }}"> {{ $employee['data'] }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

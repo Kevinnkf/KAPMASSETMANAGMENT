@@ -232,11 +232,6 @@ class TrnAssetController extends Controller
         $contentDetailSoftware = $responseDetailSoftware->getBody()->getContents();
         $detailSoftwareData = json_decode($contentDetailSoftware, true);
 
-        //Fetch PIC
-        $responsePic = $client->request('GET', "http://10.48.1.3:7252/api/User");
-        $contentPic = $responsePic->getBody()->getContents();
-        $userData = json_decode($contentPic, true);  
-
         //Fetch History Asset
         $responseHist = $client->request('GET', "http://10.48.1.3:7252/api/AssetHistory/{$assetcode}");
         $contentHist = $responseHist->getBody()->getContents();
@@ -251,10 +246,26 @@ class TrnAssetController extends Controller
             $imgData = []; // Set to empty array if not an array
         }
         
-        //Fourth API call to fetch employee data
-        $responseEmployee = $client->request('GET', "http://10.48.1.3:7252/api/Employee");
-        $contentEmployee = $responseEmployee->getBody()->getContents();
-        $employeeData = json_decode($contentEmployee, true);
+        // //Fourth API call to fetch employee data
+        // $responseEmployee = $client->request('GET', "http://msvc-employeeizin-kai-group-alpha.apps.dev.okd.kai.id/izin/get-data-pegawai");
+        // // $responseEmployee = $client->request('GET', "https://api.kai.id/v3/kapm/employee");
+        // $contentEmployee = $responseEmployee->getBody()->getContents();
+        // $employeeData = json_decode($contentEmployee, true);
+
+        // Ambil data dari session
+        $userData = session('userdata');
+        
+        // Buat permintaan GET ke API Izin Pegawai
+        $responseEmployeeData = $client->request('GET', "https://api.kai.id/v3/kapm/employee", [
+            'headers' => [
+                'Authorization' => 'Bearer ' . ('EUOP_iqY_1612411309'),
+                'Accept' => 'application/json',
+            ],
+            'timeout' => 10,
+        ]);
+        $contentEmployee = $responseEmployeeData->getBody()->getContents();
+        $employeeData = json_decode($contentEmployee, true);  
+
 
         // Pass both assetData and assetSpecData to the view
         return view('asset.transaction.asset.detail.laptop', [
@@ -263,7 +274,6 @@ class TrnAssetController extends Controller
             'assetSpecData' => $assetSpecData,
             'historyMaintenanceData' => $historyMaintenanceData,
             'detailSoftwareData' => $detailSoftwareData,
-            'userData' => $userData,
             'histData' => $histData,
             'imgData' => $imgData,
             "data" => session('userdata'),
@@ -274,7 +284,8 @@ class TrnAssetController extends Controller
     //     // Ambil data dari session
     //     $userData = session('userdata');
     //     $getNipp = $userData['nipp'];
-
+    // dd(session('token'));
+    
     //     // Inisiasi Guzzle client
     //     $client = new Client();
 
