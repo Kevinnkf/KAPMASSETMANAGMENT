@@ -3,10 +3,13 @@
 namespace App\Exports;
 
 use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Events\AfterSheet;
+use PhpOffice\PhpSpreadsheet\Style\Color;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class AssetExport implements FromArray, WithHeadings
+class AssetExport implements FromArray, WithHeadings, WithEvents, ShouldAutoSize
 {
     protected $data;
 
@@ -17,24 +20,23 @@ class AssetExport implements FromArray, WithHeadings
 
     public function array(): array
     {
-        // Extract the assetbrand from each asset in the assetData array
         return array_map(function($asset) {
             return [
-                'idasset' => $asset['idasset'], // Adjust this based on your data structure
-                'assetcode' => $asset['assetcode'], // Adjust this based on your data structure
-                'nipp' => $asset['nipp'], // Adjust this based on your data structure
-                'assettype' => $asset['assettype'], // Adjust this based on your data structure
-                'assetcategory' => $asset['assetcategory'], // Adjust this based on your data structure
-                'assetbrand' => $asset['assetbrand'], // Adjust this based on your data structure
-                'assetmodel' => $asset['assetmodel'], // Adjust this based on your data structure
-                'assetseries' => $asset['assetseries'], // Adjust this based on your data structure
-                'assetserialnumber' => $asset['assetserialnumber'], // Adjust this based on your data structure
-                'condition' => $asset['condition'], // Adjust this based on your data structure
-                'purchasedate' => $asset['purchasedate'], // Adjust this based on your data structure
-                'picadded' => $asset['picadded'], // Adjust this based on your data structure
-                // Add more fields if needed
+                'idasset' => $asset['idasset'],
+                'assetcode' => $asset['assetcode'],
+                'nipp' => $asset['nipp'],
+                'assettype' => $asset['assettype'],
+                'assetcategory' => $asset['assetcategory'],
+                'assetbrand' => $asset['assetbrand'],
+                'assetmodel' => $asset['assetmodel'],
+                'assetseries' => $asset['assetseries'],
+                'assetserialnumber' => $asset['assetserialnumber'],
+                'condition' => $asset['condition'],
+                'purchasedate' => $asset['purchasedate'],
+                'picadded' => $asset['picadded'],
+                
             ];
-        }, $this->data['assetData']); // Make sure to use the correct key
+        }, $this->data['assetData']); 
     }
 
     public function headings(): array
@@ -61,20 +63,21 @@ class AssetExport implements FromArray, WithHeadings
         return [
             AfterSheet::class => function(AfterSheet $event) {
                 // Set header background color
-                $event->sheet->getDelegate()->getStyle('A1')
+                $event->sheet->getDelegate()->getStyle('A1:L1')
                     ->getFill()
                     ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                     ->getStartColor()
-                    ->setARGB('#40E0D0'); // Change to your desired color
+                    ->setARGB(Color::COLOR_CYAN); 
 
                 // Set border for the header
-                $event->sheet->getDelegate()->getStyle('A1')
+                $event->sheet->getDelegate()->getStyle('A1:L1')
                     ->getBorders()
                     ->getAllBorders()
                     ->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
 
-                // Set border for data cells
-                $event->sheet->getDelegate()->getStyle('A2:A' . (count($this->data['assetData']) + 1))
+                // Set border for all data cells 
+                $lastColumn = 'L'; // Change this to the last column as needed
+                $event->sheet->getDelegate()->getStyle('A2:' . $lastColumn . (count($this->data['assetData']) + 1))
                     ->getBorders()
                     ->getAllBorders()
                     ->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);

@@ -53,7 +53,7 @@
                                             <option value="medium">Medium</option>
                                             <option value="large">Large</option>
                                         </select> --}}
-                                        <input type="text" id="modalValueText" class="form-control" name="valuegcm" required>
+                                        <input type="text" id="modalValue" class="form-control" name="valuegcm" required>
                                     </div>
                                 </div>
                                 
@@ -96,7 +96,7 @@
                                 <div class="row mb-3">
                                     <div class="col-md-12">
                                         <label for="active" class="form-label esa-label">Active</label>
-                                        <select id="active" name="active" class="form-control @error('active') is-invalid @enderror">
+                                        <select id="active" name="active" class="form-control @error('active') is-invalid @enderror" required>
                                             <option value="Y">Y</option>  <!-- Represents true -->
                                             <option value="N">N</option>  <!-- Represents false -->
                                         </select>
@@ -122,3 +122,21 @@
         </div>
     </div>
 </div>
+<script>
+
+function openMasterModal(master) {
+    // Populate the modal fields with the software data
+    document.getElementById('modalMasterId').value = master.masterid;
+    document.getElementById('modalCondition').value = master.condition;
+    document.getElementById('modalNoSr').value = master.nosr;
+    document.getElementById('modalDescription').value = master.description;
+    document.getElementById('modalValue').value = master.valuegcm;
+    document.getElementById('modalType').value = master.typegcm;
+    document.getElementById('active').value = master.active; 
+
+    // Update the form action
+    var form = document.getElementById('modalUpdateMasterForm');
+    form.action = "{{ route('master.type.update', ['masterid' => ':masterid']) }}".replace(':masterid', master.masterid);
+}
+
+</script>
