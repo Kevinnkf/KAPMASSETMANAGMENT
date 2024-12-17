@@ -131,6 +131,60 @@
             background-color: #ddd;
             height: 4rem;
         }
+        /* Dropdown container styling */
+        .custom-dropdown {
+            position: relative;
+            background-color: #fff;
+        }
+
+        .dropdown-header {
+            cursor: pointer;
+            padding: 10px;
+            font-weight: bold;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-top: none;
+            z-index: 1000;
+        }
+
+        .dropdown-content.hidden {
+            display: none;
+        }
+
+        .dropdown-group {
+            border-top: 1px solid #ddd;
+        }
+
+        .dropdown-header-group {
+            padding: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .dropdown-options {
+            display: none; /* Initially hidden */
+            padding: 5px 10px;
+        }
+
+        .dropdown-options .dropdown-option {
+            padding: 5px 0;
+            cursor: pointer;
+        }
+
+        .dropdown-options .dropdown-option:hover {
+            background-color: #f0f0f0;
+        }
+
+        .dropdown-options.active {
+            display: block;
+        }
     </style>
 
 @section('content')
@@ -196,21 +250,94 @@
                 <div class="col-12">
                     <div class="card-body">
                         <!-- Filter Table -->
-                        <div class="py-4">
-                            <div class="esa-filter-container">
-                                <form action="{{ route('searchAssets') }}" method="GET" class="mb-4">
-                                    <div class="flex items-center">
-                                        <input type="text" name="search" placeholder="Search name, brand, model, series, category, serial number, type, condition" style="width: 50%" class="p-2 border rounded w-[100%]">
-                                        <button type="submit" class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Search</button>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="py-4">
+                                    <div class="esa-filter-container">
+                                        <form action="{{ route('searchAssets') }}" method="GET" class="mb-4">
+                                            <div class="flex items-center">
+                                                <input type="text" name="search" placeholder="Search name, brand, model, series, category, serial number, type, condition" style="width: 50%" class="p-2 border rounded w-[100%]">
+                                                <button type="submit" class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Search</button>
+                                            </div>
+                                        </form>
                                     </div>
-                                </form>
+                                    <div class="esa-filter-container">
+                                        <form action="{{ route('transaction.asset.export') }}" method="GET" class="mb-4">
+                                            <div class="flex items-center">
+                                                <button type="submit" class="btn mb-1 waves-effect waves-light btn-rounded btn-warning esa-btn"><i class="fa fa-download"></i> Export</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="esa-filter-container">
-                                <form action="{{ route('transaction.asset.export') }}" method="GET" class="mb-4">
-                                    <div class="flex items-center">
-                                        <button type="submit" class="btn mb-1 waves-effect waves-light btn-rounded btn-warning esa-btn"><i class="fa fa-download"></i> Export</button>
+                            <div class="col-lg-4">
+                                <div class="py-4">
+                                    <div class="esa-filter-container">
+                                        <form action="{{ route('searchAssets') }}" method="GET" class="mb-4">
+                                            <div class="flex items-center">
+                                                <div class="custom-dropdown p-2 border rounded w-[100%]">
+                                                    <!-- Dropdown Header -->
+                                                    <div class="dropdown-header has-arrow" onclick="toggleDropdown()">Filter</div>
+                                                    @php
+                                                        // Get unique brand values from the master data
+                                                        $getBrand = array();
+                                                        $getCondition = array();
+                                                        $getCategory = array();
+                                                        foreach ($masterData as $master) {
+                                                            // Check if 'brand' key exists in the array
+                                                            if (isset($master['description']) && ($master['condition'] == 'ASSET_BRAND')) {
+                                                                $getBrand[] = $master['description'];
+                                                            }
+                                                        }
+                                                        foreach ($assetDatafull as $asset) {
+                                                            if ($asset['condition']) {
+                                                                $getCondition[] = $asset['condition'];
+                                                            }
+        
+                                                            if ($asset['assetcategory']) {
+                                                                $getCategory[] = $asset['assetcategory'];
+                                                            }
+                                                        }
+                                                        $uniqueBrand = array_unique($getBrand);
+                                                        $uniqueCondition = array_unique($getCondition);
+                                                        $uniqueCategory = array_unique($getCategory);
+                                                    @endphp
+                                                    <div id="dropdown-content" class="dropdown-content hidden">
+                                                        <!-- Brand Group -->
+                                                        <div class="dropdown-group">
+                                                            <div class="dropdown-header-group" onclick="toggleOptions('brand-group')">Brand</div>
+                                                            <div id="brand-group" class="dropdown-options">
+                                                                @foreach ($uniqueBrand as $optionvalue)
+                                                                    <div class="dropdown-option has-arrow" data-value="{{ $optionvalue }}" onclick="selectOption(this, '{{ $optionvalue }}')">
+                                                                        {{ $optionvalue }}
+                                                                    </div>
+                                                                @endforeach
+                                                            </div>
+                                                            <div class="dropdown-header-group" onclick="toggleOptions('codition-group')">Condition</div>
+                                                            <div id="codition-group" class="dropdown-options has-arrow">
+                                                                @foreach ($uniqueCondition as $optionvalue)
+                                                                    <div class="dropdown-option" data-value="{{ $optionvalue }}" onclick="selectOption(this, '{{ $optionvalue }}')">
+                                                                        {{ $optionvalue }}
+                                                                    </div>
+                                                                @endforeach
+                                                            </div>
+                                                            <div class="dropdown-header-group" onclick="toggleOptions('category-group')">Category</div>
+                                                            <div id="category-group" class="dropdown-options has-arrow">
+                                                                @foreach ($uniqueCategory as $optionvalue)
+                                                                    <div class="dropdown-option" data-value="{{ $optionvalue }}" onclick="selectOption(this, '{{ $optionvalue }}')">
+                                                                        {{ $optionvalue }}
+                                                                    </div>
+                                                                @endforeach
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Hidden Input Field for Submission -->
+                                                <input type="hidden" name="search" id="selected-filter">
+                                            </div>
+                                        </form>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                         <div class="card-datatable table-responsive">
@@ -311,6 +438,35 @@
 @endsection
 @section('scripts')
     <script>
+
+function toggleDropdown() {
+    // Get the dropdown content
+    const dropdownContent = document.getElementById('dropdown-content');
+    // Toggle the hidden class to show or hide the dropdown
+    dropdownContent.classList.toggle('hidden');
+}
+
+function toggleOptions(groupId) {
+    const group = document.getElementById(groupId);
+    group.classList.toggle('active'); // Toggle visibility of options
+}
+
+function selectOption(optionElement, value) {
+    // Set the value in the hidden input field
+    document.getElementById('selected-filter').value = value;
+
+    // Submit the form automatically
+    optionElement.closest('form').submit();
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', (event) => {
+    const dropdown = document.querySelector('.custom-dropdown');
+    if (!dropdown.contains(event.target)) {
+        document.getElementById('dropdown-content').classList.add('hidden');
+    }
+});
+
 function openEditModal(assetData) {
     console.log(assetData);
     document.getElementById('masterid').value = assetData.masterid;

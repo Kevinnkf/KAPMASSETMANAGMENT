@@ -375,7 +375,7 @@
             <div class="mb-4">
                 <label for="condition" class="form-label esa-label"> Condition </label>
                 <select id="condition" name="condition" class="form-select" @error('condition') is-invalid @enderror>
-                    <option value="{{ $assetData['condition'] }}">4</option>
+                    <option value="{{ $assetData['condition'] }}">{{ $assetData['condition'] }}</option>
                     <option value="GREAT">GREAT</option>
                     <option value="MAINTENANCE">MAINTENANCE</option>
                     <option value="REPAIRED">REPAIRED</option>
