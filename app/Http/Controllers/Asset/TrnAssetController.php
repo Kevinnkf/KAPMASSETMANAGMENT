@@ -106,6 +106,11 @@ class TrnAssetController extends Controller
         Log::info('Result', ['data' => $paginatedData]);
         // Log::info('Result', ['data' => $paginatedData]);
         Log::info('Result', ['data' => $countAsset]);
+
+        // First API call to fetch asset data (TrnAsset)
+        $responseAsset = $client->request('GET', "http://10.48.1.3:7252/api/TrnAsset");
+        $contentAsset = $responseAsset->getBody()->getContents();
+        $assetDatafull = json_decode($contentAsset, true);
         
         return view('asset.transaction.asset.index', [  
             'masterData' => $masterData,
@@ -121,7 +126,7 @@ class TrnAssetController extends Controller
             "title" => "Daftar Aset",
             "subtitle" => "Berikut ini adalah daftar aset",
             "atasan" => $atasan,
-        
+            'assetDatafull' => $assetDatafull
         ]);
     }
     
@@ -688,6 +693,11 @@ class TrnAssetController extends Controller
 
             Log::info('Result', ['data' => $paginatedData]);
             Log::info('Result', ['data' => $countAsset]);
+
+            // First API call to fetch asset data (TrnAsset)
+            $responseAsset = $client->request('GET', "http://10.48.1.3:7252/api/TrnAsset");
+            $contentAsset = $responseAsset->getBody()->getContents();
+            $assetDatafull = json_decode($contentAsset, true);
     
             return view('asset.transaction.asset.index', [
                 'masterData' => $masterData,
@@ -703,6 +713,7 @@ class TrnAssetController extends Controller
                 "title" => "Daftar Aset",
                 "subtitle" => "Berikut ini adalah daftar aset",
                 "atasan" => $atasan,
+                'assetDatafull' => $assetDatafull
                 
             ]);
         } catch (\Exception $e) {
