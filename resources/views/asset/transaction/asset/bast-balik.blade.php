@@ -115,16 +115,6 @@
     $todayDay = \Carbon\Carbon::now()->format('l'); // Example: "Friday"
 @endphp
 
-@php
-    $empNIPP = 'N/A';
-    $empName = 'N/A';
-    $empPosition = 'N/A';
-    $empUnit = 'N/A';
-
-    
-    
-@endphp
-
 @foreach($empData as $emp)
     @if($emp['nipp'] == $assetData['nipp'])
         @php

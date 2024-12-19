@@ -58,14 +58,6 @@
         </div>
     </div>
 
-    @php
-        $empNIPP = 'N/A';
-        $empName = 'N/A';
-        $empPosition = 'N/A';
-        $empUnit = 'N/A';        
-        
-    @endphp
-
     <!-- Second Column (4/12) -->
     <div class="col-md-4">
         <div class="card" style="background:none">
