@@ -245,6 +245,7 @@ class TrnAssetController extends Controller
         // Fetch employee  data local
         $userResponse = $client->request('GET', 'http://10.48.1.3:7252/api/Employee');
         $empData = json_decode($userResponse->getBody()->getContents(), true);
+        dd($empData);
         
 
         //fetch image
