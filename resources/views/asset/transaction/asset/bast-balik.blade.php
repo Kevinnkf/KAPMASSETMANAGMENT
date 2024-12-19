@@ -157,6 +157,18 @@
             $nippm = 'Unknown NIPP'; // Default case if picadded doesn't match
             break;
     }
+
+    @foreach($empData as $emp)
+        @if($emp['nipp'] == $assetData['nipp'])
+            @php
+                $empNIPP = isset($emp['nipp']) ? $emp['nipp'] : 'N/A';
+                $empName = isset($emp['name']) ? $emp['name'] : 'N/A';
+                $empPosition = isset($emp['position']) ? $emp['position'] : 'N/A';
+                $empUnit = isset($emp['unit']) ? $emp['unit'] : 'N/A';
+            @endphp
+        @endif
+    @endforeach
+
 @endphp
     <table class="header-table">
         <tr>
@@ -213,20 +225,19 @@
         </tr>
         <tr>
             <td style="width: 30%; white-space: normal;"><p class="ft16">Nama</p></td>
-            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $selectedRecord['assetcode'] ?? 'N/A' }}</p></td>
-            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $selectedRecord['employee']['name'] ?? 'N/A' }}</p></td>
+            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $empNIPP ?? 'N/A' }}</p></td>
         </tr>
         <tr>
             <td style="width: 30%; white-space: normal;"><p class="ft16">Nippm</p></td>
-            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $selectedRecord['employee']['nipp'] ?? 'N/A' }}</p></td>
+            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $empName ?? 'N/A' }}</p></td>
         </tr>
         <tr>
             <td style="width: 30%; white-space: normal;"><p class="ft16">Jabatan</p></td>
-            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $selectedRecord['employee']['position'] ?? 'N/A' }}</p></td>
+            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $empPosition ?? 'N/A' }}</p></td>
         </tr>
         <tr>
             <td style="width: 30%; white-space: normal;"><p class="ft16">Tempat Kedudukan</p></td>
-            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $selectedRecord['employee']['unit'] ?? 'N/A' }}</p></td>
+            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $empUnit ?? 'N/A' }}</p></td>
         </tr>
     </table>
 
@@ -290,8 +301,8 @@
                     </td>
                     <td style="text-align: center; border: none; padding-bottom: 80px;">
                         <p class="ft13"> yang Menerima</p><br><br><br><br><br><br><br>
-                    <p class="ft13" style="text-decoration: underline"><b>{{ $selectedRecord['picadded'] ?? 'N/A' }}&#160;</b></p>
-                    <p class="ft13"><b>Nippm.&#160;{{$nippm}}&#160;</b></p>
+                    <p class="ft13" style="text-decoration: underline"><b>{{ $data['nama'] ?? 'N/A' }}&#160;</b></p>
+                    <p class="ft13"><b>Nippm.&#160;{{$data['nipp']}}&#160;</b></p>
                 </td>
             </tr>
         </table>
