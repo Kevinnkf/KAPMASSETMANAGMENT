@@ -90,8 +90,8 @@
                                 @if(isset($data['status']) && $data['status'] === 'Assigned' && !empty($data['nipp']))
                                     <h5 class="fw-bold">Asset has been assigned to</h5>
                                     @foreach($empData as $emp)
-                                        @if($emp['nipp'] == $assetData['nipp'])
-                                        <p class="fw-bold">{{ $emp['name'] }}</p>
+                                        @if(isset($emp['nipp'], $assetData['nipp']) && $emp['nipp'] == $assetData['nipp'])
+                                            <p class="fw-bold">{{ $emp['name'] }}</p>
                                         @endif
                                     @endforeach
                                 @else
