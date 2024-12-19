@@ -113,14 +113,13 @@
 <div id="page1-div" style="position:relative;width:892px;height:1263px;">
 @php
     $todayDay = \Carbon\Carbon::now()->format('l'); // Example: "Friday"
+    $assetNIPP = isset($assetData['nipp']) ? $assetData['nipp'] : 'N/A';
 @endphp
 
-@php
-dd($assetData);
-@endphp
+
 
 @foreach($empData as $emp)
-    @if($emp['nipp'] == $assetData['nipp'])
+    @if($emp['nipp'] == $assetNIPP)
         @php
             $empNIPP = $emp['nipp'] ?? 'N/A';
             $empName = $emp['name'] ?? 'N/A';
