@@ -89,7 +89,65 @@
                                 <div class="row mb-3">
                                     <div class="col-md-12">
                                         <label for="modalType" class="form-label esa-label">Tipe</label>
-                                        <input type="text" id="modalType" class="form-control" name="typegcm"></input>
+                                        @if ($currentCondition == 'FIELD')
+                                            <input type="text" id="typegcmModal" name="typegcm" class="form-control">
+                                        @elseif ($currentCondition == 'FIELD_VALUE')
+                                            <select id="typegcmModal" name="typegcm" class="form-select">
+                                                <option value="">Select TypeGCM</option>
+                                                @foreach ($masterData as $master)
+                                                    @if ($master['condition'] == 'FIELD')
+                                                        <option value="{{ $master['description'] }}">{{ $master['description'] }}</option>
+                                                    @endif  
+                                                @endforeach
+                                            </select>
+                                        @else
+                                         @php
+                                            // dd($masterData);
+                                            // dd($mastersDataFull);
+                                            $TypeGCM = array();
+                                            foreach ($mastersDataFull as $master) {
+                                                if ($master['description'] == $currentCondition) {
+                                                    $TypeGCM[] = $master['typegcm'];
+                                                }
+                                            }
+                                            $uniqueTypeGCM = array_unique($TypeGCM);
+                
+                                            // Filter the data based on the CONDITION and TYPE_GCM
+                                            $filteredCondition = array();
+                                            foreach ($mastersDataFull as $master) {
+                                                if ($master['typegcm'] == $uniqueTypeGCM[0]) {
+                                                    $filteredCondition[] = $master['description'];
+                                                }
+                                            }
+                                        
+                                            // Get unique descriptions after filtering
+                                            $uniqueCondition = array_unique($filteredCondition);
+
+                                            // Initialize an array to store descriptions
+                                            $filteredDescriptions = [];
+
+                                            // Ensure that $Possible_condition and $masterData are defined and valid
+                                            if (isset($uniqueCondition) && isset($masterData) && isset($currentCondition)) {
+                                                // Iterate through the dataset
+                                                foreach ($mastersDataFull as $master) {
+                                                    // Check if the current condition exists in $Possible_condition
+                                                    if (in_array($master['condition'], $uniqueCondition) && $master['condition'] !== $currentCondition) {
+                                                        // Add the description to the filtered array
+                                                        $filteredDescriptions[] = $master['description'];
+                                                    }
+                                                }
+                                            }
+
+                                            // Get unique descriptions after filtering
+                                            $uniqueDescriptions = array_unique($filteredDescriptions);
+                                        @endphp 
+                                            <select id="typegcmModal" name="typegcm" class="form-select">
+                                                <option value="">Select TypeGCM</option>
+                                                @foreach ($uniqueDescriptions as $optionvalue)
+                                                    <option value="{{ $optionvalue }}">{{ $optionvalue }}</option>
+                                                @endforeach
+                                            </select>
+                                        @endif
                                     </div>
                                 </div>
                                 

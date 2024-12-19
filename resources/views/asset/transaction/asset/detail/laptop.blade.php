@@ -363,18 +363,21 @@
     $assetcategory = isset($assetData['assetcategory']) ? $assetData['assetcategory'] : 'N/A';
     $assetcode = isset($assetData['assetcode']) ? $assetData['assetcode'] : 'N/A';
     $assetserialnumber = isset($assetData['assetserialnumber']) ? $assetData['assetserialnumber'] : 'N/A';
-
-    // Employee Information
-    $employeeNIPP = isset($assetData['employee']['nipp']) ? $assetData['employee']['nipp'] : 'N/A';
-    $employeeName = isset($assetData['employee']['name']) ? $assetData['employee']['name'] : 'N/A';
-    $employeePosition = isset($assetData['employee']['position']) ? $assetData['employee']['position'] : 'N/A';
-    $employeeUnit = isset($assetData['employee']['unit']) ? $assetData['employee']['unit'] : 'N/A';
-    $employeeDepartment = isset($assetData['employee']['department']) ? $assetData['employee']['department'] : 'N/A';
-    $employeeDirectorate = isset($assetData['employee']['directorate']) ? $assetData['employee']['directorate'] : 'N/A';
-    $employeeActive = isset($assetData['employee']['active']) ? $assetData['employee']['active'] : 'N/A';
+    $assetNIPP = isset($assetData['nipp']) ? $assetData['nipp'] : 'N/A';
 
     @endphp 
-
+    @foreach ($employeeData as $employee)
+        @if ($employee['nipp'] == $assetNIPP)
+            @php
+                // Employee Information
+                $employeeNIPP = isset($employee['nipp']) ? $employee['nipp'] : 'N/A';
+                $employeeName = isset($employee['name']) ? $employee['name'] : 'N/A';
+                $employeePosition = isset($employee['position']) ? $employee['position'] : 'N/A';
+                $employeeUnit = isset($employee['unit']) ? $employee['unit'] : 'N/A';
+            @endphp
+        @endif
+    @endforeach
+    
 @if (!empty($assetSpecData))
 @foreach ($assetSpecData as $assetspecs)
     @php
@@ -446,6 +449,7 @@
             Assign Asset
         </a>
         </div>
+        
         @else
         <div class="card-body d-flex justify-content-between align-items-center">
             <div>
@@ -497,7 +501,7 @@
                                             <select id="name" name="name" class="form-select" required>
                                                 <option value="" disabled selected>Name</option>
                                                 @foreach ($employeeData as $employee)
-                                                    <option value="{{ $employee['data'] }}"> {{ $employee['data'] }}</option>
+                                                    <option value="{{ $employee['name'] }}"> {{ $employee['name'] }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -512,18 +516,9 @@
                                             <input type="text" id="position" name="position" class="form-control" placeholder="Position" readonly>
                                         </div>
                                         <div class="col-md-12 mt-3">
-                                            <label for="unit" class="form-label esa-label">Unit</label>
+                                            <label for="unit" class="form-label esa-label">Organization</label>
                                             <input type="text" id="unit" name="unit" class="form-control" placeholder="Unit" readonly>
                                         </div>
-                                        <div class="col-md-12 mt-3">
-                                            <label for="department" class="form-label esa-label">Department</label>
-                                            <input type="text" id="department" name="department" class="form-control" placeholder="Department" readonly>
-                                        </div>
-                                        <div class="col-md-12 mt-3">
-                                            <label for="directorate" class="form-label esa-label">Directorate</label>
-                                            <input type="text" id="directorate" name="directorate" class="form-control" placeholder="Directorate" readonly>
-                                        </div>
-
                                         <script>
                                             document.getElementById('name').addEventListener('change', function() {
                                                 var selectedName = this.value; // Get the selected NIPP value
@@ -537,14 +532,10 @@
                                                     document.getElementById('nipp').value = selectedEmployee.nipp || 'N/A';
                                                     document.getElementById('position').value = selectedEmployee.position || 'N/A';
                                                     document.getElementById('unit').value = selectedEmployee.unit || 'N/A';
-                                                    document.getElementById('department').value = selectedEmployee.department || 'N/A';
-                                                    document.getElementById('directorate').value = selectedEmployee.directorate || 'N/A';
                                                 } else {
                                                     document.getElementById('nipp').value = 'N/A';
                                                     document.getElementById('position').value = 'N/A';
                                                     document.getElementById('unit').value = 'N/A';
-                                                    document.getElementById('department').value = 'N/A';
-                                                    document.getElementById('directorate').value = 'N/A';
                                                 }
                                             });
                                         </script>

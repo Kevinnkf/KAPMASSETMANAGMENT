@@ -360,7 +360,7 @@
                     <div class="row mb-3">
                         <div class="col-md-12">
                             <label for="valuegcm" class="form-label esa-label">Value GCM</label>
-                            <input type="text" class="form-control @error('valuegcm') is-invalid @enderror" id="valuegcm" name="valuegcm" value="{{ old('valuegcm') }}" placeholder="Value GCM" required>
+                            <input type="text" class="form-control @error('valuegcm') is-invalid @enderror" id="valuegcm" name="valuegcm" value="{{ old('valuegcm') }}" placeholder="Value GCM">
                             @error('valuegcm')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -381,18 +381,50 @@
                                 @endforeach
                             </select>
                         @else
-                            @php
-                                // Get unique condition values from the master data
-                                $getCondition = array();
-                                foreach ($masterData as $master) {
-                                    // Check if 'condition' key exists in the array
-                                    $getCondition[] = $master['description'];
+                        @php
+                            // dd($masterData);
+                            $TypeGCM = array();
+                            foreach ($masterData as $master) {
+                                if ($master['description'] == $condition) {
+                                    $TypeGCM[] = $master['typegcm'];
                                 }
-                                $uniqueCondition = array_unique($getCondition);
-                            @endphp
+                            }
+                            $uniqueTypeGCM = array_unique($TypeGCM);
+
+                            // Filter the data based on the CONDITION and TYPE_GCM
+                            $filteredCondition = array();
+                            foreach ($masterData as $master) {
+                                if ($master['typegcm'] == $uniqueTypeGCM[0]) {
+                                    $filteredCondition[] = $master['description'];
+                                }
+                            }
+                        
+                            // Get unique descriptions after filtering
+                            $uniqueCondition = array_unique($filteredCondition);
+
+                            dd($uniqueCondition);
+
+                            // Initialize an array to store descriptions
+                            $filteredDescriptions = [];
+
+                            // Ensure that $Possible_condition and $masterData are defined and valid
+                            if (isset($uniqueCondition) && isset($masterData)) {
+                                // Iterate through the dataset
+                                foreach ($masterData as $master) {
+                                    // Check if the current condition exists in $Possible_condition
+                                    if (in_array($master['condition'], $uniqueCondition) && $master['condition'] != $condition) {
+                                        // Add the description to the filtered array
+                                        $filteredDescriptions[] = $master['description'];
+                                    }
+                                }
+                            }
+
+                            // Get unique descriptions after filtering
+                            $uniqueDescriptions = array_unique($filteredDescriptions);
+                        @endphp
                             <select id="typegcmModal" name="typegcm" class="form-select">
                                 <option value="">Select TypeGCM</option>
-                                @foreach ($uniqueCondition as $optionvalue)
+                                @foreach ($uniqueDescriptions as $optionvalue)
                                     <option value="{{ $optionvalue }}">{{ $optionvalue }}</option>
                                 @endforeach
                             </select>

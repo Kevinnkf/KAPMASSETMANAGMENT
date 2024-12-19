@@ -261,15 +261,19 @@ class TrnAssetController extends Controller
         $userData = session('userdata');
         
         // Buat permintaan GET ke API Izin Pegawai
-        $responseEmployeeData = $client->request('GET', "https://api.kai.id/v3/kapm/employee", [
-            'headers' => [
-                'Authorization' => 'Bearer ' . ('EUOP_iqY_1612411309'),
-                'Accept' => 'application/json',
-            ],
-            'timeout' => 10,
-        ]);
-        $contentEmployee = $responseEmployeeData->getBody()->getContents();
-        $employeeData = json_decode($contentEmployee, true);  
+        // $responseEmployeeData = $client->request('GET', "https://api.kai.id/v3/kapm/employee", [
+        //     'headers' => [
+        //         'Authorization' => 'Bearer ' . ('EUOP_iqY_1612411309'),
+        //         'Accept' => 'application/json',
+        //     ],
+        //     'timeout' => 10,
+        // ]);
+        // $contentEmployee = $responseEmployeeData->getBody()->getContents();
+        // $employeeData = json_decode($contentEmployee, true);  
+
+        $responseEmployee = $client->request('GET', "http://10.48.1.3:7252/api/Employee");
+        $contentEmployee = $responseEmployee->getBody()->getContents();
+        $employeeData = json_decode($contentEmployee, true);
 
 
         // Pass both assetData and assetSpecData to the view
@@ -504,6 +508,8 @@ class TrnAssetController extends Controller
 
     public function assignAsset(Request $request, $assetcode)
     {
+        $userData = session('userdata');
+        $userName = $userData['nama'];
         $validatedData = $request->validate([
             'nipp' => 'required|integer',
         ]);
@@ -515,7 +521,7 @@ class TrnAssetController extends Controller
             $historyResponse = Http::post('http://10.48.1.3:7252/api/AssetHistory', [
                 'assetcode' => $assetcode,
                 'nipp' => $validatedData['nipp'],
-                'picadded' => 'dava'
+                'picadded' => $userName
             ]);
 
             if ($historyResponse->successful()) {

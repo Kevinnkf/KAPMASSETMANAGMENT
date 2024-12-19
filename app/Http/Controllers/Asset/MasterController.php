@@ -127,6 +127,10 @@ class MasterController extends Controller
             ['path' => request()->url(), 'query' => request()->query()] // Maintain query parameters
         );
 
+        $responseMasterFull = $client->request('GET', "http://10.48.1.3:7252/api/Master");
+        $contentMasterFull = $responseMasterFull->getBody()->getContents();
+        $mastersDataFull = json_decode($contentMasterFull, true);
+
         $viewData = [
             "breadcrumb" => [
                 "group-1" => $this->parent,
@@ -136,6 +140,7 @@ class MasterController extends Controller
             "title" => "Halaman Izin",
             "subtitle" => "Berikut ini adalah daftar riwayat Izin Anda.",
             'masterData' => $paginatedData,
+            'mastersDataFull' => $mastersDataFull,
             'currentCondition' => $condition
         ];
 
