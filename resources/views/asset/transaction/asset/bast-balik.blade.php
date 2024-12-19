@@ -116,6 +116,27 @@
 @endphp
 
 @php
+    $empNIPP = 'N/A';
+    $empName = 'N/A';
+    $empPosition = 'N/A';
+    $empUnit = 'N/A';
+
+    
+    
+@endphp
+
+@foreach($empData as $emp)
+    @if($emp['nipp'] == $assetData['nipp'])
+        @php
+            $empNIPP = $emp['nipp'] ?? 'N/A';
+            $empName = $emp['name'] ?? 'N/A';
+            $empPosition = $emp['position'] ?? 'N/A';
+            $empUnit = $emp['unit'] ?? 'N/A';
+        @endphp
+    @endif
+@endforeach
+
+@php
     // Get the current day in English
     $todayDayEnglish = \Carbon\Carbon::now()->format('l'); // Example: "Friday"
 
@@ -157,17 +178,6 @@
             $nippm = 'Unknown NIPP'; // Default case if picadded doesn't match
             break;
     }
-
-    @foreach($empData as $emp)
-        @if($emp['nipp'] == $assetData['nipp'])
-            @php
-                $empNIPP = isset($emp['nipp']) ? $emp['nipp'] : 'N/A';
-                $empName = isset($emp['name']) ? $emp['name'] : 'N/A';
-                $empPosition = isset($emp['position']) ? $emp['position'] : 'N/A';
-                $empUnit = isset($emp['unit']) ? $emp['unit'] : 'N/A';
-            @endphp
-        @endif
-    @endforeach
 
 @endphp
     <table class="header-table">
