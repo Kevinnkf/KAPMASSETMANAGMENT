@@ -482,10 +482,10 @@ class TrnAssetController extends Controller
                 return redirect()->route('transaction.asset.laptop', ['assetcode' => $assetcode])
                                  ->with('success');
             } else if ($category == 'MOBILE') {
-                return redirect()->route('detailAsset.mobile', ['assetcode' => $assetcode])
+                return redirect()->route('transaction.asset.laptop', ['assetcode' => $assetcode])
                                  ->with('success', 'Asset created successfully!');
             } else {
-                return redirect()->route('detailAsset.laptop', ['assetcode' => $assetcode])
+                return redirect()->route('transaction.asset.laptop', ['assetcode' => $assetcode])
                                 ->with('success');}
             
         } catch (\GuzzleHttp\Exception\RequestException $e) {
