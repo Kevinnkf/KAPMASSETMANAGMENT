@@ -116,6 +116,24 @@
 @endphp
 
 @php
+    $empNIPP = 'N/A';
+    $empName = 'N/A';
+    $empPosition = 'N/A';
+    $empUnit = 'N/A';
+@endphp
+
+@foreach($empData as $emp)
+    @if($emp['nipp'] == $assetData['nipp'])
+        @php
+            $empNIPP = $emp['nipp'] ?? 'N/A';
+            $empName = $emp['name'] ?? 'N/A';
+            $empPosition = $emp['position'] ?? 'N/A';
+            $empUnit = $emp['unit'] ?? 'N/A';
+        @endphp
+    @endif
+@endforeach
+
+@php
     // Get the current day in English
     $todayDayEnglish = \Carbon\Carbon::now()->format('l'); // Example: "Friday"
 
@@ -257,19 +275,19 @@
         </tr>
         <tr>
             <td style="width: 30%; white-space: normal;"><p class="ft16">Nama</p></td>
-            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $assetData['employee']['name'] ?? 'N/A' }}</p></td>
+            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $empName ?? 'N/A' }}</p></td>
         </tr>
         <tr>
             <td style="width: 30%; white-space: normal;"><p class="ft16">Nippm</p></td>
-            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $assetData['employee']['nipp'] ?? 'N/A' }}</p></td>
+            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $empNIPP ?? 'N/A' }}</p></td>
         </tr>
         <tr>
             <td style="width: 30%; white-space: normal;"><p class="ft16">Jabatan</p></td>
-            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $assetData['employee']['position'] ?? 'N/A' }}</p></td>
+            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $empPosition ?? 'N/A' }}</p></td>
         </tr>
         <tr>
             <td style="width: 30%; white-space: normal;"><p class="ft16">Tempat Kedudukan</p></td>
-            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $assetData['employee']['unit'] ?? 'N/A' }}</p></td>
+            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $empUnit ?? 'N/A' }}</p></td>
         </tr>
     </table>
 

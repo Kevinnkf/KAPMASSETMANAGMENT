@@ -587,7 +587,12 @@ class TrnAssetController extends Controller
         $client = new Client();
     
         try {
+            //fetch asset data
             $responseAsset = $client->request('GET', "http://10.48.1.3:7252/api/TrnAsset/{$assetCode}");
+
+            // Fetch employee  data
+            $userResponse = $client->request('GET', 'http://10.48.1.3:7252/api/Employee');
+            $empData = json_decode($userResponse->getBody()->getContents(), true);
     
             
             if ($responseAsset->getStatusCode() !== 200) {
@@ -609,9 +614,12 @@ class TrnAssetController extends Controller
         $url = url("/detail-asset/laptop/{$assetCode}");
         $qrCode = DNS2DFacade::getBarcodePNG($url, 'QRCODE', 3, 3); // Generate QR code
 
+        
+
         $data = [
             'assetData' => $assetData,
             'qrCode' => $qrCode,
+            'empData' => $empData,
             "data" => session('userdata')
         ];
     
