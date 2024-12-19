@@ -87,7 +87,7 @@
                                 <p class="text-muted mb-2 fw-bold">{{ $data['assetcode'] }}</p>
                                 <p class="text-muted mb-2 fw-bold">{{ $data['idassethistory'] }}</p>
                                 {{-- <p class="text-muted mb-2 fw-bold">{{ $data['status'] }}</p> --}}
-                                @if(isset($data['status'] === 'Assigned') && !empty($data['nipp']))
+                                @if(isset($data['status']) && $data['status'] === 'Assigned' && !empty($data['nipp']))
                                     <h5 class="fw-bold">Asset has been assigned to</h5>
                                     @foreach($empData as $emp)
                                         @if($emp['nipp'] == $assetData['nipp'])
