@@ -928,4 +928,50 @@ class TrnAssetController extends Controller
         // $pdf->setOption('enable-local-file-access', true)->setPaper('a4');
         // return $pdf->inline('Berita Acara Serah Terima.pdf');
     }
+
+    public function checklistForm() {
+        $client = new Client();
+    
+        try {
+            $responseAsset = $client->request('GET', "http://10.48.1.3:7252/api/TrnAsset");
+    
+            
+            if ($responseAsset->getStatusCode() !== 200) {
+                return response()->json(['error' => 'Failed to retrieve asset data.'], $responseAsset->getStatusCode());
+            }
+    
+            $contentAsset = $responseAsset->getBody()->getContents();
+            $assetData = json_decode($contentAsset, true);
+    
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                return response()->json(['error' => 'Error decoding asset data.'], 500);
+            }
+    
+        } catch (\Exception $e) {
+        
+            return response()->json(['error' => 'Unable to fetch asset data: ' . $e->getMessage()], 500);
+        }   
+
+        $data = [
+            'assetData' => $assetData,            
+            "data" => session('userdata')
+        ];
+
+        // $excel = Excel::download(new AssetExport($data), "Data Aset KAPM.xlsx");
+        // return $excel;
+        // Render the header view to a string
+        $headerHtml = view('asset.transaction.asset.header')->render();
+    
+        $pdf = SnappyPdf::loadView('asset.transaction.asset.form-checklist', $data);
+        $pdf->setOption('enable-local-file-access', true)
+            ->setOption('header-html', $headerHtml)
+            ->setOption('header-spacing', 63) // Optional: space between header and content
+            ->setPaper('a4')
+            ->setOrientation('landscape');  
+        return $pdf->inline('Form Checklist.pdf');
+    }
+
+    public function searched(){
+        
+    }
 }

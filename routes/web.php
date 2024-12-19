@@ -117,6 +117,7 @@ Route::middleware(['user-auth'])->group(function () {
             Route::get('/index/search', [TrnAssetController::class, 'search'])->name('searchAssets');
 
             Route::get('/exportExcel', [TrnAssetController::class, 'exportExcel'])->name('transaction.asset.export');
+            Route::get('/form-checklist', [TrnAssetController::class, 'checklistForm'])->name('transaction.asset.checklist');
             
 
         });
