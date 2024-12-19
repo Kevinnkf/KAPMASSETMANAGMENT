@@ -85,7 +85,7 @@
                                     <h5 class="fw-bold">Unassigned Asset</h5>
                                     <p class="fw-bold">Asset returned to IT</p>
                                     <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" style="width: 100px;" 
-                                            onclick="window.location.href='{{ route('transaction.asset.printBast', ['assetcode' => $assetcode]) }}'">
+                                            onclick="window.location.href='{{ route('transaction.asset.printBast', ['assetcode' => $assetcode, 'idassethistory' => $data['idassethistory']]) }}'">
                                             Print BAST
                                     </button>
                                 @endif

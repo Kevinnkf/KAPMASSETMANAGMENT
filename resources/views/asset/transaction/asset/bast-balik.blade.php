@@ -136,7 +136,7 @@
 @php
     $nippm = '';
 
-    switch ($assetData['picadded']) {
+    switch ($selectedRecord['picadded']) {
         case 'TOMMY WISNU WARDHANA':
             $nippm = '19930429';
 			$jabatan = 'PKWT - Staff IT';
@@ -196,7 +196,7 @@
     <table class="info-table">
         <tr>
             <td><p white-space:nowrap" class="ft16">No Ref: </p></td>
-            <td><p white-space:nowrap" class="ft16">BAST.IT.{{ now()->format('myd') }}{{ $assetData['idasset'] }}</p></td>
+            <td><p white-space:nowrap" class="ft16">BAST.IT.{{ now()->format('myd') }}{{ $selectedRecord['idassethistory'] }}</p></td>
         </tr>
         <tr>
             <td><p white-space:nowrap" class="ft16">Tanggal: </p></td>
@@ -205,7 +205,7 @@
     </table>
 
     <img src="data:image/png;base64,{{ $qrCode }}" alt="QR Code" style="position:absolute;top:170px;left:803px;white-space:nowrap;" />
-    <p style="position:absolute;top:260px;left:803px;white-space:nowrap" class="ft13">{{$assetData['assetcode']}}&#160;</p>
+    <p style="position:absolute;top:260px;left:803px;white-space:nowrap" class="ft13">{{$selectedRecord['assetcode']}}&#160;</p>
 
     <table class="user-table">
         <tr>
@@ -213,20 +213,20 @@
         </tr>
         <tr>
             <td style="width: 30%; white-space: normal;"><p class="ft16">Nama</p></td>
-            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $histData['assetcode'] ?? 'N/A' }}</p></td>
-            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $histData['employee']['name'] ?? 'N/A' }}</p></td>
+            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $selectedRecord['assetcode'] ?? 'N/A' }}</p></td>
+            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $selectedRecord['employee']['name'] ?? 'N/A' }}</p></td>
         </tr>
         <tr>
             <td style="width: 30%; white-space: normal;"><p class="ft16">Nippm</p></td>
-            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $histData['employee']['nipp'] ?? 'N/A' }}</p></td>
+            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $selectedRecord['employee']['nipp'] ?? 'N/A' }}</p></td>
         </tr>
         <tr>
             <td style="width: 30%; white-space: normal;"><p class="ft16">Jabatan</p></td>
-            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $histData['employee']['position'] ?? 'N/A' }}</p></td>
+            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $selectedRecord['employee']['position'] ?? 'N/A' }}</p></td>
         </tr>
         <tr>
             <td style="width: 30%; white-space: normal;"><p class="ft16">Tempat Kedudukan</p></td>
-            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $histData['employee']['unit'] ?? 'N/A' }}</p></td>
+            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $selectedRecord['employee']['unit'] ?? 'N/A' }}</p></td>
         </tr>
     </table>
 
@@ -290,7 +290,7 @@
                     </td>
                     <td style="text-align: center; border: none; padding-bottom: 80px;">
                         <p class="ft13"> yang Menerima</p><br><br><br><br><br><br><br>
-                    <p class="ft13" style="text-decoration: underline"><b>{{ $assetData['picadded'] ?? 'N/A' }}&#160;</b></p>
+                    <p class="ft13" style="text-decoration: underline"><b>{{ $selectedRecord['picadded'] ?? 'N/A' }}&#160;</b></p>
                     <p class="ft13"><b>Nippm.&#160;{{$nippm}}&#160;</b></p>
                 </td>
             </tr>
