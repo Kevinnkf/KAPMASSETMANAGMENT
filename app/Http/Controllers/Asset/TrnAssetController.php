@@ -254,6 +254,7 @@ class TrnAssetController extends Controller
 
         // Ambil data dari session
         $userData = session('userdata');
+        // dd($userData);
         
         // Buat permintaan GET ke API Izin Pegawai
         $responseEmployeeData = $client->request('GET', "https://api.kai.id/v3/kapm/employee", [
@@ -261,7 +262,7 @@ class TrnAssetController extends Controller
                 'Authorization' => 'Bearer ' . ('EUOP_iqY_1612411309'),
                 'Accept' => 'application/json',
             ],
-            'timeout' => 10,
+            'timeout' => 10000,
         ]);
         $contentEmployee = $responseEmployeeData->getBody()->getContents();
         $employeeData = json_decode($contentEmployee, true);  
@@ -503,6 +504,9 @@ class TrnAssetController extends Controller
             'nipp' => 'required|integer',
         ]);
 
+        $pic = session('userdata');
+        $name = $pic['name'];
+
         $response = Http::put("http://10.48.1.3:7252/api/TrnAsset/update-nipp/{$assetcode}", (int) $validatedData['nipp']);
         Log::info('Data sent for assignment:', ['assetcode' => $assetcode, 'nipp' => (int) $validatedData['nipp']]);
 
@@ -510,7 +514,8 @@ class TrnAssetController extends Controller
             $historyResponse = Http::post('http://10.48.1.3:7252/api/AssetHistory', [
                 'assetcode' => $assetcode,
                 'nipp' => $validatedData['nipp'],
-                'picadded' => 'dava'
+                'picadded' => $name,
+                'status' => 'assigned'
             ]);
 
             if ($historyResponse->successful()) {
@@ -527,6 +532,17 @@ class TrnAssetController extends Controller
 
     public function unassignAsset($assetcode){
         // Prepare data to send to the API for unassignment (setting NIPP to null)
+        // First API call to fetch asset data (TrnAsset)
+        $client = new Client();
+        $responseAsset = $client->request('GET', "http://10.48.1.3:7252/api/TrnAsset/{$assetcode}");
+        $contentAsset = $responseAsset->getBody()->getContents();
+        $assetData = json_decode($contentAsset, true);
+
+        $currentNIPP = $assetData['nipp']??null;
+
+        $pic = session('userdata');
+        $name = $pic['name'];
+
         $data = [
             'nipp' => null, // Unassigning by setting NIPP to null
         ];
@@ -540,8 +556,9 @@ class TrnAssetController extends Controller
             // Log the unassignment in the asset history API if successful
             $historyData = [
                 'assetcode' => $assetcode,
-                'nipp' => $data['nipp'],
-                'picadded' => 'dava'
+                'nipp' => $currentNIPP['nipp'],
+                'picadded' => $name,
+                'status' => "Unassigned"
             ];
 
             $historyResponse = Http::post('http://10.48.1.3:7252/api/AssetHistory', $historyData);
@@ -601,6 +618,106 @@ class TrnAssetController extends Controller
         $pdf = SnappyPdf::loadView('asset.transaction.asset.bast', $data);
         $pdf->setOption('enable-local-file-access', true)->setPaper('a4');
         return $pdf->inline('Berita Acara Serah Terima.pdf');
+    }
+
+    public function printBasts($assetCode, $idassethistory) {
+        $client = new Client();
+    
+        try {
+            $responseAsset = $client->request('GET', "http://10.48.1.3:7252/api/TrnAsset/{$assetCode}");
+    
+            
+            if ($responseAsset->getStatusCode() !== 200) {
+                return response()->json(['err   or' => 'Failed to retrieve asset data.'], $responseAsset->getStatusCode());
+            }
+    
+            $contentAsset = $responseAsset->getBody()->getContents();
+            $assetData = json_decode($contentAsset, true);
+    
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                return response()->json(['error' => 'Error decoding asset data.'], 500);
+            }
+
+            //Fetch History Asset
+            $responseHist = $client->request('GET', "http://10.48.1.3:7252/api/AssetHistory/{$assetCode}");
+            $contentHist = $responseHist->getBody()->getContents();
+            $histData = json_decode($contentHist, true);  
+
+            // // Filter the histData to only include entries that match the idassethistory
+            // $filteredHistData = array_filter($histData, function($item) use ($idassethistory) {
+            //     return $item['idassethistory'] === $idassethistory;
+            // });
+    
+        } catch (\Exception $e) {
+        
+            return response()->json(['error' => 'Unable to fetch asset data: ' . $e->getMessage()], 500);
+        }
+    
+        $url = url("/detail-asset/laptop/{$assetCode}");
+        $qrCode = DNS2DFacade::getBarcodePNG($url, 'QRCODE', 3, 3); // Generate QR code
+
+        
+
+        $data = [
+            '$idassethistory' => $idassethistory,
+            'assetData' => $assetData,
+            'histData' => $histData,
+            'qrCode' => $qrCode,
+            "data" => session('userdata')
+        ];
+    
+        $pdf = SnappyPdf::loadView('asset.transaction.asset.bast-balik', $data);
+        $pdf->setOption('enable-local-file-access', true)->setPaper('a4');
+        return $pdf->inline('Berita Acara Serah Terima.pdf');
+    }
+
+    public function printBast($assetcode, $idassethistory) {
+        $client = new Client();
+        
+        // Fetch maintenance data for the specific asset code
+        $responseAsset = $client->request('GET', "http://10.48.1.3:7252/api/AssetHistory/{$assetcode}");
+        $histData = json_decode($responseAsset->getBody()->getContents(), true);
+        
+        // Filter to find the specific maintenance record by maintenanceid
+        // dd($histData);
+        $selectedRecord = null;
+        foreach ($histData as $record) {
+            if ($record['idassethistory'] == $idassethistory) { // Adjust 'id' to the actual key in your response
+                $selectedRecord = $record;
+                break;
+            }
+        }
+
+        // Check if the record was found
+        if (!$selectedRecord) {
+            return abort(404); // Or handle the error appropriately
+        }
+        
+        // Fetch asset data
+        $assetResponse = $client->request('GET', 'http://10.48.1.3:7252/api/TrnAsset');
+        $assetData = json_decode($assetResponse->getBody()->getContents(), true);
+        
+        // Fetch user data
+        $userResponse = $client->request('GET', 'http://10.48.1.3:7252/api/user');
+        $userData = json_decode($userResponse->getBody()->getContents(), true);
+
+        $url = url("/detail-asset/laptop/{$assetcode}");
+        $qrCode = DNS2DFacade::getBarcodePNG($url, 'QRCODE', 3, 3); // Generate QR code
+        
+        // Prepare data for PDF
+        $data = [
+            'assetData' => $assetData,
+            'userData' => $userData,
+            'selectedRecord' => $selectedRecord, // Pass the selected maintenance record
+            'qrCode' => $qrCode,
+            'data' => session('userdata')
+        ];
+
+        // Generate PDF
+        $pdf = SnappyPdf::loadView('asset.transaction.asset.bast-balik', $data);
+        $pdf->setOption('enable-local-file-access', true);
+        
+        return $pdf->inline('Berita Acara Serah Terima Balik.pdf');
     }
 
     public function search(Request $request) {
@@ -728,7 +845,8 @@ class TrnAssetController extends Controller
         $assetResponse = $client->request('GET', "http://10.48.1.3:7252/api/TrnAsset/{$assetcode}");
         $assetData = json_decode($assetResponse->getBody()->getContents(), true);
 
-        $qrCode = DNS2DFacade::getBarcodePNG($assetcode, 'QRCODE', 3, 3); // Generate QR code
+        $url = url("/detail-asset/laptop/{$assetcode}");
+        $qrCode = DNS2DFacade::getBarcodePNG($url, 'QRCODE', 3, 3); // Generate QR code
         
         // Prepare data for PDF
         $data = [

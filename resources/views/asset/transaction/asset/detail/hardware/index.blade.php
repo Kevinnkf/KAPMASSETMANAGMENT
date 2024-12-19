@@ -19,6 +19,7 @@
                         <h4 class="esa-title">General Information and Hardware</h4>
                     </div>
                     <div>
+                        @if ($data['unit'] === 'Teknologi Informasi')
                         <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" 
                             onclick="openAndDownloadPDF('{{ route('transaction.asset.label', ['assetcode' => $assetcode]) }}')">
                         Print Label
@@ -41,6 +42,7 @@
                                 'assetcode' => $assetcode,
                                 'idassetspec' => $idassetspec
                                 ]) }}" class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">Update Hardware</a>
+                        @endif
                         @endif
                     </div>
                 </div>

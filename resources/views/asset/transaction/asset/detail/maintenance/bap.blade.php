@@ -187,7 +187,7 @@
                 <p style="white-space:nowrap" class="ft13">Teknologi Informasi</p>
             </td>
             <td>
-                <p white-space:nowrap" class="ft14">Nomor: BAST/IT/2023/01</p>
+                <p white-space:nowrap" class="ft14">Nomor: BAP/IT/2023/01</p>
             </td>
         </tr>
         <tr>
@@ -215,7 +215,7 @@
     <table class="info-table">
         <tr>
             <td><p white-space:nowrap" class="ft16">No Ref: </p></td>
-            <td><p white-space:nowrap" class="ft16">BAST.IT.{{ now()->format('mY') }}.{{ now()->format('d') }}</p></td>
+            <td><p white-space:nowrap" class="ft16">BAP.IT.{{ now()->format('myd') }}{{$selectedRecord['maintenanceid']}}</p></td>
         </tr>
         <tr>
             <td><p white-space:nowrap" class="ft16">Tanggal: </p></td>
@@ -223,8 +223,8 @@
         </tr>
     </table>
 
-    <img src="data:image/png;base64,{{ $qrCode }}" alt="QR Code" style="position:absolute;top:170px;left:803px;white-space:nowrap;" />
-    <p style="position:absolute;top:240px;left:803px;white-space:nowrap" class="ft13">{{$selectedRecord['assetcode']}}&#160;</p>
+    <img src="data:image/png;base64,{{ $qrCode }}" alt="QR Code" style="position:absolute;top:160px;left:803px;white-space:nowrap;" />
+    <p style="position:absolute;top:250px;left:803px;white-space:nowrap" class="ft13">{{$selectedRecord['assetcode']}}&#160;</p>
 
     <table class="detail-table">
         <tr>
@@ -288,7 +288,7 @@
     <table style="width: 100%; border: 1px black; border-collapse: collapse;">
         <tr>
             <td style="text-align: center; border: 1px black; padding-bottom: 80px;">
-                <p class="ft13">yang Menyerahkan</p><br><br><br><br><br><br><br>
+                <p class="ft13">yang Memeriksa</p><br><br><br><br><br><br><br>
                 <p class="ft13" style="text-decoration: underline"><b>{{ $data['nama'] }}&#160;</b></p>
                 <p class="ft13"><b>Nippm.&#160;{{$data['nipp']}}&#160;</b></p>
             </td>

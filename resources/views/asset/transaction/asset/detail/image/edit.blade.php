@@ -356,7 +356,7 @@
                         <div class="row mb-3" aria-readonly="true">
                             <div class="col-md-12">
                                 <label for="picadded" class="form-label esa-label">picadded</label>
-                                <input type="text" class="form-control @error('picadded') is-invalid @enderror" id="picadded" name="picadded" value="{{ $img['picadded'] }}" placeholder="" required>
+                                <input type="text" class="form-control @error('picadded') is-invalid @enderror" id="picadded" name="picadded" value="{{ $img['picadded'] }}" placeholder="" required readonly> 
                                 @error('picadded')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -366,7 +366,7 @@
                         <div class="row mb-3" aria-readonly="true">
                             <div class="col-md-12">
                                 <label for="picupdated" class="form-label esa-label">picupdated</label>
-                                <input type="text" class="form-control @error('picupdated') is-invalid @enderror" id="picupdated" name="picupdated" value="{{ $data['nama'] }}" placeholder="" required>
+                                <input type="text" class="form-control @error('picupdated') is-invalid @enderror" id="picupdated" name="picupdated" value="{{ $data['nama'] }}" placeholder="" required readonly>
                                 @error('picupdated')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -390,6 +390,7 @@
     
                         <!-- Tombol Aksi -->
                         <div class="button-group">
+                            <button type="button" class="btn btn-outline-muted esa-btn-lg" onclick="window.location='{{ route('transaction.asset.laptop', ['assetcode' => $assetcode]) }}'">Back</button>
                             <button type="submit" class="btn btn-primary esa-btn-lg">Submit</button>
                         </div>
                     </form>

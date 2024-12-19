@@ -209,23 +209,24 @@
 
     <table class="user-table">
         <tr>
-            <td colspan="2"><p white-space:nowrap" class="ft16"> Pada hari ini, <strong>Kamis</strong> tanggal <strong>28 November 2024</strong> </p></td>
+            <td colspan="2"><p white-space:nowrap" class="ft16"> Kepada: </p></td>
         </tr>
         <tr>
             <td style="width: 30%; white-space: normal;"><p class="ft16">Nama</p></td>
-            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $data['nama'] ?? 'N/A' }}</p></td>
+            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $histData['assetcode'] ?? 'N/A' }}</p></td>
+            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $histData['employee']['name'] ?? 'N/A' }}</p></td>
         </tr>
         <tr>
             <td style="width: 30%; white-space: normal;"><p class="ft16">Nippm</p></td>
-            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $data['nipp'] }}</p></td>
+            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $histData['employee']['nipp'] ?? 'N/A' }}</p></td>
         </tr>
         <tr>
             <td style="width: 30%; white-space: normal;"><p class="ft16">Jabatan</p></td>
-            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{$data['jabatan']}}</p></td>
+            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $histData['employee']['position'] ?? 'N/A' }}</p></td>
         </tr>
         <tr>
             <td style="width: 30%; white-space: normal;"><p class="ft16">Tempat Kedudukan</p></td>
-            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: PKM</p></td>
+            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $histData['employee']['unit'] ?? 'N/A' }}</p></td>
         </tr>
     </table>
 
@@ -253,28 +254,30 @@
 
     <table class="user-table">
         <tr>
-            <td colspan="2"><p white-space:nowrap" class="ft16"> Kepada: </p></td>
+            <td colspan="2"><p white-space:nowrap" class="ft16"> Pada hari ini, <strong>Kamis</strong> tanggal <strong>28 November 2024</strong> </p></td>
         </tr>
         <tr>
             <td style="width: 30%; white-space: normal;"><p class="ft16">Nama</p></td>
-            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $assetData['employee']['name'] ?? 'N/A' }}</p></td>
+            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $data['nama'] ?? 'N/A' }}</p></td>
         </tr>
         <tr>
             <td style="width: 30%; white-space: normal;"><p class="ft16">Nippm</p></td>
-            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $assetData['employee']['nipp'] ?? 'N/A' }}</p></td>
+            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $data['nipp'] }}</p></td>
         </tr>
         <tr>
             <td style="width: 30%; white-space: normal;"><p class="ft16">Jabatan</p></td>
-            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $assetData['employee']['position'] ?? 'N/A' }}</p></td>
+            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{$data['jabatan']}}</p></td>
         </tr>
         <tr>
             <td style="width: 30%; white-space: normal;"><p class="ft16">Tempat Kedudukan</p></td>
-            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: {{ $assetData['employee']['unit'] ?? 'N/A' }}</p></td>
+            <td style="width: 70%; white-space: nowrap;"><p class="ft16">: PKM</p></td>
         </tr>
     </table>
 
+    
+
     <p white-space:nowrap" class="ft16">
-        Dipergunakan untuk inventaris alat bantu kerja dan selanjutnya barang tersebut menjadi tanggung jawab penerima sepenuhnya serta wajib dirawat dengan penuh tanggung jawab.
+        Dikembalikan kepada Sub Department Teknologi Informasi dalam kondisi baik dan data sudah dilakukan backup.
     </p> <br>
 
     <div class="signature">
@@ -282,13 +285,13 @@
             <tr>
                 <td style="text-align: center; border: none; padding-bottom: 80px;">
                     <p class="ft13">yang Menyerahkan</p><br><br><br><br><br><br><br>
-                    <p class="ft13" style="text-decoration: underline"><b>{{ $assetData['picadded'] ?? 'N/A' }}&#160;</b></p>
-                    <p class="ft13"><b>Nippm.&#160;{{$nippm}}&#160;</b></p>
-                </td>
-                <td style="text-align: center; border: none; padding-bottom: 80px;">
-                    <p class="ft13"> yang Menerima</p><br><br><br><br><br><br><br>
                     <p class="ft13" style="text-decoration: underline"><b>{{ $assetData['employee']['name'] ?? 'N/A' }}&#160;</b></p>
                     <p class="ft13"><b>Nippm.&#160;{{ $assetData['employee']['nipp'] ?? 'N/A' }}</b>&#160;</p>
+                    </td>
+                    <td style="text-align: center; border: none; padding-bottom: 80px;">
+                        <p class="ft13"> yang Menerima</p><br><br><br><br><br><br><br>
+                    <p class="ft13" style="text-decoration: underline"><b>{{ $assetData['picadded'] ?? 'N/A' }}&#160;</b></p>
+                    <p class="ft13"><b>Nippm.&#160;{{$nippm}}&#160;</b></p>
                 </td>
             </tr>
         </table>

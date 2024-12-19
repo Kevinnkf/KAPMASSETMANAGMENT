@@ -439,12 +439,13 @@
             @if (session('success'))
                         <h3 class="text-success">{{ session('success') }}</h3>
             @endif
-        <a href="#nippModal" 
-            data-bs-toggle="modal" 
-            class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" 
-            onclick="openNippModal()">
-            Assign Asset
-        </a>
+            <a href="#nippModal" 
+                data-bs-toggle="modal" 
+                class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" 
+                onclick="openNippModal()">
+                Assign Asset
+            </a>
+            
         </div>
         @else
         <div class="card-body d-flex justify-content-between align-items-center">
@@ -454,6 +455,7 @@
                 </h1>
             </div>
             <div>
+                @if ($data['unit'] === 'Teknologi Informasi')
                 <button class="btn mb-1 waves-effect waves-light btn-rounded btn-danger esa-btn" style="width: 100px;"
                 onclick="confirmUnassignAsset('{{ route('transaction.asset.unassign', ['assetcode' => $assetcode]) }}')"> 
                 Unassign
@@ -462,19 +464,26 @@
                         onclick="window.location.href='{{ route('transaction.asset.print', ['assetcode' => $assetcode]) }}'">
                         Print BAST
                 </button>
+                @endif
             </div>
         </button>
         </div>
         @endif
     </div>
 
+    
+    
     @include('asset.transaction.asset.detail.hardware.index')
-
+    
     @include('asset.transaction.asset.detail.software.index')
     
+    @if ($data['unit'] === 'Teknologi Informasi')
+
     @include('asset.transaction.asset.detail.image.index')
     
     @include('asset.transaction.asset.detail.maintenance.index')
+
+    @endif
 
     {{-- Assign Modal --}}
     <div id="nippModal" class="modal hidden">
@@ -496,8 +505,8 @@
                                             <label for="name" class="form-label esa-label">Name</label>
                                             <select id="name" name="name" class="form-select" required>
                                                 <option value="" disabled selected>Name</option>
-                                                @foreach ($employeeData as $employee)
-                                                    <option value="{{ $employee['data'] }}"> {{ $employee['data'] }}</option>
+                                                @foreach ($employeeData['data'] as $employee)
+                                                    <option value="{{ $employee['name'] }}"> {{ $employee['name'] }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
