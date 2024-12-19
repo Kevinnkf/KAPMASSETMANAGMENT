@@ -58,6 +58,27 @@
         </div>
     </div>
 
+    @php
+        $empNIPP = 'N/A';
+        $empName = 'N/A';
+        $empPosition = 'N/A';
+        $empUnit = 'N/A';
+
+        
+        
+    @endphp
+
+    @foreach($empData as $emp)
+        @if($emp['nipp'] == $assetData['nipp'])
+            @php
+                $empNIPP = $emp['nipp'] ?? 'N/A';
+                $empName = $emp['name'] ?? 'N/A';
+                $empPosition = $emp['position'] ?? 'N/A';
+                $empUnit = $emp['unit'] ?? 'N/A';
+            @endphp
+        @endif
+    @endforeach
+
     <!-- Second Column (4/12) -->
     <div class="col-md-4">
         <div class="card" style="background:none">
@@ -78,9 +99,10 @@
                                 <time class="text-muted d-block mb-1">{{ $data['dateadded'] }}</time>
                                 <p class="text-muted mb-2 fw-bold">{{ $data['assetcode'] }}</p>
                                 <p class="text-muted mb-2 fw-bold">{{ $data['idassethistory'] }}</p>
+                                {{-- <p class="text-muted mb-2 fw-bold">{{ $data['status'] }}</p> --}}
                                 @if(isset($data['nipp']) && !empty($data['nipp']))
                                     <h5 class="fw-bold">Asset has been assigned to</h5>
-                                    <p class="fw-bold">{{ $data['employee']['name'] }}</p>
+                                    <p class="fw-bold">{{ $empName }}</p>
                                 @else
                                     <h5 class="fw-bold">Unassigned Asset</h5>
                                     <p class="fw-bold">Asset returned to IT</p>

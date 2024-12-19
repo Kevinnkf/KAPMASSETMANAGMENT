@@ -237,6 +237,10 @@ class TrnAssetController extends Controller
         $contentHist = $responseHist->getBody()->getContents();
         $histData = json_decode($contentHist, true);  
 
+        // Fetch employee  data local
+        $userResponse = $client->request('GET', 'http://10.48.1.3:7252/api/Employee');
+        $empData = json_decode($userResponse->getBody()->getContents(), true);
+
         //fetch image
         $responseImg = $client->request('GET', "http://10.48.1.3:7252/api/TrnAssetDtlPicture/{$assetcode}");
         $contentImg = $responseImg->getBody()->getContents();
@@ -265,7 +269,9 @@ class TrnAssetController extends Controller
             'timeout' => 10000,
         ]);
         $contentEmployee = $responseEmployeeData->getBody()->getContents();
-        $employeeData = json_decode($contentEmployee, true);  
+        $employeeData = json_decode($contentEmployee, true); 
+        
+        // dd($histData);
 
 
         // Pass both assetData and assetSpecData to the view
@@ -277,6 +283,7 @@ class TrnAssetController extends Controller
             'detailSoftwareData' => $detailSoftwareData,
             'histData' => $histData,
             'imgData' => $imgData,
+            'empData' => $empData,
             "data" => session('userdata'),
             'employeeData' => $employeeData
         ]);

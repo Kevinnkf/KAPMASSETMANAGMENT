@@ -37,6 +37,7 @@ class MaintenanceController extends Controller{
         $perPage = 7;
         $currentItems = array_slice($data, ($currentPage-1)*$perPage, $perPage);
 
+
         $paginatedData = new LengthAwarePaginator(
             $currentItems,
             count($data), // Total items
