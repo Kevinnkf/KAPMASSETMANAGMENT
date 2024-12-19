@@ -402,8 +402,6 @@
                             // Get unique descriptions after filtering
                             $uniqueCondition = array_unique($filteredCondition);
 
-                            dd($uniqueCondition);
-
                             // Initialize an array to store descriptions
                             $filteredDescriptions = [];
 

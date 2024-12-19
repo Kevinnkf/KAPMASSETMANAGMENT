@@ -134,7 +134,7 @@
             <table class="header-table">
                 <tr>
                     <td class="logo" rowspan="4">
-                        <img src="D:\laragon\www\KAPMASSETMANAGMENT\public\assets\logo\KAPM-logo.png" alt="Logo">
+                        <img src="/var/www/KAPMASSETMANAGMENT/public/assets/dist/images/network_share/AssetManagementSystem/Image/KAPM-logo.png" alt="Logo">
                     </td>
                     <td class="header-title" rowspan="2">
                         <p style="white-space:nowrap" class="ft13">PT. KAI PROPERTI MANAJEMEN</p><br>

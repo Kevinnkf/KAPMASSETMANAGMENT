@@ -366,7 +366,7 @@
     $assetNIPP = isset($assetData['nipp']) ? $assetData['nipp'] : 'N/A';
 
     @endphp 
-    @foreach ($employeeData as $employee)
+    @foreach ($empData as $employee)
         @if ($employee['nipp'] == $assetNIPP)
             @php
                 // Employee Information
@@ -509,7 +509,7 @@
                                             <label for="name" class="form-label esa-label">Name</label>
                                             <select id="name" name="name" class="form-select" required>
                                                 <option value="" disabled selected>Name</option>
-                                                @foreach ($employeeData as $employee)
+                                                @foreach ($empData as $employee)
                                                     <option value="{{ $employee['name'] }}"> {{ $employee['name'] }}</option>
                                                 @endforeach
                                             </select>
@@ -531,7 +531,7 @@
                                         <script>
                                             document.getElementById('name').addEventListener('change', function() {
                                                 var selectedName = this.value; // Get the selected NIPP value
-                                                var employeeData = @json($employeeData); // Parse PHP data into JavaScript object
+                                                var employeeData = @json($empData); // Parse PHP data into JavaScript object
 
                                                 // Find the selected employee's data
                                                 var selectedEmployee = employeeData.find(employee => employee.name === selectedName);

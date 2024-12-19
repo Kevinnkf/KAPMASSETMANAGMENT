@@ -261,10 +261,15 @@
                                             </div>
                                         </form>
                                     </div>
-                                    <div class="esa-filter-container">
+                                    <div class="esa-filter-container" style="display: flex;justify-content: space-between">
                                         <form action="{{ route('transaction.asset.export') }}" method="GET" class="mb-4">
                                             <div class="flex items-center">
                                                 <button type="submit" class="btn mb-1 waves-effect waves-light btn-rounded btn-warning esa-btn"><i class="fa fa-download"></i> Export</button>
+                                            </div>
+                                        </form>
+                                        <form action="{{ route('transaction.asset.checklist') }}" method="GET" class="mb-4">
+                                            <div class="flex items-center">
+                                                <button type="submit" class="btn mb-1 waves-effect waves-light btn-rounded btn-danger    esa-btn"><i class="fa fa-download"></i> Checklist Form</button>
                                             </div>
                                         </form>
                                     </div>

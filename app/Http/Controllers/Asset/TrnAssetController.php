@@ -37,7 +37,7 @@ class TrnAssetController extends Controller
                 'Authorization' => 'Bearer ' . session('token'),
                 'Accept' => 'application/json',
             ],
-            'timeout' => 10,
+            'timeout' => 60,
         ]);
 
         // Cek apakah respon berhasil (status 200)
@@ -245,6 +245,7 @@ class TrnAssetController extends Controller
         // Fetch employee  data local
         $userResponse = $client->request('GET', 'http://10.48.1.3:7252/api/Employee');
         $empData = json_decode($userResponse->getBody()->getContents(), true);
+        
 
         //fetch image
         $responseImg = $client->request('GET', "http://10.48.1.3:7252/api/TrnAssetDtlPicture/{$assetcode}");
@@ -266,15 +267,15 @@ class TrnAssetController extends Controller
         // dd($userData);
         
         // Buat permintaan GET ke API Izin Pegawai
-        $responseEmployeeData = $client->request('GET', "https://api.kai.id/v3/kapm/employee", [
-            'headers' => [
-                'Authorization' => 'Bearer ' . ('EUOP_iqY_1612411309'),
-                'Accept' => 'application/json',
-            ],
-            'timeout' => 10,
-        ]);
-        $contentEmployee = $responseEmployeeData->getBody()->getContents();
-        $employeeData = json_decode($contentEmployee, true);  
+        // $responseEmployeeData = $client->request('GET', "https://api.kai.id/v3/kapm/employee", [
+        //     'headers' => [
+        //         'Authorization' => 'Bearer ' . ('EUOP_iqY_1612411309'),
+        //         'Accept' => 'application/json',
+        //     ],
+        //     'timeout' => 10,
+        // ]);
+        // $contentEmployee = $responseEmployeeData->getBody()->getContents();
+        // $employeeData = json_decode($contentEmployee, true);  
 
 
         // Pass both assetData and assetSpecData to the view
@@ -288,7 +289,7 @@ class TrnAssetController extends Controller
             'imgData' => $imgData,
             'empData' => $empData,
             "data" => session('userdata'),
-            'employeeData' => $employeeData
+            // 'employeeData' => $employeeData
         ]);
     }
     // public function index($assetcode) {
@@ -516,9 +517,6 @@ class TrnAssetController extends Controller
             'nipp' => 'required|integer',
         ]);
 
-        $pic = session('userdata');
-        $name = $pic['name'];
-
         $response = Http::put("http://10.48.1.3:7252/api/TrnAsset/update-nipp/{$assetcode}", (int) $validatedData['nipp']);
         Log::info('Data sent for assignment:', ['assetcode' => $assetcode, 'nipp' => (int) $validatedData['nipp']]);
 
@@ -526,7 +524,8 @@ class TrnAssetController extends Controller
             $historyResponse = Http::post('http://10.48.1.3:7252/api/AssetHistory', [
                 'assetcode' => $assetcode,
                 'nipp' => $validatedData['nipp'],
-                'picadded' => 'dava'
+                'picadded' => $userName,
+                'status' => "Assigned"
             ]);
 
             if ($historyResponse->successful()) {
@@ -552,7 +551,7 @@ class TrnAssetController extends Controller
         $currentNIPP = $assetData['nipp']??null;
 
         $pic = session('userdata');
-        $name = $pic['name'];
+        $name = $pic['nama'];
 
         $data = [
             'nipp' => null, // Unassigning by setting NIPP to null
@@ -567,7 +566,7 @@ class TrnAssetController extends Controller
             // Log the unassignment in the asset history API if successful
             $historyData = [
                 'assetcode' => $assetcode,
-                'nipp' => $currentNIPP['nipp'],
+                'nipp' => $currentNIPP,
                 'picadded' => $name,
                 'status' => "Unassigned"
             ];
