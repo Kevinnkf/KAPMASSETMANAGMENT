@@ -20,11 +20,11 @@
                     </div>
                 </div>
                 <div class="card-datatable table-responsive">
-                    <div class="row row-cols-1 row-cols-lg-2 row-cols-xxl-3 g-3 p-3">
+                    <div class="row row-cols-20 row-cols-lg-20 row-cols-xxl-20 g-3 p-3 overflow-auto" style="white-space: nowrap">
                         {{-- card 1 --}}
                         @if(!empty($imgData) && is_array($imgData)) <!-- Check if $imgData is not empty and is an array -->
                             @foreach ($imgData as $img)
-                            <div class="col">
+                            <div class="col-auto">
                                 <div class="card mb-2" style="cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
                                     <div class="card-body p-3 d-flex flex-column align-items-center justify-content-center">
                                         {{-- <a href="#modalImage" 

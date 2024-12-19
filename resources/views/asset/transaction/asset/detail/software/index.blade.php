@@ -13,11 +13,13 @@
                     <div>
                         <h4 class="esa-title">Software Installed</h4>
                     </div>
+                    @if ($data['unit'] === 'Teknologi Informasi')
                     <div>
                         <a href="{{ route('transaction.software.create', ['assetcode' => $assetcode]) }}" class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn">
                             Add Software
                         </a>
                     </div>
+                    @endif
                 </div>
 
             {{-- <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300" onclick="window.location.href='{{ route('transaction.edit',[
@@ -39,7 +41,9 @@
                             <th>Kategori</th>
                             <th>Nama</th>
                             <th>Lisensi</th>
+                            @if ($data['unit'] === 'Teknologi Informasi')
                             <th>Aktif</th>
+                            @endif
                         </tr>
                         <!-- end row -->
                     </thead>
@@ -57,6 +61,7 @@
                             <td>{{  $software['softwarecategory'] }}</td>
                             <td>{{  $software['softwarename'] }}</td>
                             <td>{{  $software['softwarelicense'] }}</td>
+                            @if ($data['unit'] === 'Teknologi Informasi')
                             <td>{{  $software['active'] }}</td>
                             <td class="action-buttons">
                                 <a href="#modalSoftware" 
@@ -65,6 +70,7 @@
                                     onclick="openSoftwareModal({{ json_encode($software) }})">
                                     Update
                                 </a>
+                            @endif
                                 {{-- <a href="javascript:void(0);" class="text-blue-500 text-sm font-bold mr-2" onclick="openSoftwareModal({{ json_encode($software) }})">
                                     <i class="fas fa-edit"></i>
                                  </a> --}}

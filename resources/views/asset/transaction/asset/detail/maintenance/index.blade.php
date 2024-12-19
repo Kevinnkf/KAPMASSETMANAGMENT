@@ -19,8 +19,8 @@
                             <tr>
                                 {{-- <th>ID</th> --}}
                                 {{-- <th>Kode Aset</th> --}}
-                                <th>Suku Cadang</th>
                                 <th>Catatan Perbaikan</th>
+                                <th>Suku Cadang</th>
                                 <th>Hasil Perbaikan</th>
                                 <th>Tanggal Perbaikan</th>
                                 <th>Nama</th>
@@ -37,8 +37,8 @@
                                     <tr>
                                         {{-- <td>{{ $maintenance['maintenanceid'] }}</td> --}}
                                         {{-- <td>{{ $maintenance['assetcode'] }}</td> --}}
-                                        <td>{{ $maintenance['notessparepart'] }}</td>
                                         <td>{{ $maintenance['notesaction'] }}</td>
+                                        <td>{{ $maintenance['notessparepart'] }}</td>
                                         <td>{{ $maintenance['notesresult'] }}</td>
                                         <td>{{ $maintenance['dateadded'] }}</td>
                                         <td>{{ $maintenance['picadded'] }}</td>
@@ -57,6 +57,27 @@
             </div>
         </div>
     </div>
+
+    @php
+        $empNIPP = 'N/A';
+        $empName = 'N/A';
+        $empPosition = 'N/A';
+        $empUnit = 'N/A';
+
+        
+        
+    @endphp
+
+    @foreach($empData as $emp)
+        @if($emp['nipp'] == $assetData['nipp'])
+            @php
+                $empNIPP = $emp['nipp'] ?? 'N/A';
+                $empName = $emp['name'] ?? 'N/A';
+                $empPosition = $emp['position'] ?? 'N/A';
+                $empUnit = $emp['unit'] ?? 'N/A';
+            @endphp
+        @endif
+    @endforeach
 
     <!-- Second Column (4/12) -->
     <div class="col-md-4">
@@ -77,12 +98,18 @@
                             <div>
                                 <time class="text-muted d-block mb-1">{{ $data['dateadded'] }}</time>
                                 <p class="text-muted mb-2 fw-bold">{{ $data['assetcode'] }}</p>
+                                <p class="text-muted mb-2 fw-bold">{{ $data['idassethistory'] }}</p>
+                                {{-- <p class="text-muted mb-2 fw-bold">{{ $data['status'] }}</p> --}}
                                 @if(isset($data['nipp']) && !empty($data['nipp']))
                                     <h5 class="fw-bold">Asset has been assigned to</h5>
-                                    <p class="fw-bold">{{ $data['employee']['name'] }}</p>
+                                    <p class="fw-bold">{{ $empName }}</p>
                                 @else
                                     <h5 class="fw-bold">Unassigned Asset</h5>
                                     <p class="fw-bold">Asset returned to IT</p>
+                                    <button class="btn mb-1 waves-effect waves-light btn-rounded btn-primary esa-btn" style="width: 100px;" 
+                                            onclick="window.location.href='{{ route('transaction.asset.printBast', ['assetcode' => $assetcode, 'idassethistory' => $data['idassethistory']]) }}'">
+                                            Print BAST
+                                    </button>
                                 @endif
                             </div>
                         </div>

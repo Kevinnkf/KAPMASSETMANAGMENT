@@ -37,6 +37,7 @@ class MaintenanceController extends Controller{
         $perPage = 7;
         $currentItems = array_slice($data, ($currentPage-1)*$perPage, $perPage);
 
+
         $paginatedData = new LengthAwarePaginator(
             $currentItems,
             count($data), // Total items
@@ -135,19 +136,25 @@ class MaintenanceController extends Controller{
         }
         
         // Fetch asset data
-        $assetResponse = $client->request('GET', 'http://10.48.1.3:7252/api/TrnAsset');
+        $assetResponse = $client->request('GET', "http://10.48.1.3:7252/api/TrnAsset/{$assetcode}");
         $assetData = json_decode($assetResponse->getBody()->getContents(), true);
         
         // Fetch user data
         $userResponse = $client->request('GET', 'http://10.48.1.3:7252/api/user');
         $userData = json_decode($userResponse->getBody()->getContents(), true);
 
-        $qrCode = DNS2DFacade::getBarcodePNG($assetcode, 'QRCODE', 3, 3); // Generate QR code
+        // Fetch employee  data
+        $userResponse = $client->request('GET', 'http://10.48.1.3:7252/api/Employee');
+        $empData = json_decode($userResponse->getBody()->getContents(), true);
+
+        $url = url("transaction/asset/detail/laptop/{$assetcode}");
+        $qrCode = DNS2DFacade::getBarcodePNG($url, 'QRCODE', 3, 3); // Generate QR code
         
         // Prepare data for PDF
         $data = [
             'assetData' => $assetData,
             'userData' => $userData,
+            'empData' => $empData,
             'selectedRecord' => $selectedRecord, // Pass the selected maintenance record
             'qrCode' => $qrCode,
             'data' => session('userdata')
