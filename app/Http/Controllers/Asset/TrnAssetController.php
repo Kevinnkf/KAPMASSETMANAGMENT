@@ -715,9 +715,6 @@ class TrnAssetController extends Controller
         $assetResponse = $client->request('GET', "http://10.48.1.3:7252/api/TrnAsset/{$assetcode}");
         $assetData = json_decode($assetResponse->getBody()->getContents(), true);
         
-        // Fetch user data
-        $userResponse = $client->request('GET', 'http://10.48.1.3:7252/api/user');
-        $userData = json_decode($userResponse->getBody()->getContents(), true);
         
         // Fetch employee  data
         $userResponse = $client->request('GET', 'http://10.48.1.3:7252/api/Employee');
