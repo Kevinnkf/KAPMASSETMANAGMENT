@@ -728,7 +728,7 @@ class TrnAssetController extends Controller
         // Prepare data for PDF
         $data = [
             'assetData' => $assetData,
-            'userData' => $userData,
+            // 'userData' => $userData,
             'empData' => $empData,
             'selectedRecord' => $selectedRecord, // Pass the selected maintenance record
             'qrCode' => $qrCode,
