@@ -618,7 +618,7 @@ class TrnAssetController extends Controller
             return response()->json(['error' => 'Unable to fetch asset data: ' . $e->getMessage()], 500);
         }
     
-        $url = url("/detail-asset/laptop/{$assetCode}");
+        $url = url("transaction/asset/detail/laptop/{$assetCode}");
         $qrCode = DNS2DFacade::getBarcodePNG($url, 'QRCODE', 3, 3); // Generate QR code
 
         
@@ -720,7 +720,7 @@ class TrnAssetController extends Controller
         $userResponse = $client->request('GET', 'http://10.48.1.3:7252/api/Employee');
         $empData = json_decode($userResponse->getBody()->getContents(), true);
 
-        $url = url("/detail-asset/laptop/{$assetcode}");
+        $url = url("transaction/asset/detail/laptop/{$assetcode}");
         $qrCode = DNS2DFacade::getBarcodePNG($url, 'QRCODE', 3, 3); // Generate QR code
 
         

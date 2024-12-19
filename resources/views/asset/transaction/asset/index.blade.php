@@ -198,6 +198,7 @@
                         <!-- Filter Table -->
                         <div class="py-4">
                             <div class="esa-filter-container">
+                                <h4 class="fw-semibold mt-3 text-primary-kai fas-fa-search">Search</h4>
                                 <form action="{{ route('searchAssets') }}" method="GET" class="mb-4">
                                     <div class="flex items-center">
                                         <input type="text" name="search" placeholder="Search name, brand, model, series, category, serial number, type, condition" style="width: 50%" class="p-2 border rounded w-[100%]">

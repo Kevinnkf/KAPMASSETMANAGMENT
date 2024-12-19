@@ -223,7 +223,7 @@
     </table>
 
     <img src="data:image/png;base64,{{ $qrCode }}" alt="QR Code" style="position:absolute;top:170px;left:803px;white-space:nowrap;" />
-    <p style="position:absolute;top:260px;left:803px;white-space:nowrap" class="ft13">{{$assetData['assetcode']}}&#160;</p>
+    <p style="position:absolute;top:270px;left:803px;white-space:nowrap" class="ft13">{{$assetData['assetcode']}}&#160;</p>
 
     <table class="user-table">
         <tr>

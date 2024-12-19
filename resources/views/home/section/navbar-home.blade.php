@@ -27,7 +27,7 @@
                     <li class="nav-item dropdown-hover d-none d-lg-block">
                         <a class="nav-link text-muted fs-3" href="#">Kontak / Lapor</a>
                     </li>
-                    <li class="nav-item ms-2">
+                    <li class="nav-item ms-2">1
                         <a class="btn btn-primary fs-3 rounded btn-hover-shadow px-3 py-2" href="{{ route('login') }}">
                             Masuk
                         </a>

@@ -147,7 +147,7 @@ class MaintenanceController extends Controller{
         $userResponse = $client->request('GET', 'http://10.48.1.3:7252/api/Employee');
         $empData = json_decode($userResponse->getBody()->getContents(), true);
 
-        $url = url("/detail-asset/laptop/{$assetcode}");
+        $url = url("transaction/asset/detail/laptop/{$assetcode}");
         $qrCode = DNS2DFacade::getBarcodePNG($url, 'QRCODE', 3, 3); // Generate QR code
         
         // Prepare data for PDF

@@ -245,7 +245,7 @@
     </table>
 
     <img src="data:image/png;base64,{{ $qrCode }}" alt="QR Code" style="position:absolute;top:160px;left:803px;white-space:nowrap;" />
-    <p style="position:absolute;top:250px;left:803px;white-space:nowrap" class="ft13">{{$selectedRecord['assetcode']}}&#160;</p>
+    <p style="position:absolute;top:270px;left:803px;white-space:nowrap" class="ft13">{{$selectedRecord['assetcode']}}&#160;</p>
 
     <table class="detail-table">
         <tr>
